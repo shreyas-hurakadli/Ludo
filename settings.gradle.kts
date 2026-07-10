@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Ludo"
 include(":app")
+include(":engine")
