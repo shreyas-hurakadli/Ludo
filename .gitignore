@@ -1,0 +1,45 @@
+# Gradle
+.gradle/
+**/build/
+build/
+
+# Local config (SDK path, secrets)
+local.properties
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea/**/workspace.xml
+.idea/**/modules.xml
+.idea/**/libraries
+.idea/**/caches/
+!.idea/codeStyles/Project.xml
+!.idea/runConfigurations/app.xml
+
+# Build outputs and generated files
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+/captures
+.externalNativeBuild
+.cxx/
+
+# Signing / secret files
+*.jks
+*.keystore
+release/*.properties
+*.properties
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+proguard.map
+docs-gen
+site
