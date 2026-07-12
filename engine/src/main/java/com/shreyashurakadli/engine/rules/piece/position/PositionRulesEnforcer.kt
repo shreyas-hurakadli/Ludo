@@ -36,24 +36,40 @@ internal class PositionRulesEnforcer : PositionRules {
             return PositionConstants.FINAL_POSITION
         }
 
-        if (isEnteringHomePosition(part, tile, diceValue)) {
+        if (isEnteringHomePositions(part, tile, diceValue)) {
             // Determine the number of jumps to reach first position on home path
-            val remainingDiceValue = diceValue - (PositionConstants.LAST_NON_HOME_POSITION - tile + 1)
+            val remainingDiceValue =
+                diceValue - (PositionConstants.LAST_NON_HOME_POSITION - tile + 1)
             val finalTile = PositionConstants.HOME_POSITION_0 + remainingDiceValue
             return finalTile
+        }
+
+        if (isMovingOnHomePath(tile)) {
+            if (diceValueExceedsAvailableOptions(tile, diceValue)) {
+                return tile
+            }
+            return tile + diceValue
         }
 
         // Handles position change in both same and different part
         return (tile + diceValue) % PositionConstants.TOTAL_POSITIONS_IN_PART
     }
 
-    private fun isAtFinalPosition(tile: Int): Boolean = tile == PositionConstants.FINAL_POSITION
+    private fun isAtFinalPosition(tile: Int): Boolean =
+        tile == PositionConstants.FINAL_POSITION
 
-    private fun isEnteringHomePosition(part: Int, tile: Int, diceValue: Int): Boolean =
+    private fun isEnteringHomePositions(part: Int, tile: Int, diceValue: Int): Boolean =
         part == PositionConstants.START_PART && tile <= PositionConstants.LAST_NON_HOME_POSITION &&
                 tile + diceValue > PositionConstants.LAST_NON_HOME_POSITION
 
-    private fun isEnteringBoard(tile: Int): Boolean = tile == PositionConstants.START_PART
+    private fun isEnteringBoard(tile: Int): Boolean =
+        tile == PositionConstants.BASE_POSITION
+
+    private fun isMovingOnHomePath(tile: Int): Boolean =
+        tile in PositionConstants.HOME_POSITIONS
+
+    private fun diceValueExceedsAvailableOptions(tile: Int, diceValue: Int): Boolean =
+        tile + diceValue > PositionConstants.FINAL_POSITION
 
     private fun handlePart(part: Int, tile: Int, diceValue: Int, playerCount: Int): Int =
         if (isEnteringNewPart(tile, diceValue)) {
