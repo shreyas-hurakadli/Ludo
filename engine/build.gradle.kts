@@ -6,6 +6,15 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
+
+    sourceSets {
+        main {
+            kotlin.srcDir("src/main/java")
+        }
+        test {
+            kotlin.srcDir("src/test/java")
+        }
+    }
 }
 
 dependencies {
