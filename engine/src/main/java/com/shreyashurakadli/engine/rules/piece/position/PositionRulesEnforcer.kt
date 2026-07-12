@@ -38,8 +38,8 @@ internal class PositionRulesEnforcer : PositionRules {
 
         if (isEnteringHomePosition(part, tile, diceValue)) {
             // Determine the number of jumps to reach first position on home path
-            val remainingRoll = diceValue - (PositionConstants.LAST_NON_HOME_POSITION - tile + 1)
-            val finalTile = PositionConstants.HOME_POSITION_0 + remainingRoll
+            val remainingDiceValue = diceValue - (PositionConstants.LAST_NON_HOME_POSITION - tile + 1)
+            val finalTile = PositionConstants.HOME_POSITION_0 + remainingDiceValue
             return finalTile
         }
 
