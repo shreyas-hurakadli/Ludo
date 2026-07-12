@@ -27,6 +27,7 @@ local.properties
 /captures
 .externalNativeBuild
 .cxx/
+.kotlin/
 
 # Signing / secret files
 *.jks
