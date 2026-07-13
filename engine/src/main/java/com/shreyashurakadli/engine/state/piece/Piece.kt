@@ -4,5 +4,5 @@ import com.shreyashurakadli.engine.state.piece.position.Position
 
 internal data class Piece(
     val position: Position,
-    val status: Status
+    val status: PieceStatus
 )
