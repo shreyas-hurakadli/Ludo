@@ -127,4 +127,24 @@ class PositionRulesEnforcerTest {
         )
         assertEquals(expectedPosition, actualPosition)
     }
+
+    @Test
+    fun updatePosition_shouldNotEnterBoard() {
+        val state = Position(
+            part = 0,
+            tile = -1,
+            status = Status.Safe
+        )
+        val actualPosition = positionRulesEnforcer.updatePosition(
+            state = state,
+            diceValue = 1,
+            playerCount = 4
+        )
+        val expectedPosition = Position(
+            part = 0,
+            tile = -1,
+            status = Status.Safe
+        )
+        assertEquals(expectedPosition, actualPosition)
+    }
 }
