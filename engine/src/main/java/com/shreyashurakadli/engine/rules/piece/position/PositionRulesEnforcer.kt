@@ -1,7 +1,7 @@
 package com.shreyashurakadli.engine.rules.piece.position
 
 import com.shreyashurakadli.engine.state.piece.position.Position
-import com.shreyashurakadli.engine.state.piece.position.Status
+import com.shreyashurakadli.engine.state.piece.position.PositionStatus
 
 internal class PositionRulesEnforcer : PositionRules {
     override fun updatePosition(state: Position, diceValue: Int, playerCount: Int): Position {
@@ -90,10 +90,10 @@ internal class PositionRulesEnforcer : PositionRules {
         tile !in PositionConstants.HOME_POSITIONS &&
                 tile + diceValue >= PositionConstants.TOTAL_POSITIONS_IN_PART
 
-    private fun determineStatus(tile: Int): Status =
+    private fun determineStatus(tile: Int): PositionStatus =
         when (tile) {
-            in PositionConstants.SAFE_POSITIONS -> Status.Safe
-            in PositionConstants.HOME_POSITIONS -> Status.Safe
-            else -> Status.Unsafe
+            in PositionConstants.SAFE_POSITIONS -> PositionStatus.Safe
+            in PositionConstants.HOME_POSITIONS -> PositionStatus.Safe
+            else -> PositionStatus.Unsafe
         }
 }

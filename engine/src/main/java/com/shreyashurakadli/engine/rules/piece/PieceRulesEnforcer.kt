@@ -2,13 +2,12 @@ package com.shreyashurakadli.engine.rules.piece
 
 import com.shreyashurakadli.engine.rules.piece.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.state.piece.Piece
-import com.shreyashurakadli.engine.state.piece.Status
+import com.shreyashurakadli.engine.state.piece.PieceStatus
 
 internal class PieceRulesEnforcer(
-    val piece: Piece,
-    val positionRulesEnforcer: PositionRulesEnforcer
+    private val positionRulesEnforcer: PositionRulesEnforcer
 ) : PieceRules {
-    override fun updatePiece(diceValue: Int, playerCount: Int): Piece {
+    override fun updatePiece(piece: Piece, diceValue: Int, playerCount: Int): Piece {
         val newPosition = positionRulesEnforcer.updatePosition(
             state = piece.position,
             diceValue = diceValue,
@@ -23,12 +22,12 @@ internal class PieceRulesEnforcer(
         )
     }
 
-    private fun determineStatus(piece: Piece): Status =
+    private fun determineStatus(piece: Piece): PieceStatus =
         positionRulesEnforcer.let {
             when {
-                it.isAtBasePosition(piece.position.tile) -> Status.InBase
-                it.isAtFinalPosition(piece.position.tile) -> Status.Finished
-                else -> Status.OnBoard
+                it.isAtBasePosition(piece.position.tile) -> PieceStatus.InBase
+                it.isAtFinalPosition(piece.position.tile) -> PieceStatus.Finished
+                else -> PieceStatus.OnBoard
             }
         }
 }
