@@ -1,4 +1,7 @@
 package com.shreyashurakadli.engine.rules.piece
 
-interface PieceRules {
+import com.shreyashurakadli.engine.state.piece.Piece
+
+internal interface PieceRules {
+    fun updatePiece(diceValue: Int, playerCount: Int): Piece
 }
