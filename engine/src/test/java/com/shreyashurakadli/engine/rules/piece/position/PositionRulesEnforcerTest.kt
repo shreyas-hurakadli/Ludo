@@ -1,7 +1,7 @@
 package com.shreyashurakadli.engine.rules.piece.position
 
 import com.shreyashurakadli.engine.state.piece.position.Position
-import com.shreyashurakadli.engine.state.piece.position.Status
+import com.shreyashurakadli.engine.state.piece.position.PositionStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -13,7 +13,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = -1,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -23,7 +23,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 0,
             tile = 8,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         assertEquals(expectedPosition, actualPosition)
     }
@@ -33,7 +33,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = 3,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -43,7 +43,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 0,
             tile = 13,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         assertEquals(expectedPosition, actualPosition)
     }
@@ -53,7 +53,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = 3,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -63,7 +63,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 0,
             tile = 6,
-            status = Status.Unsafe
+            status = PositionStatus.Unsafe
         )
         assertEquals(expectedPosition, actualPosition)
     }
@@ -73,7 +73,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = 6,
-            status = Status.Unsafe
+            status = PositionStatus.Unsafe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -83,7 +83,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 0,
             tile = 18,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         assertEquals(expectedPosition, actualPosition)
     }
@@ -93,7 +93,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = 13,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -103,7 +103,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 0,
             tile = 18,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         assertEquals(expectedPosition, actualPosition)
     }
@@ -113,7 +113,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = 12,
-            status = Status.Unsafe
+            status = PositionStatus.Unsafe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -123,7 +123,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 1,
             tile = 0,
-            status = Status.Unsafe
+            status = PositionStatus.Unsafe
         )
         assertEquals(expectedPosition, actualPosition)
     }
@@ -133,7 +133,7 @@ class PositionRulesEnforcerTest {
         val state = Position(
             part = 0,
             tile = -1,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
@@ -143,7 +143,7 @@ class PositionRulesEnforcerTest {
         val expectedPosition = Position(
             part = 0,
             tile = -1,
-            status = Status.Safe
+            status = PositionStatus.Safe
         )
         assertEquals(expectedPosition, actualPosition)
     }
