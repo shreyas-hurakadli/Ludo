@@ -8,14 +8,14 @@ import com.shreyashurakadli.engine.state.player.PlayerStatus
 internal class PlayerRulesEnforcer(
     private val pieceRulesEnforcer: PieceRulesEnforcer
 ) : PlayerRules {
-    override fun updatePlayer(player: Player, diceValue: Int): Player {
+    override fun updatePlayer(player: Player, diceValue: Int, pieceIdx: Int): Player {
         val newPlayerPieces = updatePlayerPieces(
-            playerId = player.id,
+            pieceIdx = pieceIdx,
             pieces = player.pieces,
             diceValue = diceValue
         )
 
-        val newStatus = determineStatus(player = player)
+        val newStatus = determineStatus(pieces = newPlayerPieces)
 
         return player.copy(
             pieces = newPlayerPieces,
@@ -23,29 +23,26 @@ internal class PlayerRulesEnforcer(
         )
     }
 
-    private fun determineStatus(player: Player): PlayerStatus =
-        when {
-            pieceRulesEnforcer.hasFinishedAllPieces(
-                pieces = player.pieces,
-                pieceCount = PlayerConstants.PIECES_PER_PLAYER
-            ) -> PlayerStatus.Won
-
-            else -> PlayerStatus.InProgress
+    private fun determineStatus(pieces: List<Piece>): PlayerStatus =
+        if (pieceRulesEnforcer.hasFinishedAllPieces(pieces)) {
+            PlayerStatus.Won
+        } else {
+            PlayerStatus.InProgress
         }
 
-    private fun updatePlayerPieces(
-        playerId: Int,
+    fun updatePlayerPieces(
+        pieceIdx: Int,
         pieces: List<Piece>,
         diceValue: Int
     ): List<Piece> {
         val newPiece = pieceRulesEnforcer.updatePiece(
-            piece = pieces[playerId],
+            piece = pieces[pieceIdx],
             diceValue = diceValue,
             playerCount = pieces.size
         )
 
         val updatedPieces = pieces.mapIndexed { index, piece ->
-            if (index == playerId) {
+            if (index == pieceIdx) {
                 newPiece
             } else {
                 piece
