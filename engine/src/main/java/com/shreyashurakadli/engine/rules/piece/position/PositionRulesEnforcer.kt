@@ -30,7 +30,7 @@ internal class PositionRulesEnforcer : PositionRules {
     private fun handleTile(part: Int, tile: Int, diceValue: Int): Int {
         // Handle movement from base position to first position in board
         if (isAtBasePosition(tile)) {
-            return if (shouldEnterBoard(diceValue = diceValue)) {
+            return if (shouldEnterBoardFromBase(diceValue = diceValue)) {
                 PositionConstants.START_POSITION
             } else {
                 PositionConstants.BASE_POSITION
@@ -66,7 +66,7 @@ internal class PositionRulesEnforcer : PositionRules {
     override fun isAtFinalPosition(tile: Int): Boolean =
         tile == PositionConstants.FINAL_POSITION
 
-    private fun shouldEnterBoard(diceValue: Int): Boolean =
+    private fun shouldEnterBoardFromBase(diceValue: Int): Boolean =
         diceValue == 6
 
     private fun isEnteringHomePositions(part: Int, tile: Int, diceValue: Int): Boolean =
