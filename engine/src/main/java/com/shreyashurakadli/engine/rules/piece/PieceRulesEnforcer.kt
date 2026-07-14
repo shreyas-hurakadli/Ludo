@@ -22,6 +22,16 @@ internal class PieceRulesEnforcer(
         )
     }
 
+    override fun hasFinishedAllPieces(pieces: List<Piece>, pieceCount: Int): Boolean {
+        var finishedPiecesCount = 0
+        pieces.forEach { piece ->
+            if (piece.status == PieceStatus.Finished) {
+                finishedPiecesCount++
+            }
+        }
+        return finishedPiecesCount == pieceCount
+    }
+
     private fun determineStatus(piece: Piece): PieceStatus =
         positionRulesEnforcer.let {
             when {
