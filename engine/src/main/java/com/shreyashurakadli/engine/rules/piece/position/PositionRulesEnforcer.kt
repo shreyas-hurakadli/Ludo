@@ -1,5 +1,6 @@
 package com.shreyashurakadli.engine.rules.piece.position
 
+import com.shreyashurakadli.engine.constants.PositionConstants
 import com.shreyashurakadli.engine.state.piece.position.Position
 import com.shreyashurakadli.engine.state.piece.position.PositionStatus
 
