@@ -5,7 +5,7 @@ import com.shreyashurakadli.engine.state.piece.position.PositionStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PositionRulesEnforcerTest {
+internal class PositionRulesEnforcerTest {
     private val positionRulesEnforcer = PositionRulesEnforcer()
 
     @Test
