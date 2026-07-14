@@ -30,4 +30,75 @@ internal class PieceRulesEnforcerTest {
         val expectedPiece = previousPiece
         assertEquals(expectedPiece, actualPiece)
     }
+
+    @Test
+    fun updatePiece_AtFinish() {
+        val previousPiece = Piece(
+            position = Position(
+                part = 0,
+                tile = 17,
+                status = PositionStatus.Safe
+            ),
+            status = PieceStatus.OnBoard
+        )
+        val actualPiece = pieceRulesEnforcer.updatePiece(
+            piece = previousPiece,
+            diceValue = 1,
+            playerCount = 4,
+        )
+        val expectedPiece = previousPiece.copy(
+            position = Position(
+                part = 0,
+                tile = 18,
+                status = PositionStatus.Safe
+            ),
+            status = PieceStatus.Finished
+        )
+        assertEquals(expectedPiece, actualPiece)
+    }
+
+    @Test
+    fun hasFinishedAllPieces_allAreFinishedPieces() {
+        val input = listOf(
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+        )
+
+        val actualResult = pieceRulesEnforcer.hasFinishedAllPieces(pieces = input)
+        val expectedResult = true
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun hasFinishedAllPieces_someAreFinishedPieces() {
+        val input = listOf(
+            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+        )
+
+        val actualResult = pieceRulesEnforcer.hasFinishedAllPieces(pieces = input)
+        val expectedResult = false
+
+        assertEquals(expectedResult, actualResult)
+    }
+
+    @Test
+    fun hasFinishedAllPieces_allAreOnBoardPieces() {
+        val input = listOf(
+            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+        )
+
+        val actualResult = pieceRulesEnforcer.hasFinishedAllPieces(pieces = input)
+        val expectedResult = false
+
+        assertEquals(expectedResult, actualResult)
+    }
 }

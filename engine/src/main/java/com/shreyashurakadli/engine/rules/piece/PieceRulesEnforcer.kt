@@ -14,7 +14,7 @@ internal class PieceRulesEnforcer(
             playerCount = playerCount
         )
 
-        val newStatus = determineStatus(piece = piece)
+        val newStatus = determineStatus(tile = newPosition.tile)
 
         return Piece(
             position = newPosition,
@@ -22,21 +22,21 @@ internal class PieceRulesEnforcer(
         )
     }
 
-    override fun hasFinishedAllPieces(pieces: List<Piece>, pieceCount: Int): Boolean {
-        var finishedPiecesCount = 0
+    override fun hasFinishedAllPieces(pieces: List<Piece>): Boolean {
+        var finishedPieces = 0
         pieces.forEach { piece ->
             if (piece.status == PieceStatus.Finished) {
-                finishedPiecesCount++
+                finishedPieces++
             }
         }
-        return finishedPiecesCount == pieceCount
+        return finishedPieces == pieces.size
     }
 
-    private fun determineStatus(piece: Piece): PieceStatus =
+    private fun determineStatus(tile: Int): PieceStatus =
         positionRulesEnforcer.let {
             when {
-                it.isAtBasePosition(piece.position.tile) -> PieceStatus.InBase
-                it.isAtFinalPosition(piece.position.tile) -> PieceStatus.Finished
+                it.isAtBasePosition(tile) -> PieceStatus.InBase
+                it.isAtFinalPosition(tile) -> PieceStatus.Finished
                 else -> PieceStatus.OnBoard
             }
         }
