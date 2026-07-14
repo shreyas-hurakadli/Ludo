@@ -46,24 +46,4 @@ internal class PlayerRulesEnforcerTest {
 
         assertEquals(expectedResult, actualResult)
     }
-
-    @Test
-    fun updatePlayerPieces() {
-        val pieces = listOf(
-            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-        )
-
-        val actualResult = playerRulesEnforcer.updatePlayerPieces(0, pieces, 1)
-        val expectedResult = listOf(
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-        )
-
-        assertEquals(expectedResult, actualResult)
-    }
 }

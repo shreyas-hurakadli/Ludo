@@ -30,7 +30,7 @@ internal class PlayerRulesEnforcer(
             PlayerStatus.InProgress
         }
 
-    fun updatePlayerPieces(
+    private fun updatePlayerPieces(
         pieceIdx: Int,
         pieces: List<Piece>,
         diceValue: Int
