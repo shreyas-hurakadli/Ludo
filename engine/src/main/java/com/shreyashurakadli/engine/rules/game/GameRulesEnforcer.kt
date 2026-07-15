@@ -20,6 +20,7 @@ internal class GameRulesEnforcer(
 
             val newStatus = determineStatus(players = it.players)
             val newTurn = updateCurrentTurn(
+                players = it.players,
                 currentTurn = it.currentTurnPlayerIdx,
                 playerCount = it.players.size
             )
@@ -39,6 +40,18 @@ internal class GameRulesEnforcer(
             }
         }
 
-    private fun updateCurrentTurn(currentTurn: Int, playerCount: Int): Int =
-        (currentTurn + 1) % playerCount
+    private fun updateCurrentTurn(players: List<Player>, currentTurn: Int, playerCount: Int): Int {
+        var idx = (currentTurn + 1) % playerCount
+
+        // Iterate through all players and check their status
+        while (idx != currentTurn) {
+            // Return the first player who has not won (i.e., still can play)
+            if (!playerRulesEnforcer.playerHasWonStatus(player = players[idx])) {
+                return idx
+            }
+            idx = (idx + 1) % playerCount
+        }
+
+        return idx
+    }
 }

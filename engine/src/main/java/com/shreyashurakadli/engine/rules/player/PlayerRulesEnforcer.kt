@@ -32,6 +32,9 @@ internal class PlayerRulesEnforcer(
         return true
     }
 
+    override fun playerHasWonStatus(player: Player): Boolean =
+        player.status == PlayerStatus.Won
+
     private fun determineStatus(pieces: List<Piece>): PlayerStatus =
         if (pieceRulesEnforcer.hasFinishedAllPieces(pieces)) {
             PlayerStatus.Won
