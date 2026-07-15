@@ -23,6 +23,15 @@ internal class PlayerRulesEnforcer(
         )
     }
 
+    override fun allPlayerHaveWonStatus(players: List<Player>): Boolean {
+        players.forEach { player ->
+            if (player.status == PlayerStatus.InProgress) {
+                return false
+            }
+        }
+        return true
+    }
+
     private fun determineStatus(pieces: List<Piece>): PlayerStatus =
         if (pieceRulesEnforcer.hasFinishedAllPieces(pieces)) {
             PlayerStatus.Won
