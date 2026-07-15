@@ -3,12 +3,13 @@ package com.shreyashurakadli.engine.rules.game
 import com.shreyashurakadli.engine.rules.player.PlayerRulesEnforcer
 import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
+import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 
 internal class GameRulesEnforcer(
     private val playerRulesEnforcer: PlayerRulesEnforcer
 ) : GameRules {
-    override fun updateGameState(gameState: Game, diceValue: Int, pieceIdx: Int): Game {
+    override fun updateGameState(gameState: Game, diceValue: Int, piece: Piece): Game {
         require(value = diceValue in 1..6) {
             "Dice value must in the range [1, 6]. Received $diceValue"
         }
@@ -16,21 +17,30 @@ internal class GameRulesEnforcer(
         return gameState.let {
             val currentPlayer = it.players[it.currentTurnPlayerIdx]
 
-            playerRulesEnforcer.updatePlayer(
+            val newPlayer = playerRulesEnforcer.updatePlayer(
                 player = currentPlayer,
                 diceValue = diceValue,
-                pieceIdx = it.currentTurnPlayerIdx
+                piece = piece
             )
 
-            val newStatus = determineStatus(players = it.players)
+            val newPlayers = it.players.map { player ->
+                if (player.id == newPlayer.id) {
+                    newPlayer
+                } else {
+                    player
+                }
+            }
+
+            val newStatus = determineStatus(players = newPlayers)
+
             val newTurn = updateCurrentTurn(
-                players = it.players,
+                players = newPlayers,
                 currentTurn = it.currentTurnPlayerIdx,
                 playerCount = it.players.size
             )
 
             Game(
-                players = it.players,
+                players = newPlayers,
                 currentTurnPlayerIdx = newTurn,
                 status = newStatus
             )
