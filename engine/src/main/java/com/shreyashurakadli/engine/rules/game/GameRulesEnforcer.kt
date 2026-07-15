@@ -1,13 +1,13 @@
 package com.shreyashurakadli.engine.rules.game
 
-import com.shreyashurakadli.engine.rules.player.PlayerRulesEnforcer
+import com.shreyashurakadli.engine.rules.player.PlayerRules
 import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 
 internal class GameRulesEnforcer(
-    private val playerRulesEnforcer: PlayerRulesEnforcer
+    private val playerRulesEnforcer: PlayerRules
 ) : GameRules {
     override fun updateGameState(gameState: Game, diceValue: Int, piece: Piece): Game {
         require(value = diceValue in 1..6) {
@@ -37,7 +37,7 @@ internal class GameRulesEnforcer(
             val newTurn = updateCurrentTurn(
                 players = newPlayers,
                 currentTurn = it.currentTurnPlayerIdx,
-                playerCount = it.players.size
+                diceValue = diceValue
             )
 
             Game(
@@ -56,7 +56,42 @@ internal class GameRulesEnforcer(
             }
         }
 
-    private fun updateCurrentTurn(players: List<Player>, currentTurn: Int, playerCount: Int): Int {
+    private fun updateCurrentTurn(
+        players: List<Player>,
+        currentTurn: Int,
+        diceValue: Int
+    ): Int {
+        if (shouldCurrentPlayerRepeatTurnDiceValue(players[currentTurn], diceValue)) {
+            return currentTurn
+        }
+
+        if (shouldCurrentPlayerRepeatTurnCapture()) {
+            return currentTurn
+        }
+
+        if (shouldCurrentPlayerRepeatTurnFinishedPiece()) {
+            return currentTurn
+        }
+
+        return findNextPlayerIndex(
+            players = players,
+            currentTurn = currentTurn,
+            playerCount = players.size
+        )
+    }
+
+    private fun shouldCurrentPlayerRepeatTurnDiceValue(player: Player, diceValue: Int): Boolean =
+        diceValue == 6 && !playerRulesEnforcer.playerHasWonStatus(player)
+
+    private fun shouldCurrentPlayerRepeatTurnCapture(): Boolean = TODO()
+
+    private fun shouldCurrentPlayerRepeatTurnFinishedPiece(): Boolean = TODO()
+
+    private fun findNextPlayerIndex(
+        players: List<Player>,
+        currentTurn: Int,
+        playerCount: Int
+    ): Int {
         var idx = (currentTurn + 1) % playerCount
 
         // Iterate through all players and check their status
@@ -68,6 +103,7 @@ internal class GameRulesEnforcer(
             idx = (idx + 1) % playerCount
         }
 
-        return idx
+        // Return an invalid index if all players have won
+        return -1
     }
 }
