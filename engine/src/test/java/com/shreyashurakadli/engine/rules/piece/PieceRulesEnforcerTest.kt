@@ -15,6 +15,7 @@ internal class PieceRulesEnforcerTest {
     @Test
     fun updatePiece_AtBase() {
         val previousPiece = Piece(
+            id = 0,
             position = Position(
                 part = 0,
                 tile = -1,
@@ -34,6 +35,7 @@ internal class PieceRulesEnforcerTest {
     @Test
     fun updatePiece_AtFinish() {
         val previousPiece = Piece(
+            id = 0,
             position = Position(
                 part = 0,
                 tile = 17,
@@ -60,10 +62,10 @@ internal class PieceRulesEnforcerTest {
     @Test
     fun hasFinishedAllPieces_allAreFinishedPieces() {
         val input = listOf(
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
         )
 
         val actualResult = pieceRulesEnforcer.hasFinishedAllPieces(pieces = input)
@@ -75,10 +77,10 @@ internal class PieceRulesEnforcerTest {
     @Test
     fun hasFinishedAllPieces_someAreFinishedPieces() {
         val input = listOf(
-            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-            Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 0, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
         )
 
         val actualResult = pieceRulesEnforcer.hasFinishedAllPieces(pieces = input)
@@ -90,10 +92,10 @@ internal class PieceRulesEnforcerTest {
     @Test
     fun hasFinishedAllPieces_allAreOnBoardPieces() {
         val input = listOf(
-            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-            Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(id = 0, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(id = 1, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(id = 2, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+            Piece(id = 3, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
         )
 
         val actualResult = pieceRulesEnforcer.hasFinishedAllPieces(pieces = input)

@@ -25,21 +25,25 @@ internal class PlayerRulesEnforcerTest {
             name = "Shreyas",
             status = PlayerStatus.InProgress,
             pieces = listOf(
-                Piece(Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 0, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+                Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
             )
         )
 
-        val actualResult = playerRulesEnforcer.updatePlayer(player, diceValue = 1, pieceIdx = 0)
+        val actualResult = playerRulesEnforcer.updatePlayer(
+            player = player,
+            diceValue = 1,
+            piece = player.pieces[0]
+        )
 
         val expectedResult = player.copy(
             pieces = listOf(
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                Piece(Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
             ),
             status = PlayerStatus.Won
         )
