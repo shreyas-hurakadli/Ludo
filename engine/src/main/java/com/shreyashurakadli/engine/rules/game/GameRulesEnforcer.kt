@@ -20,7 +20,8 @@ internal class GameRulesEnforcer(
             val newPlayer = playerRulesEnforcer.updatePlayer(
                 player = currentPlayer,
                 diceValue = diceValue,
-                piece = piece
+                piece = piece,
+                playerCount = gameState.players.size
             )
 
             val newPlayers = it.players.map { player ->
