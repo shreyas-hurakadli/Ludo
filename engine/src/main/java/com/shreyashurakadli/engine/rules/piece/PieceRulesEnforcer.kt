@@ -1,11 +1,11 @@
 package com.shreyashurakadli.engine.rules.piece
 
-import com.shreyashurakadli.engine.rules.piece.position.PositionRulesEnforcer
+import com.shreyashurakadli.engine.rules.piece.position.PositionRules
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
 
 internal class PieceRulesEnforcer(
-    private val positionRulesEnforcer: PositionRulesEnforcer
+    private val positionRulesEnforcer: PositionRules
 ) : PieceRules {
     override fun updatePiece(piece: Piece, diceValue: Int, playerCount: Int): Piece {
         val newPosition = positionRulesEnforcer.updatePosition(

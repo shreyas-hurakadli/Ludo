@@ -1,12 +1,12 @@
 package com.shreyashurakadli.engine.rules.player
 
-import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
+import com.shreyashurakadli.engine.rules.piece.PieceRules
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 import com.shreyashurakadli.engine.state.player.PlayerStatus
 
 internal class PlayerRulesEnforcer(
-    private val pieceRulesEnforcer: PieceRulesEnforcer
+    private val pieceRulesEnforcer: PieceRules
 ) : PlayerRules {
     override fun updatePlayer(
         player: Player,
