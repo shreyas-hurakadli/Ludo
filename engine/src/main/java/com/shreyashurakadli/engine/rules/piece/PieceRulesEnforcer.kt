@@ -16,7 +16,7 @@ internal class PieceRulesEnforcer(
 
         val newStatus = determineStatus(tile = newPosition.tile)
 
-        return Piece(
+        return piece.copy(
             position = newPosition,
             status = newStatus
         )
