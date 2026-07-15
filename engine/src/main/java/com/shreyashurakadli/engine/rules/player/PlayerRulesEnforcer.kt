@@ -8,11 +8,17 @@ import com.shreyashurakadli.engine.state.player.PlayerStatus
 internal class PlayerRulesEnforcer(
     private val pieceRulesEnforcer: PieceRulesEnforcer
 ) : PlayerRules {
-    override fun updatePlayer(player: Player, diceValue: Int, piece: Piece): Player {
+    override fun updatePlayer(
+        player: Player,
+        diceValue: Int,
+        piece: Piece,
+        playerCount: Int
+    ): Player {
         val newPlayerPieces = updatePlayerPieces(
             pieceId = piece.id,
             pieces = player.pieces,
-            diceValue = diceValue
+            diceValue = diceValue,
+            playerCount = playerCount
         )
 
         val newStatus = determineStatus(pieces = newPlayerPieces)
@@ -45,7 +51,8 @@ internal class PlayerRulesEnforcer(
     private fun updatePlayerPieces(
         pieceId: Int,
         pieces: List<Piece>,
-        diceValue: Int
+        diceValue: Int,
+        playerCount: Int
     ): List<Piece> {
         val piece: Piece =
             pieces.find { it.id == pieceId } ?: throw IllegalStateException("Piece not found")
@@ -53,7 +60,7 @@ internal class PlayerRulesEnforcer(
         val newPiece = pieceRulesEnforcer.updatePiece(
             piece = piece,
             diceValue = diceValue,
-            playerCount = pieces.size
+            playerCount = playerCount
         )
 
         val updatedPieces = pieces.map { piece ->
