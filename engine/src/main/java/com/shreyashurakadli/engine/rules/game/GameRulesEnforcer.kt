@@ -8,8 +8,12 @@ import com.shreyashurakadli.engine.state.player.Player
 internal class GameRulesEnforcer(
     private val playerRulesEnforcer: PlayerRulesEnforcer
 ) : GameRules {
-    override fun updateGameState(gameState: Game, diceValue: Int): Game =
-        gameState.let {
+    override fun updateGameState(gameState: Game, diceValue: Int, pieceIdx: Int): Game {
+        require(value = diceValue in 1..6) {
+            "Dice value must in the range [1, 6]. Received $diceValue"
+        }
+
+        return gameState.let {
             val currentPlayer = it.players[it.currentTurnPlayerIdx]
 
             playerRulesEnforcer.updatePlayer(
@@ -31,6 +35,7 @@ internal class GameRulesEnforcer(
                 status = newStatus
             )
         }
+    }
 
     private fun determineStatus(players: List<Player>): GameStatus =
         playerRulesEnforcer.let {
