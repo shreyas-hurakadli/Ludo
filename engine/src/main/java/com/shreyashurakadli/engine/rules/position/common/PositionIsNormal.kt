@@ -1,4 +1,4 @@
-package com.shreyashurakadli.engine.rules.position.converter
+package com.shreyashurakadli.engine.rules.position.common
 
 import com.shreyashurakadli.engine.constants.PositionConstants
 
