@@ -1,10 +1,13 @@
 package com.shreyashurakadli.engine.rules.position
 
 import com.shreyashurakadli.engine.constants.PositionConstants
+import com.shreyashurakadli.engine.rules.position.converter.DeterminePositionStatus
 import com.shreyashurakadli.engine.state.position.Position
 import com.shreyashurakadli.engine.state.position.PositionStatus
 
-internal class PositionRulesEnforcer : PositionRules {
+internal class PositionRulesEnforcer(
+    private val determinePositionStatus: DeterminePositionStatus
+) : PositionRules {
     override fun updatePosition(state: Position, diceValue: Int, quadrantCount: Int): Position {
         val newTile = handleTile(
             part = state.part,
@@ -19,7 +22,7 @@ internal class PositionRulesEnforcer : PositionRules {
             quadrantCount = quadrantCount
         )
 
-        val newStatus = determineStatus(tile = newTile)
+        val newStatus = determinePositionStatus(tile = newTile)
 
         return Position(
             part = newPart,
@@ -90,11 +93,4 @@ internal class PositionRulesEnforcer : PositionRules {
     private fun isEnteringNewPart(tile: Int, diceValue: Int): Boolean =
         tile !in PositionConstants.HOME_POSITIONS &&
                 tile + diceValue >= PositionConstants.TOTAL_POSITIONS_IN_PART
-
-    private fun determineStatus(tile: Int): PositionStatus =
-        when (tile) {
-            in PositionConstants.SAFE_POSITIONS -> PositionStatus.Safe
-            in PositionConstants.HOME_POSITIONS -> PositionStatus.Safe
-            else -> PositionStatus.Unsafe
-        }
 }
