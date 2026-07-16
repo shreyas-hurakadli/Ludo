@@ -1,16 +1,16 @@
 package com.shreyashurakadli.engine.rules.game
 
 import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
-import com.shreyashurakadli.engine.rules.piece.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.rules.player.PlayerRulesEnforcer
+import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
-import com.shreyashurakadli.engine.state.piece.position.Position
-import com.shreyashurakadli.engine.state.piece.position.PositionStatus
 import com.shreyashurakadli.engine.state.player.Player
 import com.shreyashurakadli.engine.state.player.PlayerStatus
+import com.shreyashurakadli.engine.state.position.Position
+import com.shreyashurakadli.engine.state.position.PositionStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -124,10 +124,11 @@ internal class GameRulesEnforcerTest {
             gameState = input,
             diceValue = 1,
             piece = players[0].pieces[0],
+            quadrantCount = 4,
         )
         val expectedResult = Game(
             players = newPlayers,
-            currentTurnPlayerIdx = 0,
+            currentTurnPlayerIdx = -1,
             status = GameStatus.Finished
         )
 
@@ -193,6 +194,7 @@ internal class GameRulesEnforcerTest {
             gameState = input,
             diceValue = 1,
             piece = players[0].pieces[0],
+            quadrantCount = 4
         )
 
         val newPlayers = players.map { player ->
