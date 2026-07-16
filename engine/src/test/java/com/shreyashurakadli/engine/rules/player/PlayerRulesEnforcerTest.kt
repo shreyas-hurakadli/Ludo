@@ -1,11 +1,11 @@
 package com.shreyashurakadli.engine.rules.player
 
 import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
-import com.shreyashurakadli.engine.rules.piece.position.PositionRulesEnforcer
+import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
-import com.shreyashurakadli.engine.state.piece.position.Position
-import com.shreyashurakadli.engine.state.piece.position.PositionStatus
+import com.shreyashurakadli.engine.state.position.Position
+import com.shreyashurakadli.engine.state.position.PositionStatus
 import com.shreyashurakadli.engine.state.player.Player
 import com.shreyashurakadli.engine.state.player.PlayerStatus
 import kotlin.test.Test
@@ -35,7 +35,8 @@ internal class PlayerRulesEnforcerTest {
         val actualResult = playerRulesEnforcer.updatePlayer(
             player = player,
             diceValue = 1,
-            piece = player.pieces[0]
+            piece = player.pieces[0],
+            quadrantCount = 4
         )
 
         val expectedResult = player.copy(

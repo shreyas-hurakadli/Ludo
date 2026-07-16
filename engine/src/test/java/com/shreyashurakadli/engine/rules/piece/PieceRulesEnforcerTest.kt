@@ -1,10 +1,10 @@
 package com.shreyashurakadli.engine.rules.piece
 
-import com.shreyashurakadli.engine.rules.piece.position.PositionRulesEnforcer
+import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
-import com.shreyashurakadli.engine.state.piece.position.Position
-import com.shreyashurakadli.engine.state.piece.position.PositionStatus
+import com.shreyashurakadli.engine.state.position.Position
+import com.shreyashurakadli.engine.state.position.PositionStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,7 +26,7 @@ internal class PieceRulesEnforcerTest {
         val actualPiece = pieceRulesEnforcer.updatePiece(
             piece = previousPiece,
             diceValue = 1,
-            playerCount = 4,
+            quadrantCount = 4,
         )
         val expectedPiece = previousPiece
         assertEquals(expectedPiece, actualPiece)
@@ -46,7 +46,7 @@ internal class PieceRulesEnforcerTest {
         val actualPiece = pieceRulesEnforcer.updatePiece(
             piece = previousPiece,
             diceValue = 1,
-            playerCount = 4,
+            quadrantCount = 4,
         )
         val expectedPiece = previousPiece.copy(
             position = Position(
