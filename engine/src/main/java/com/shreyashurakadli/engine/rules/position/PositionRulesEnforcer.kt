@@ -1,11 +1,11 @@
-package com.shreyashurakadli.engine.rules.piece.position
+package com.shreyashurakadli.engine.rules.position
 
 import com.shreyashurakadli.engine.constants.PositionConstants
-import com.shreyashurakadli.engine.state.piece.position.Position
-import com.shreyashurakadli.engine.state.piece.position.PositionStatus
+import com.shreyashurakadli.engine.state.position.Position
+import com.shreyashurakadli.engine.state.position.PositionStatus
 
 internal class PositionRulesEnforcer : PositionRules {
-    override fun updatePosition(state: Position, diceValue: Int, playerCount: Int): Position {
+    override fun updatePosition(state: Position, diceValue: Int, quadrantCount: Int): Position {
         val newTile = handleTile(
             part = state.part,
             tile = state.tile,
@@ -16,7 +16,7 @@ internal class PositionRulesEnforcer : PositionRules {
             part = state.part,
             tile = state.tile,
             diceValue = diceValue,
-            playerCount = playerCount
+            quadrantCount = quadrantCount
         )
 
         val newStatus = determineStatus(tile = newTile)
@@ -80,9 +80,9 @@ internal class PositionRulesEnforcer : PositionRules {
     private fun diceValueExceedsAvailableOptions(tile: Int, diceValue: Int): Boolean =
         tile + diceValue > PositionConstants.FINAL_POSITION
 
-    private fun handlePart(part: Int, tile: Int, diceValue: Int, playerCount: Int): Int =
+    private fun handlePart(part: Int, tile: Int, diceValue: Int, quadrantCount: Int): Int =
         if (isEnteringNewPart(tile, diceValue)) {
-            (part + 1) % playerCount
+            (part + 1) % quadrantCount
         } else {
             part
         }

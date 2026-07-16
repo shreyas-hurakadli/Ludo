@@ -4,7 +4,7 @@ import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 
 internal interface PlayerRules {
-    fun updatePlayer(player: Player, diceValue: Int, piece: Piece, playerCount: Int): Player
+    fun updatePlayer(player: Player, diceValue: Int, piece: Piece, quadrantCount: Int): Player
     fun allPlayerHaveWonStatus(players: List<Player>): Boolean
     fun playerHasWonStatus(player: Player): Boolean
 }

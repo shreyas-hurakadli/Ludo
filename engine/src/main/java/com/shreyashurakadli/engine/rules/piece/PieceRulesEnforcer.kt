@@ -1,17 +1,17 @@
 package com.shreyashurakadli.engine.rules.piece
 
-import com.shreyashurakadli.engine.rules.piece.position.PositionRules
+import com.shreyashurakadli.engine.rules.position.PositionRules
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
 
 internal class PieceRulesEnforcer(
     private val positionRulesEnforcer: PositionRules
 ) : PieceRules {
-    override fun updatePiece(piece: Piece, diceValue: Int, playerCount: Int): Piece {
+    override fun updatePiece(piece: Piece, diceValue: Int, quadrantCount: Int): Piece {
         val newPosition = positionRulesEnforcer.updatePosition(
             state = piece.position,
             diceValue = diceValue,
-            playerCount = playerCount
+            quadrantCount = quadrantCount
         )
 
         val newStatus = determineStatus(tile = newPosition.tile)

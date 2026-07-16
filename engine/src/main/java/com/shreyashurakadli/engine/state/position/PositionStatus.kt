@@ -1,4 +1,4 @@
-package com.shreyashurakadli.engine.state.piece.position
+package com.shreyashurakadli.engine.state.position
 
 internal interface PositionStatus {
     object Safe : PositionStatus

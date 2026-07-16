@@ -9,7 +9,12 @@ import com.shreyashurakadli.engine.state.player.Player
 internal class GameRulesEnforcer(
     private val playerRulesEnforcer: PlayerRules
 ) : GameRules {
-    override fun updateGameState(gameState: Game, diceValue: Int, piece: Piece): Game {
+    override fun updateGameState(
+        gameState: Game,
+        diceValue: Int,
+        piece: Piece,
+        quadrantCount: Int
+    ): Game {
         require(value = diceValue in 1..6) {
             "Dice value must in the range [1, 6]. Received $diceValue"
         }
@@ -21,7 +26,7 @@ internal class GameRulesEnforcer(
                 player = currentPlayer,
                 diceValue = diceValue,
                 piece = piece,
-                playerCount = gameState.players.size
+                quadrantCount = quadrantCount
             )
 
             val newPlayers = it.players.map { player ->

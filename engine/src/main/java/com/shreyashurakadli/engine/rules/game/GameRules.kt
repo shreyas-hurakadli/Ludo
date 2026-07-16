@@ -4,5 +4,5 @@ import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.piece.Piece
 
 internal interface GameRules {
-    fun updateGameState(gameState: Game, diceValue: Int, piece: Piece): Game
+    fun updateGameState(gameState: Game, diceValue: Int, piece: Piece, quadrantCount: Int): Game
 }

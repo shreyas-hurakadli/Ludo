@@ -1,4 +1,4 @@
-package com.shreyashurakadli.engine.state.piece.position
+package com.shreyashurakadli.engine.state.position
 
 internal data class Position(
     val part: Int,

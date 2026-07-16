@@ -12,13 +12,13 @@ internal class PlayerRulesEnforcer(
         player: Player,
         diceValue: Int,
         piece: Piece,
-        playerCount: Int
+        quadrantCount: Int
     ): Player {
         val newPlayerPieces = updatePlayerPieces(
             pieceId = piece.id,
             pieces = player.pieces,
             diceValue = diceValue,
-            playerCount = playerCount
+            playerCount = quadrantCount
         )
 
         val newStatus = determineStatus(pieces = newPlayerPieces)
@@ -60,7 +60,7 @@ internal class PlayerRulesEnforcer(
         val newPiece = pieceRulesEnforcer.updatePiece(
             piece = piece,
             diceValue = diceValue,
-            playerCount = playerCount
+            quadrantCount = playerCount
         )
 
         val updatedPieces = pieces.map { piece ->

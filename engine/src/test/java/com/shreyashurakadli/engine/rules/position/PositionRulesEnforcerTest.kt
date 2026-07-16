@@ -1,5 +1,6 @@
 package com.shreyashurakadli.engine.rules.piece.position
 
+import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.state.piece.position.Position
 import com.shreyashurakadli.engine.state.piece.position.PositionStatus
 import kotlin.test.Test
