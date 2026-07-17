@@ -1,5 +1,8 @@
 package com.shreyashurakadli.engine.rules.game
 
+import com.shreyashurakadli.engine.rules.piece.common.GetUpdatedPiece
+import com.shreyashurakadli.engine.rules.piece.common.HasCapturedPiece
+import com.shreyashurakadli.engine.rules.piece.common.PieceHasFinishedStatus
 import com.shreyashurakadli.engine.rules.player.PlayerRules
 import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
@@ -7,7 +10,10 @@ import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 
 internal class GameRulesEnforcer(
-    private val playerRulesEnforcer: PlayerRules
+    private val playerRulesEnforcer: PlayerRules,
+    private val pieceHasFinishedStatus: PieceHasFinishedStatus,
+    private val getUpdatedPiece: GetUpdatedPiece,
+    private val hasCapturedPiece: HasCapturedPiece
 ) : GameRules {
     override fun updateGameState(
         gameState: Game,
@@ -29,6 +35,8 @@ internal class GameRulesEnforcer(
                 partCount = partCount
             )
 
+            val updatedPiece = getUpdatedPiece(newPlayer, piece.id)
+
             val newPlayers = it.players.map { player ->
                 if (player.id == newPlayer.id) {
                     newPlayer
@@ -42,6 +50,7 @@ internal class GameRulesEnforcer(
             val newTurn = updateCurrentTurn(
                 players = newPlayers,
                 currentTurn = it.currentTurnPlayerIdx,
+                updatedPiece = updatedPiece,
                 diceValue = diceValue
             )
 
@@ -64,17 +73,18 @@ internal class GameRulesEnforcer(
     private fun updateCurrentTurn(
         players: List<Player>,
         currentTurn: Int,
+        updatedPiece: Piece,
         diceValue: Int
     ): Int {
         if (shouldCurrentPlayerRepeatTurnDiceValue(players[currentTurn], diceValue)) {
             return currentTurn
         }
 
-        if (shouldCurrentPlayerRepeatTurnCapture()) {
+        if (shouldCurrentPlayerRepeatTurnFinishedPiece(players[currentTurn], updatedPiece)) {
             return currentTurn
         }
 
-        if (shouldCurrentPlayerRepeatTurnFinishedPiece()) {
+        if (shouldCurrentPlayerRepeatTurnCapture(players, players[currentTurn].id, updatedPiece)) {
             return currentTurn
         }
 
@@ -88,9 +98,18 @@ internal class GameRulesEnforcer(
     private fun shouldCurrentPlayerRepeatTurnDiceValue(player: Player, diceValue: Int): Boolean =
         diceValue == 6 && !playerRulesEnforcer.playerHasWonStatus(player)
 
-    private fun shouldCurrentPlayerRepeatTurnCapture(): Boolean = TODO()
+    private fun shouldCurrentPlayerRepeatTurnCapture(
+        players: List<Player>,
+        playerId: Int,
+        piece: Piece
+    ): Boolean =
+        hasCapturedPiece(players, playerId, piece)
 
-    private fun shouldCurrentPlayerRepeatTurnFinishedPiece(): Boolean = TODO()
+    private fun shouldCurrentPlayerRepeatTurnFinishedPiece(
+        player: Player,
+        updatedPiece: Piece
+    ): Boolean =
+        pieceHasFinishedStatus(updatedPiece) && !playerRulesEnforcer.playerHasWonStatus(player)
 
     private fun findNextPlayerIndex(
         players: List<Player>,

@@ -1,6 +1,9 @@
 package com.shreyashurakadli.engine.rules.game
 
 import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
+import com.shreyashurakadli.engine.rules.piece.common.GetUpdatedPiece
+import com.shreyashurakadli.engine.rules.piece.common.HasCapturedPiece
+import com.shreyashurakadli.engine.rules.piece.common.PieceHasFinishedStatus
 import com.shreyashurakadli.engine.rules.player.PlayerRulesEnforcer
 import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
@@ -21,7 +24,12 @@ internal class GameRulesEnforcerTest {
     )
     private val pieceRulesEnforcer = PieceRulesEnforcer(positionRulesEnforcer)
     private val playerRulesEnforcer = PlayerRulesEnforcer(pieceRulesEnforcer)
-    private val gameRulesEnforcer = GameRulesEnforcer(playerRulesEnforcer)
+    private val gameRulesEnforcer = GameRulesEnforcer(
+        playerRulesEnforcer,
+        pieceHasFinishedStatus = PieceHasFinishedStatus(),
+        getUpdatedPiece = GetUpdatedPiece(),
+        hasCapturedPiece = HasCapturedPiece()
+    )
 
     @Test
     fun updateGameState_statusChange() {
