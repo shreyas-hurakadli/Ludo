@@ -1,6 +1,7 @@
 package com.shreyashurakadli.engine.rules.piece
 
 import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
+import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
 import com.shreyashurakadli.engine.state.position.Position
@@ -9,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class PieceRulesEnforcerTest {
-    val positionRulesEnforcer = PositionRulesEnforcer()
+    val positionRulesEnforcer = PositionRulesEnforcer(DeterminePositionStatus())
     val pieceRulesEnforcer = PieceRulesEnforcer(positionRulesEnforcer)
 
     @Test

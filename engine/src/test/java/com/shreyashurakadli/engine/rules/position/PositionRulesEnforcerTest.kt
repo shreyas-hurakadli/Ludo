@@ -1,12 +1,13 @@
 package com.shreyashurakadli.engine.rules.position
 
+import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
 import com.shreyashurakadli.engine.state.position.Position
 import com.shreyashurakadli.engine.state.position.PositionStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class PositionRulesEnforcerTest {
-    private val positionRulesEnforcer = PositionRulesEnforcer()
+    private val positionRulesEnforcer = PositionRulesEnforcer(DeterminePositionStatus())
 
     @Test
     fun updatePosition_enteringBoard() {

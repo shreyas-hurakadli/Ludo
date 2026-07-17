@@ -3,6 +3,7 @@ package com.shreyashurakadli.engine.rules.game
 import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
 import com.shreyashurakadli.engine.rules.player.PlayerRulesEnforcer
 import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
+import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
 import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.Piece
@@ -15,7 +16,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class GameRulesEnforcerTest {
-    private val positionRulesEnforcer = PositionRulesEnforcer()
+    private val positionRulesEnforcer = PositionRulesEnforcer(
+        determinePositionStatus = DeterminePositionStatus()
+    )
     private val pieceRulesEnforcer = PieceRulesEnforcer(positionRulesEnforcer)
     private val playerRulesEnforcer = PlayerRulesEnforcer(pieceRulesEnforcer)
     private val gameRulesEnforcer = GameRulesEnforcer(playerRulesEnforcer)
