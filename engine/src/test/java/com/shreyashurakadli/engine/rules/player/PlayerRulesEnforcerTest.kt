@@ -37,7 +37,7 @@ internal class PlayerRulesEnforcerTest {
             player = player,
             diceValue = 1,
             piece = player.pieces[0],
-            quadrantCount = 4
+            partCount = 4
         )
 
         val expectedResult = player.copy(

@@ -12,13 +12,13 @@ internal class PlayerRulesEnforcer(
         player: Player,
         diceValue: Int,
         piece: Piece,
-        quadrantCount: Int
+        partCount: Int
     ): Player {
         val newPlayerPieces = updatePlayerPieces(
             pieceId = piece.id,
             pieces = player.pieces,
             diceValue = diceValue,
-            playerCount = quadrantCount
+            partCount = partCount
         )
 
         val newStatus = determineStatus(pieces = newPlayerPieces)
@@ -52,7 +52,7 @@ internal class PlayerRulesEnforcer(
         pieceId: Int,
         pieces: List<Piece>,
         diceValue: Int,
-        playerCount: Int
+        partCount: Int
     ): List<Piece> {
         val piece: Piece =
             pieces.find { it.id == pieceId } ?: throw IllegalStateException("Piece not found")
@@ -60,7 +60,7 @@ internal class PlayerRulesEnforcer(
         val newPiece = pieceRulesEnforcer.updatePiece(
             piece = piece,
             diceValue = diceValue,
-            quadrantCount = playerCount
+            partCount = partCount
         )
 
         val updatedPieces = pieces.map { piece ->

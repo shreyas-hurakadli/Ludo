@@ -13,7 +13,7 @@ internal class GameRulesEnforcer(
         gameState: Game,
         diceValue: Int,
         piece: Piece,
-        quadrantCount: Int
+        partCount: Int
     ): Game {
         require(value = diceValue in 1..6) {
             "Dice value must in the range [1, 6]. Received $diceValue"
@@ -26,7 +26,7 @@ internal class GameRulesEnforcer(
                 player = currentPlayer,
                 diceValue = diceValue,
                 piece = piece,
-                quadrantCount = quadrantCount
+                partCount = partCount
             )
 
             val newPlayers = it.players.map { player ->

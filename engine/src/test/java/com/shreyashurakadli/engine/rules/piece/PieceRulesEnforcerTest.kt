@@ -27,7 +27,7 @@ internal class PieceRulesEnforcerTest {
         val actualPiece = pieceRulesEnforcer.updatePiece(
             piece = previousPiece,
             diceValue = 1,
-            quadrantCount = 4,
+            partCount = 4,
         )
         val expectedPiece = previousPiece
         assertEquals(expectedPiece, actualPiece)
@@ -47,7 +47,7 @@ internal class PieceRulesEnforcerTest {
         val actualPiece = pieceRulesEnforcer.updatePiece(
             piece = previousPiece,
             diceValue = 1,
-            quadrantCount = 4,
+            partCount = 4,
         )
         val expectedPiece = previousPiece.copy(
             position = Position(

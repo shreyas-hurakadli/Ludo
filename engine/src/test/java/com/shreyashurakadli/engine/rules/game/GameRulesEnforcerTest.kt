@@ -127,7 +127,7 @@ internal class GameRulesEnforcerTest {
             gameState = input,
             diceValue = 1,
             piece = players[0].pieces[0],
-            quadrantCount = 4,
+            partCount = 4,
         )
         val expectedResult = Game(
             players = newPlayers,
@@ -197,7 +197,7 @@ internal class GameRulesEnforcerTest {
             gameState = input,
             diceValue = 1,
             piece = players[0].pieces[0],
-            quadrantCount = 4
+            partCount = 4
         )
 
         val newPlayers = players.map { player ->

@@ -7,11 +7,11 @@ import com.shreyashurakadli.engine.state.piece.PieceStatus
 internal class PieceRulesEnforcer(
     private val positionRulesEnforcer: PositionRules
 ) : PieceRules {
-    override fun updatePiece(piece: Piece, diceValue: Int, quadrantCount: Int): Piece {
+    override fun updatePiece(piece: Piece, diceValue: Int, partCount: Int): Piece {
         val newPosition = positionRulesEnforcer.updatePosition(
             state = piece.position,
             diceValue = diceValue,
-            quadrantCount = quadrantCount
+            quadrantCount = partCount
         )
 
         val newStatus = determineStatus(tile = newPosition.tile)
