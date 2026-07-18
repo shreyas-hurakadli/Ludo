@@ -1,6 +1,6 @@
 package com.shreyashurakadli.engine.state.player
 
-internal sealed interface PlayerStatus {
+sealed interface PlayerStatus {
     object Won : PlayerStatus
     object InProgress : PlayerStatus
 }

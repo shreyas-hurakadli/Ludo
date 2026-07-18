@@ -1,6 +1,6 @@
 package com.shreyashurakadli.engine.state.piece
 
-internal interface PieceStatus {
+interface PieceStatus {
     object InBase : PieceStatus
     object OnBoard : PieceStatus
     object Finished : PieceStatus
