@@ -1,7 +1,6 @@
 package com.shreyashurakadli.engine.rules.game
 
 import com.shreyashurakadli.engine.rules.piece.common.GetUpdatedPiece
-import com.shreyashurakadli.engine.rules.piece.common.HasCapturedPiece
 import com.shreyashurakadli.engine.rules.piece.common.PieceHasFinishedStatus
 import com.shreyashurakadli.engine.rules.player.PlayerRules
 import com.shreyashurakadli.engine.state.game.Game
@@ -13,7 +12,6 @@ internal class GameRulesEnforcer(
     private val playerRulesEnforcer: PlayerRules,
     private val pieceHasFinishedStatus: PieceHasFinishedStatus,
     private val getUpdatedPiece: GetUpdatedPiece,
-    private val hasCapturedPiece: HasCapturedPiece
 ) : GameRules {
     override fun updateGameState(
         gameState: Game,
@@ -45,22 +43,46 @@ internal class GameRulesEnforcer(
                 }
             }
 
-            val newStatus = determineStatus(players = newPlayers)
+            // Check and update piece capture
+            val playersAfterCaptureUpdate = updateCapture(
+                players = newPlayers,
+                player= newPlayer,
+                piece = updatedPiece,
+                partCount = partCount
+            )
+
+            val newStatus = determineStatus(players = playersAfterCaptureUpdate)
 
             val newTurn = updateCurrentTurn(
-                players = newPlayers,
+                players = playersAfterCaptureUpdate,
                 currentTurn = it.currentTurnPlayerIdx,
                 updatedPiece = updatedPiece,
-                diceValue = diceValue
+                diceValue = diceValue,
+                hasCapturedPiece = newPlayers != playersAfterCaptureUpdate
             )
 
             Game(
-                players = newPlayers,
+                players = playersAfterCaptureUpdate,
                 currentTurnPlayerIdx = newTurn,
                 status = newStatus
             )
         }
     }
+
+    override fun updateCapture(players: List<Player>, player: Player, piece: Piece, partCount: Int): List<Player> =
+        players.map {
+            if (player == it) {
+                it
+            } else {
+                playerRulesEnforcer.updatePlayerCapturedPiece(
+                    player = player,
+                    otherPlayer = it,
+                    piece = piece,
+                    partCount = partCount
+                )
+            }
+        }
+
 
     private fun determineStatus(players: List<Player>): GameStatus =
         playerRulesEnforcer.let {
@@ -74,7 +96,8 @@ internal class GameRulesEnforcer(
         players: List<Player>,
         currentTurn: Int,
         updatedPiece: Piece,
-        diceValue: Int
+        diceValue: Int,
+        hasCapturedPiece: Boolean
     ): Int {
         if (shouldCurrentPlayerRepeatTurnDiceValue(players[currentTurn], diceValue)) {
             return currentTurn
@@ -84,7 +107,7 @@ internal class GameRulesEnforcer(
             return currentTurn
         }
 
-        if (shouldCurrentPlayerRepeatTurnCapture(players, players[currentTurn].id, updatedPiece)) {
+        if (hasCapturedPiece) {
             return currentTurn
         }
 
@@ -97,13 +120,6 @@ internal class GameRulesEnforcer(
 
     private fun shouldCurrentPlayerRepeatTurnDiceValue(player: Player, diceValue: Int): Boolean =
         diceValue == 6 && !playerRulesEnforcer.playerHasWonStatus(player)
-
-    private fun shouldCurrentPlayerRepeatTurnCapture(
-        players: List<Player>,
-        playerId: Int,
-        piece: Piece
-    ): Boolean =
-        hasCapturedPiece(players, playerId, piece)
 
     private fun shouldCurrentPlayerRepeatTurnFinishedPiece(
         player: Player,

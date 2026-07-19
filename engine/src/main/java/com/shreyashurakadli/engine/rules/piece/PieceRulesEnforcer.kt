@@ -1,11 +1,15 @@
 package com.shreyashurakadli.engine.rules.piece
 
 import com.shreyashurakadli.engine.rules.position.PositionRules
+import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverter
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
+import com.shreyashurakadli.engine.state.position.PositionStatus
+import kotlin.math.abs
 
 internal class PieceRulesEnforcer(
-    private val positionRulesEnforcer: PositionRules
+    private val positionRulesEnforcer: PositionRules,
+    private val converter: RelativeToAbsolutePositionConverter
 ) : PieceRules {
     override fun updatePiece(piece: Piece, diceValue: Int, partCount: Int): Piece {
         val newPosition = positionRulesEnforcer.updatePosition(
@@ -31,6 +35,39 @@ internal class PieceRulesEnforcer(
         }
         return finishedPieces == pieces.size
     }
+
+    override fun isPieceCaptured(
+        piece: Piece,
+        otherPiece: Piece,
+        partCount: Int,
+        playerPart: Int,
+        otherPlayerPart: Int
+    ): Boolean {
+        if (piece.position.status == PositionStatus.Safe) {
+            return false
+        }
+
+        val absPos = converter.calculateAbsolutePosition(
+            position = piece.position,
+            partCount = partCount,
+            playerPart = playerPart
+        )
+
+        val otherAbsPos = converter.calculateAbsolutePosition(
+            position = otherPiece.position,
+            partCount = partCount,
+            playerPart = otherPlayerPart
+        )
+
+        return absPos == otherAbsPos
+    }
+
+    override fun updateCapturedPiece(piece: Piece): Piece =
+        piece.copy(
+            position = positionRulesEnforcer.provideBasePosition(),
+            status = PieceStatus.InBase
+        )
+
 
     private fun determineStatus(tile: Int): PieceStatus =
         positionRulesEnforcer.let {

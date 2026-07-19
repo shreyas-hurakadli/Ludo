@@ -2,6 +2,9 @@ package com.shreyashurakadli.engine.rules.piece
 
 import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
+import com.shreyashurakadli.engine.rules.position.common.PositionIsBase
+import com.shreyashurakadli.engine.rules.position.common.PositionIsNormal
+import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverterImplementation
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
 import com.shreyashurakadli.engine.state.position.Position
@@ -11,7 +14,13 @@ import kotlin.test.assertEquals
 
 internal class PieceRulesEnforcerTest {
     val positionRulesEnforcer = PositionRulesEnforcer(DeterminePositionStatus())
-    val pieceRulesEnforcer = PieceRulesEnforcer(positionRulesEnforcer)
+    val pieceRulesEnforcer = PieceRulesEnforcer(
+        positionRulesEnforcer,
+        converter = RelativeToAbsolutePositionConverterImplementation(
+            positionIsNormalPosition = PositionIsNormal(),
+            positionIsBase = PositionIsBase()
+        )
+    )
 
     @Test
     fun updatePiece_AtBase() {

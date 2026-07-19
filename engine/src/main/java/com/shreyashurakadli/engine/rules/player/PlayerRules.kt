@@ -7,4 +7,5 @@ internal interface PlayerRules {
     fun updatePlayer(player: Player, diceValue: Int, piece: Piece, partCount: Int): Player
     fun allPlayerHaveWonStatus(players: List<Player>): Boolean
     fun playerHasWonStatus(player: Player): Boolean
+    fun updatePlayerCapturedPiece(player: Player, otherPlayer: Player, piece: Piece, partCount: Int): Player
 }

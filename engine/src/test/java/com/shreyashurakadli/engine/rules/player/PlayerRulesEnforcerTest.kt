@@ -3,6 +3,10 @@ package com.shreyashurakadli.engine.rules.player
 import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
 import com.shreyashurakadli.engine.rules.position.PositionRulesEnforcer
 import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
+import com.shreyashurakadli.engine.rules.position.common.GetBasePositionPiece
+import com.shreyashurakadli.engine.rules.position.common.PositionIsBase
+import com.shreyashurakadli.engine.rules.position.common.PositionIsNormal
+import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverterImplementation
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
 import com.shreyashurakadli.engine.state.position.Position
@@ -15,9 +19,17 @@ import kotlin.test.assertEquals
 internal class PlayerRulesEnforcerTest {
     private val positionRulesEnforcer = PositionRulesEnforcer(DeterminePositionStatus())
     private val pieceRulesEnforcer =
-        PieceRulesEnforcer(positionRulesEnforcer = positionRulesEnforcer)
+        PieceRulesEnforcer(
+            positionRulesEnforcer = positionRulesEnforcer,
+            converter = RelativeToAbsolutePositionConverterImplementation(
+                positionIsNormalPosition = PositionIsNormal(),
+                positionIsBase = PositionIsBase()
+            )
+        )
     private val playerRulesEnforcer: PlayerRulesEnforcer =
-        PlayerRulesEnforcer(pieceRulesEnforcer = pieceRulesEnforcer)
+        PlayerRulesEnforcer(
+            pieceRulesEnforcer = pieceRulesEnforcer,
+        )
 
     @Test
     fun updatePlayer_playerStatusChange() {

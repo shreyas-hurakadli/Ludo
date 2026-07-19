@@ -1,6 +1,7 @@
 package com.shreyashurakadli.engine.rules.player
 
 import com.shreyashurakadli.engine.rules.piece.PieceRules
+import com.shreyashurakadli.engine.rules.position.common.GetBasePositionPiece
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 import com.shreyashurakadli.engine.state.player.PlayerStatus
@@ -40,6 +41,40 @@ internal class PlayerRulesEnforcer(
 
     override fun playerHasWonStatus(player: Player): Boolean =
         player.status == PlayerStatus.Won
+
+    override fun updatePlayerCapturedPiece(
+        player: Player,
+        otherPlayer: Player,
+        piece: Piece,
+        partCount: Int,
+    ): Player {
+        for (otherPiece in otherPlayer.pieces) {
+            val isCaptured = pieceRulesEnforcer.isPieceCaptured(
+                piece = piece,
+                otherPiece = otherPiece,
+                partCount = partCount,
+                playerPart = player.id,
+                otherPlayerPart = otherPlayer.id
+            )
+
+            if (isCaptured) {
+                val newPieces = otherPlayer.pieces.map {
+                    if (otherPiece.id == it.id) {
+                        pieceRulesEnforcer.updateCapturedPiece(otherPiece)
+                    } else {
+                        it
+                    }
+                }
+
+                return otherPlayer.copy(
+                    pieces = newPieces,
+                    status = determineStatus(pieces = newPieces)
+                )
+            }
+        }
+
+        return otherPlayer
+    }
 
     private fun determineStatus(pieces: List<Piece>): PlayerStatus =
         if (pieceRulesEnforcer.hasFinishedAllPieces(pieces)) {

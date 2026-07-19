@@ -9,7 +9,11 @@ internal class RelativeToAbsolutePositionConverterImplementation(
     private val positionIsNormalPosition: PositionIsNormal,
     private val positionIsBase: PositionIsBase
 ) : RelativeToAbsolutePositionConverter {
-    override fun calculateAbsolutePosition(position: Position, partCount: Int, playerPart: Int): Int {
+    override fun calculateAbsolutePosition(
+        position: Position,
+        partCount: Int,
+        playerPart: Int
+    ): Int {
         val absolutePosition =
             if (positionIsNormalPosition(position)) {
                 val partOffset = position.part * PositionConstants.TOTAL_POSITIONS_IN_PART
@@ -21,7 +25,8 @@ internal class RelativeToAbsolutePositionConverterImplementation(
                 val noOfHomePositionsInPart = PositionConstants.HOME_POSITIONS.size
                 val homePositionOffset = noOfHomePositionsInPart * position.part
                 val relativeHomePositionOffset = position.tile - PositionConstants.HOME_POSITION_0
-                partCount * PositionConstants.TOTAL_POSITIONS_IN_PART + homePositionOffset + relativeHomePositionOffset
+                val playerOffset = playerPart * (PositionConstants.HOME_POSITIONS.size + 1)
+                playerOffset + partCount * PositionConstants.TOTAL_POSITIONS_IN_PART + homePositionOffset + relativeHomePositionOffset
             }
 
         return absolutePosition
