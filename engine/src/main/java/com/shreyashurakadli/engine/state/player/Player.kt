@@ -2,7 +2,8 @@ package com.shreyashurakadli.engine.state.player
 
 import com.shreyashurakadli.engine.state.piece.Piece
 
-data class Player(
+@ConsistentCopyVisibility
+data class Player internal constructor(
     val id: Int,
     val name: String,
     val status: PlayerStatus,
