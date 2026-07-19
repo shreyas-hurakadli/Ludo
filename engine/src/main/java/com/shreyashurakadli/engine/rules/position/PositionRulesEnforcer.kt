@@ -3,6 +3,7 @@ package com.shreyashurakadli.engine.rules.position
 import com.shreyashurakadli.engine.constants.PositionConstants
 import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
 import com.shreyashurakadli.engine.state.position.Position
+import com.shreyashurakadli.engine.state.position.PositionStatus
 
 internal class PositionRulesEnforcer(
     private val determinePositionStatus: DeterminePositionStatus
@@ -68,6 +69,13 @@ internal class PositionRulesEnforcer(
 
     override fun isAtFinalPosition(tile: Int): Boolean =
         tile == PositionConstants.FINAL_POSITION
+
+    override fun provideBasePosition(): Position =
+        Position(
+            part = PositionConstants.START_PART,
+            tile = PositionConstants.BASE_POSITION,
+            status = PositionStatus.Safe
+        )
 
     private fun shouldEnterBoardFromBase(diceValue: Int): Boolean =
         diceValue == 6

@@ -7,4 +7,5 @@ internal interface PositionRules {
 
     fun isAtBasePosition(tile: Int): Boolean
     fun isAtFinalPosition(tile: Int): Boolean
+    fun provideBasePosition(): Position
 }
