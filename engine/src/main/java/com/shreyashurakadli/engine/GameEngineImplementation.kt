@@ -36,6 +36,14 @@ class GameEngineImplementation internal constructor(
     }
 
     override fun showAvailableOptions(diceValue: Int): Pair<Int, List<Int>> {
+        check(value = initCompleted) {
+            "Game has not been initialized"
+        }
+
+        require(value = diceValue in 1..6) {
+            "Invalid dice value"
+        }
+
         val (player, pieces) = gameRulesEnforcer.showCurrentMoveOptions(
             gameState = gameState,
             diceValue = diceValue,
@@ -44,8 +52,16 @@ class GameEngineImplementation internal constructor(
         return player.id to pieces.map { it.id }
     }
 
-    override fun movePiece(piece: Int, diceValue: Int) {
-        val piece = gameState.players[gameState.currentTurnPlayerIdx].pieces.find { it.id == piece }
+    override fun movePiece(pieceId: Int, diceValue: Int) {
+        check(value = initCompleted) {
+            "Game has not been initialized"
+        }
+
+        require(value = diceValue in 1..6) {
+            "Invalid dice value"
+        }
+
+        val piece = gameState.players[gameState.currentTurnPlayerIdx].pieces.find { it.id == pieceId }
             ?: throw IllegalStateException("Piece not found")
 
         gameState = gameRulesEnforcer.updateGameState(
@@ -56,6 +72,11 @@ class GameEngineImplementation internal constructor(
         )
     }
 
-    override fun isGameCompleted(): Boolean =
-        gameRulesEnforcer.isGameCompleted(gameState)
+    override fun isGameCompleted(): Boolean {
+        check(value = initCompleted) {
+            "Game has not been initialized"
+        }
+
+        return gameRulesEnforcer.isGameCompleted(gameState)
+    }
 }

@@ -4,7 +4,7 @@ interface GameEngine {
     /**
      * Initializes the game.
      * Execute this before starting the game.
-     * @param noOfPlayers Number of players
+     * @param noOfPlayers
      * @param players List of players with their usernames
      */
     fun init(noOfPlayers: Int, players: List<String>)
@@ -12,16 +12,16 @@ interface GameEngine {
     /**
      * Shows available options for the given dice value.
      * Returns a pair of player id and piece id(s).
-     * @param diceValue Dice value
+     * @param diceValue
      */
     fun showAvailableOptions(diceValue: Int): Pair<Int, List<Int>>
 
     /**
      * Moves the piece.
-     * @param piece Piece id
-     * @param diceValue Dice value
+     * @param pieceId
+     * @param diceValue
      */
-    fun movePiece(piece: Int, diceValue: Int)
+    fun movePiece(pieceId: Int, diceValue: Int)
 
     /**
      * Tells if the game is completed.
