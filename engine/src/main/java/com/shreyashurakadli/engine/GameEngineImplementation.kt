@@ -25,7 +25,7 @@ class GameEngineImplementation internal constructor(
     }
 
     private fun determineQuadrantCount(noOfPlayers: Int): Int {
-        require(noOfPlayers <= 1) {
+        require(value = noOfPlayers >= 2) {
             "Minimum number of players is 2"
         }
 
