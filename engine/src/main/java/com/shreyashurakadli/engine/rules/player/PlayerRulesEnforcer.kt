@@ -76,6 +76,30 @@ internal class PlayerRulesEnforcer(
         return otherPlayer
     }
 
+    override fun initializePlayer(players: List<String>): List<Player> =
+        when {
+            players.size == 2 -> createTwoPlayers(players)
+            else -> createPlayersForGame(players)
+        }
+
+    override fun showAvailableOptions(
+        player: Player,
+        diceValue: Int,
+        quadrantCount: Int
+    ): List<Piece> =
+        pieceRulesEnforcer.canPiecesBeMoved(player.pieces, diceValue, quadrantCount)
+
+    private fun createPlayersForGame(players: List<String>): List<Player> =
+        players.mapIndexed { index, playerName ->
+            Player(id = index, name = playerName)
+        }
+
+    private fun createTwoPlayers(players: List<String>): List<Player> {
+        val firstPlayer = Player(id = 0, name = players.first())
+        val secondPlayer = Player(id = 2, name = players.last())
+        return listOf(firstPlayer, secondPlayer)
+    }
+
     private fun determineStatus(pieces: List<Piece>): PlayerStatus =
         if (pieceRulesEnforcer.hasFinishedAllPieces(pieces)) {
             PlayerStatus.Won

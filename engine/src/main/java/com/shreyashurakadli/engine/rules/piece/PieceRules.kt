@@ -7,4 +7,5 @@ internal interface PieceRules {
     fun hasFinishedAllPieces(pieces: List<Piece>): Boolean
     fun isPieceCaptured(piece: Piece, otherPiece: Piece, partCount: Int, playerPart: Int, otherPlayerPart: Int): Boolean
     fun updateCapturedPiece(piece: Piece): Piece
+    fun canPiecesBeMoved(pieces: List<Piece>, diceValue: Int, quadrantCount: Int): List<Piece>
 }

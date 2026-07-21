@@ -4,7 +4,7 @@ import com.shreyashurakadli.engine.state.position.Position
 
 internal interface PositionRules {
     fun updatePosition(state: Position, diceValue: Int, quadrantCount: Int): Position
-
+    fun canPositionBeValid(currentState: Position, diceValue: Int, quadrantCount: Int): Boolean
     fun isAtBasePosition(tile: Int): Boolean
     fun isAtFinalPosition(tile: Int): Boolean
     fun provideBasePosition(): Position

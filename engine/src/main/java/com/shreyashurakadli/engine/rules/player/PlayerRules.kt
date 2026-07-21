@@ -8,4 +8,6 @@ internal interface PlayerRules {
     fun allPlayerHaveWonStatus(players: List<Player>): Boolean
     fun playerHasWonStatus(player: Player): Boolean
     fun updatePlayerCapturedPiece(player: Player, otherPlayer: Player, piece: Piece, partCount: Int): Player
+    fun initializePlayer(players: List<String>): List<Player>
+    fun showAvailableOptions(player: Player, diceValue: Int, quadrantCount: Int): List<Piece>
 }

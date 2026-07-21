@@ -7,4 +7,7 @@ import com.shreyashurakadli.engine.state.player.Player
 internal interface GameRules {
     fun updateGameState(gameState: Game, diceValue: Int, piece: Piece, partCount: Int): Game
     fun updateCapture(players: List<Player>, player: Player, piece: Piece, partCount: Int): List<Player>
+    fun isGameCompleted(gameState: Game): Boolean
+    fun initializeGame(players: List<String>): Game
+    fun showCurrentMoveOptions(gameState: Game, diceValue: Int, quadrantCount: Int): Pair<Player, List<Piece>>
 }

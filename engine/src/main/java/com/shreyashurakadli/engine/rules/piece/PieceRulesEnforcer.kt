@@ -68,6 +68,18 @@ internal class PieceRulesEnforcer(
             status = PieceStatus.InBase
         )
 
+    override fun canPiecesBeMoved(
+        pieces: List<Piece>,
+        diceValue: Int,
+        quadrantCount: Int
+    ): List<Piece> =
+        pieces.filter { piece ->
+            positionRulesEnforcer.canPositionBeValid(
+                currentState = piece.position,
+                diceValue = diceValue,
+                quadrantCount = quadrantCount
+            )
+        }
 
     private fun determineStatus(tile: Int): PieceStatus =
         positionRulesEnforcer.let {

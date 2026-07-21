@@ -32,6 +32,17 @@ internal class PositionRulesEnforcer(
         )
     }
 
+    override fun canPositionBeValid(
+        currentState: Position,
+        diceValue: Int,
+        quadrantCount: Int
+    ): Boolean =
+        when {
+            diceValueExceedsAvailableOptions(currentState.tile, diceValue) -> false
+            isAtBasePosition(currentState.tile) && !shouldEnterBoardFromBase(diceValue) -> false
+            else -> true
+        }
+
     private fun handleTile(part: Int, tile: Int, diceValue: Int): Int {
         // Handle movement from base position to first position in board
         if (isAtBasePosition(tile)) {

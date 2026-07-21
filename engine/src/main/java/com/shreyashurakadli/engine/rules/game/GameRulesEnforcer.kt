@@ -46,7 +46,7 @@ internal class GameRulesEnforcer(
             // Check and update piece capture
             val playersAfterCaptureUpdate = updateCapture(
                 players = newPlayers,
-                player= newPlayer,
+                player = newPlayer,
                 piece = updatedPiece,
                 partCount = partCount
             )
@@ -69,7 +69,12 @@ internal class GameRulesEnforcer(
         }
     }
 
-    override fun updateCapture(players: List<Player>, player: Player, piece: Piece, partCount: Int): List<Player> =
+    override fun updateCapture(
+        players: List<Player>,
+        player: Player,
+        piece: Piece,
+        partCount: Int
+    ): List<Player> =
         players.map {
             if (player == it) {
                 it
@@ -83,6 +88,29 @@ internal class GameRulesEnforcer(
             }
         }
 
+    override fun isGameCompleted(gameState: Game): Boolean =
+        gameState.status == GameStatus.Finished
+
+    override fun initializeGame(players: List<String>): Game {
+        require(value = players.size >= 2) {
+            "Minimum 2 players required to start the game."
+        }
+
+        return Game(
+            players = playerRulesEnforcer.initializePlayer(players),
+            currentTurnPlayerIdx = initializeCurrentTurn(),
+            status = initializeGameStatus()
+        )
+    }
+
+    override fun showCurrentMoveOptions(gameState: Game, diceValue: Int, quadrantCount: Int): Pair<Player, List<Piece>> {
+        val player = gameState.players[gameState.currentTurnPlayerIdx]
+        return player to playerRulesEnforcer.showAvailableOptions(player, diceValue, quadrantCount)
+    }
+
+    private fun initializeCurrentTurn(): Int = 0
+
+    private fun initializeGameStatus(): GameStatus = GameStatus.InProgress
 
     private fun determineStatus(players: List<Player>): GameStatus =
         playerRulesEnforcer.let {
