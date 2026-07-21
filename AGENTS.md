@@ -40,6 +40,7 @@ Ludo is a digital version of the classic board game. The project is split into t
 - **Style**: Don't write a lot of text while explaining. Explain everything stepwise in a line or two unless I ask you to be very detailed.
 - **Version Control**: You don't have any control on Git or other VCS.
 - **Restricted Files**: Only the module I'm working in is your scope. Files in other modules should not be considered without my approval. Files listed in .gitignore must not be considered without my approval.
+- **Testing**: Always create an implementation of the class I am testing, rather than creating your own separate stub for this purpose.
 
 ## Key Files
 - [build.gradle.kts (Project: Ludo)](file:///home/shreyas/Development/Ludo/build.gradle.kts)
