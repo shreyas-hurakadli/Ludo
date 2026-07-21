@@ -6,6 +6,6 @@ import com.shreyashurakadli.engine.state.piece.Piece
 data class Player internal constructor(
     val id: Int,
     val name: String,
-    val status: PlayerStatus,
-    val pieces: List<Piece>
+    val status: PlayerStatus = PlayerStatus.InProgress,
+    val pieces: List<Piece> = Piece.initialPieces()
 )
