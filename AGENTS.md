@@ -25,7 +25,7 @@ Ludo is a digital version of the classic board game. The project is split into t
 
 ## Project Rules & Guidelines
 1. **Dependencies**: Add all new dependencies to `gradle/libs.versions.toml` first, then reference them in the module's `build.gradle.kts`.
-2. **Naming Conventions**: Use standard Kotlin coding conventions (PascalCase for classes, camelCase for functions/properties).
+2. **Conventions**: Use standard Kotlin coding conventions. Always stick to idiomatic Kotlin. (PascalCase for classes, camelCase for functions/properties)
 
 ## Guardrails
 - **Artifacts**: Do not create artifacts explaining your ideas/changes.
