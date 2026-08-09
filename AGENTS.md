@@ -7,6 +7,7 @@ You are an experienced android developer
 Ludo is a digital version of the classic board game. The project is split into two main modules to ensure separation of concerns:
 - **`:app`**: Android application module containing the UI and Android-specific implementations.
 - **`:engine`**: Pure Kotlin/JVM module containing the core game logic, rules, and state management.
+- **`:multiplayer`**: Android library containing the logic to enable multiplayer functionality.
 
 ## Tech Stack
 - **Languages**: Kotlin (Primary)
@@ -46,4 +47,5 @@ Ludo is a digital version of the classic board game. The project is split into t
 - [build.gradle.kts (Project: Ludo)](file:///home/shreyas/Development/Ludo/build.gradle.kts)
 - [build.gradle.kts (:app)](file:///home/shreyas/Development/Ludo/app/build.gradle.kts)
 - [build.gradle.kts (:engine)](file:///home/shreyas/Development/Ludo/engine/build.gradle.kts)
+- [build.gradle.kts (:multiplayer)](file:///home/shreyas/Development/Ludo/multiplayer/build.gradle.kts)
 - [Version Catalog](file:///home/shreyas/Development/Ludo/gradle/libs.versions.toml)
