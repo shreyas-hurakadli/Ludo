@@ -24,11 +24,8 @@ Ludo is a digital version of the classic board game. The project is split into t
 - **Lint**: `./gradlew lint`
 
 ## Project Rules & Guidelines
-1. **Module Separation**: Keep game logic in the `:engine` module. The `:engine` module must **never** depend on Android libraries.
-2. **State Management**: Prefer immutable state models for the game engine.
-3. **UI Components**: Use Jetpack Compose Material 3 components. Always provide a `@Preview` for new composables.
-4. **Dependencies**: Add all new dependencies to `gradle/libs.versions.toml` first, then reference them in the module's `build.gradle.kts`.
-5. **Naming Conventions**: Use standard Kotlin coding conventions (PascalCase for classes, camelCase for functions/properties).
+1. **Dependencies**: Add all new dependencies to `gradle/libs.versions.toml` first, then reference them in the module's `build.gradle.kts`.
+2. **Naming Conventions**: Use standard Kotlin coding conventions (PascalCase for classes, camelCase for functions/properties).
 
 ## Guardrails
 - **Artifacts**: Do not create artifacts explaining your ideas/changes.
