@@ -28,10 +28,7 @@ Ludo is a digital version of the classic board game. The project is split into t
 2. **State Management**: Prefer immutable state models for the game engine.
 3. **UI Components**: Use Jetpack Compose Material 3 components. Always provide a `@Preview` for new composables.
 4. **Dependencies**: Add all new dependencies to `gradle/libs.versions.toml` first, then reference them in the module's `build.gradle.kts`.
-5. **Testing**:
-    - Logic changes in `:engine` MUST have corresponding unit tests in `engine/src/test`.
-    - UI components should be verified with Compose previews or UI tests where appropriate.
-6. **Naming Conventions**: Use standard Kotlin coding conventions (PascalCase for classes, camelCase for functions/properties).
+5. **Naming Conventions**: Use standard Kotlin coding conventions (PascalCase for classes, camelCase for functions/properties).
 
 ## Guardrails
 - **Artifacts**: Do not create artifacts explaining your ideas/changes.
