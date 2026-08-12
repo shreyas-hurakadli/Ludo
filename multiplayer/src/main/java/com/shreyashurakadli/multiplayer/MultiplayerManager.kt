@@ -13,8 +13,9 @@ interface MultiplayerManager {
     /**
      * Establishes room participation. Acts as a unified entry point for creating a room (Owner)
      * or joining an existing one (Guest).
+     * @param code Room code
      */
-    fun connectToRoom()
+    fun connectToRoom(code: String?): Boolean
 
     /**
      * Handles departure from the session. Disbands the room if the caller is the Owner in a lobby,
@@ -24,6 +25,7 @@ interface MultiplayerManager {
 
     /**
      * Sends message to other peers.
+     * @param message Message to send
      */
     fun sendMessage(message: String)
 }

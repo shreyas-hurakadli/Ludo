@@ -5,7 +5,7 @@ class NearbyConnectionsMultiplayerManager : MultiplayerManager {
         TODO("Not yet implemented")
     }
 
-    override fun connectToRoom() {
+    override fun connectToRoom(code: String?): Boolean {
         TODO("Not yet implemented")
     }
 
