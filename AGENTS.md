@@ -27,7 +27,7 @@ Ludo is a digital version of the classic board game. The project is split into t
 1. **Dependencies**: Add all new dependencies to `gradle/libs.versions.toml` first, then reference them in the module's `build.gradle.kts`.
 2. **Conventions**: Use standard Kotlin coding conventions. Always stick to idiomatic Kotlin. (PascalCase for classes, camelCase for functions/properties)
 3. **Style**: Don't write a lot of text while explaining. Explain everything stepwise in a line or two unless I ask you to be very detailed.
-4. **Criticism**: Always give a justification for the criticism. Don't make criticism if one does not exist.
+4. **Criticism**: Always give a justification for the criticism. Don't criticize, if it is not valid.
 
 ## Guardrails
 - **Artifacts**: Do not create artifacts explaining your ideas/changes.
