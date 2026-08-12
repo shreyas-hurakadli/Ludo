@@ -1,6 +1,6 @@
 package com.shreyashurakadli.multiplayer
 
-class NearbyConnectionsMultiplayerManager : MultiplayerManager() {
+class NearbyConnectionsMultiplayerManager : MultiplayerManager {
     override fun checkPrerequisites(): Boolean {
         TODO("Not yet implemented")
     }
