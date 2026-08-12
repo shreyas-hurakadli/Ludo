@@ -8,7 +8,7 @@ interface MultiplayerManager {
      * Checks if the required prerequisites such as resources are available and
      * required permissions are granted.
      */
-    fun checkPrerequisites(): Boolean
+    fun checkPrerequisites()
 
     /**
      * Establishes room participation. Acts as a unified entry point for creating a room (Owner)
