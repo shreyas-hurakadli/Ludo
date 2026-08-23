@@ -1,16 +1,18 @@
 package com.shreyashurakadli.multiplayer.transport
 
-internal sealed class Endpoint(
+sealed class Endpoint(
     open val id: String,
     open val name: String
 )
 
-internal data class NormalEndpoint(
+@ConsistentCopyVisibility
+data class NormalEndpoint protected constructor(
     override val id: String,
     override val name: String
 ) : Endpoint(id, name)
 
-internal data class NearbyConnectionsEndpoint(
+@ConsistentCopyVisibility
+data class NearbyConnectionsEndpoint protected constructor(
     override val id: String,
     override val name: String,
     val authenticationToken: String
