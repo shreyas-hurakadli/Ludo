@@ -2,6 +2,10 @@ package com.shreyashurakadli.multiplayer.group
 
 import com.shreyashurakadli.multiplayer.transport.Transport
 
+/**
+ * Manages a group or room of peers.
+ * @param transport
+ */
 internal class GroupManager(
     private val transport: Transport
 ) {
