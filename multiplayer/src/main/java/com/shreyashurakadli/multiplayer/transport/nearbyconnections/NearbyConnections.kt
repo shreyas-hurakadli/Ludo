@@ -21,6 +21,7 @@ import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadCallback
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.google.android.gms.nearby.connection.Strategy
+import com.shreyashurakadli.multiplayer.Role
 import com.shreyashurakadli.multiplayer.transport.Connection
 import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.flow.update
@@ -273,6 +274,13 @@ internal class NearbyConnections(
                 as LocationManager
         if (!LocationManagerCompat.isLocationEnabled(locationManager)) {
             throw IllegalStateException("Location is required but disabled")
+        }
+    }
+
+    override fun startOperation(role: Role) {
+        when (role) {
+            Role.Owner -> startAdvertising(clusterToken ?: "")
+            Role.Guest -> startDiscovery()
         }
     }
 

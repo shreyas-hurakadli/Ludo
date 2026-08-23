@@ -1,5 +1,6 @@
 package com.shreyashurakadli.multiplayer.transport
 
+import com.shreyashurakadli.multiplayer.Role
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -27,6 +28,12 @@ internal abstract class Transport {
      * Checks if the required resources are available and required permissions are granted.
      */
     abstract fun checkPrerequisites()
+
+    /**
+     * Starts performing relevant operations on the basis of role
+     * @param role [Role]
+     */
+    abstract fun startOperation(role: Role)
 
     /**
      * Connects to a remote peer.
