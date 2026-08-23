@@ -39,4 +39,13 @@ internal class GroupManager(
     fun removePeer(peer: String) {
         transport.disconnect(peer)
     }
+
+    /**
+     * Sends message to a peer
+     * @param peer Peer ID
+     * @param message Message to be sent
+     */
+    fun sendMessage(peer: String, message: String) {
+        transport.sendPayload(peer, message)
+    }
 }
