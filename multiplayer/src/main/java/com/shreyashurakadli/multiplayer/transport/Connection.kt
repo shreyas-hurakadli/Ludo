@@ -1,4 +1,4 @@
-package com.shreyashurakadli.multiplayer
+package com.shreyashurakadli.multiplayer.transport
 
 internal data class Connection(
     val sentPayload: String = "",

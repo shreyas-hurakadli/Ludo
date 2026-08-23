@@ -1,6 +1,14 @@
-package com.shreyashurakadli.multiplayer
+package com.shreyashurakadli.multiplayer.transport.nearbyconnections
 
+import android.Manifest
+import android.bluetooth.BluetoothManager
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.AdvertisingOptions
 import com.google.android.gms.nearby.connection.ConnectionInfo
@@ -13,14 +21,8 @@ import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadCallback
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.google.android.gms.nearby.connection.Strategy
-import android.Manifest
-import android.bluetooth.BluetoothManager
-import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.net.wifi.WifiManager
-import android.os.Build
-import androidx.core.content.ContextCompat
-import androidx.core.location.LocationManagerCompat
+import com.shreyashurakadli.multiplayer.transport.Connection
+import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.flow.update
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong

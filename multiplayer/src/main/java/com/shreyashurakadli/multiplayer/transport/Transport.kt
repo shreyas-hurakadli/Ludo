@@ -1,4 +1,4 @@
-package com.shreyashurakadli.multiplayer
+package com.shreyashurakadli.multiplayer.transport
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
