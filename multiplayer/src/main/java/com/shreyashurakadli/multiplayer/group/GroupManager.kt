@@ -3,7 +3,7 @@ package com.shreyashurakadli.multiplayer.group
 import com.shreyashurakadli.multiplayer.transport.Transport
 
 internal class GroupManager(
-    val transport: Transport
+    private val transport: Transport
 ) {
     /**
      * List of peers in the group
