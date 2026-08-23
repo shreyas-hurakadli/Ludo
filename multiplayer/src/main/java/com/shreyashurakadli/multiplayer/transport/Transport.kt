@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 internal abstract class Transport {
-    protected val discoveredEndpoints: Set<Endpoint> = emptySet()
+    protected val discoveredEndpoints: HashSet<Endpoint> = hashSetOf()
 
     protected val _connectedEndpoints: MutableStateFlow<Map<Endpoint, Connection>> =
         MutableStateFlow(value = emptyMap())

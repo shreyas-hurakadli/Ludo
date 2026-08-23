@@ -23,6 +23,7 @@ import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.google.android.gms.nearby.connection.Strategy
 import com.shreyashurakadli.multiplayer.Role
 import com.shreyashurakadli.multiplayer.transport.Connection
+import com.shreyashurakadli.multiplayer.transport.NormalEndpoint
 import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.flow.update
 import java.util.concurrent.atomic.AtomicBoolean
@@ -67,17 +68,32 @@ internal class NearbyConnections(
     // Only discoverers use this callback
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
+            discoveredEndpoints.add(
+                NormalEndpoint(
+                    id = endpointId,
+                    name = info.endpointName
+                )
+            )
+
             if (info.endpointName == clusterToken) {
                 connect(peer = endpointId)
             }
         }
 
-        override fun onEndpointLost(endpointId: String) {}
+        override fun onEndpointLost(endpointId: String) {
+            discoveredEndpoints.removeIf { it.id == endpointId }
+        }
     }
 
     private val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
         // Called when a connection is initiated. Both sides must accept or reject the connection.
         override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
+            discoveredEndpoints.add(
+                NormalEndpoint(
+                    id = endpointId,
+                    name = info.endpointName
+                )
+            )
             connectionsClient.acceptConnection(endpointId, payloadCallback)
         }
 
