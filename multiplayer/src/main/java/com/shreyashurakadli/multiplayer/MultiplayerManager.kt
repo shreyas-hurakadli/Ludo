@@ -1,7 +1,7 @@
 package com.shreyashurakadli.multiplayer
 
 import android.content.Context
-import com.shreyashurakadli.multiplayer.group.GroupManager
+import com.shreyashurakadli.multiplayer.transport.Transport
 import com.shreyashurakadli.multiplayer.transport.nearbyconnections.NearbyConnections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,15 +16,15 @@ class MultiplayerManager internal constructor(
     context: Context,
     scope: CoroutineScope
 ) {
-    private val groupManager: GroupManager =
+    private val transportManager: Transport =
         when (protocol) {
-            Protocol.NearbyConnections -> GroupManager(NearbyConnections(context))
+            Protocol.NearbyConnections -> NearbyConnections(context)
         }
 
     /**
      * All the players available in the room
      */
-    val players = groupManager.group
+    val players = transportManager.connectedEndpoints
         .map { it.keys.toList() }
         .stateIn(
             scope = scope,
@@ -39,7 +39,8 @@ class MultiplayerManager internal constructor(
      * @param roomCode
      */
     fun checkPrerequisites(name: String, roomCode: String) {
-        groupManager.checkPrerequisites(name, roomCode)
+        transportManager.checkPrerequisites()
+        transportManager.register(name, roomCode)
     }
 
     /**
@@ -48,9 +49,11 @@ class MultiplayerManager internal constructor(
      * @param code Room code
      */
     fun connectToRoom(code: String?) {
-        code?.let { roomCode ->
-            groupManager.addPeer(roomCode)
+        val role = when (code) {
+            null -> Role.Owner
+            else -> Role.Guest
         }
+        transportManager.startOperation(role)
     }
 
     /**
@@ -59,7 +62,7 @@ class MultiplayerManager internal constructor(
      * @param peer Peer ID
      */
     fun exitRoom(peer: String) {
-        groupManager.removePeer(peer)
+        transportManager.close()
     }
 
     /**
@@ -68,6 +71,6 @@ class MultiplayerManager internal constructor(
      * @param message Message to send
      */
     fun sendMessage(peer: String, message: String) {
-        groupManager.sendMessage(peer, message)
+        transportManager.sendPayload(peer, message)
     }
 }
