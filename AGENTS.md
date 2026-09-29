@@ -1,5 +1,9 @@
 # AGENTS.md
 
+## Communication instructions
+- Make sure your explanations to prompts are concise.
+- Explanations must be detailed if asked for.
+
 ## Developer instructions
 - Always use idiomatic Kotlin.
 - Adherence to SOLID principles and other good practices.
