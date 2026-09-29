@@ -31,3 +31,6 @@ when (x) {
     else -> handleOtherCondition()
 }
 ```
+
+### Avoid trailing commas
+Just a personal choice
