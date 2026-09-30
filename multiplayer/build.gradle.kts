@@ -22,6 +22,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.play.services.nearby)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
