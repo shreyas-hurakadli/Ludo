@@ -38,7 +38,7 @@ internal abstract class Transport(
             .plus(peer)
     }
 
-    protected fun removePeerById(peerId: String) {
+    protected fun removePeer(peerId: String) {
         _peers.value = _peers.value.filterNot { it.id == peerId }
     }
 

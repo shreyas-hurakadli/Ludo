@@ -51,7 +51,7 @@ internal class NearbyConnections(
         }
 
         override fun onDisconnected(endpointId: String) {
-            removePeerById(endpointId)
+            removePeer(endpointId)
             forgetEndpoint(endpointId)
         }
     }
