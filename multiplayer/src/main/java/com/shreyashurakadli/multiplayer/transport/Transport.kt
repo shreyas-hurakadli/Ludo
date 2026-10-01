@@ -1,7 +1,9 @@
 package com.shreyashurakadli.multiplayer.transport
 
 import android.content.Context
+import com.shreyashurakadli.multiplayer.PrerequisitesResult
 import com.shreyashurakadli.multiplayer.Protocol
+import com.shreyashurakadli.multiplayer.transport.Transport.Companion.DEFAULT_EXPECTED_PEER_COUNT
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,7 +55,7 @@ internal abstract class Transport(
         _peers.value = emptyList()
     }
 
-    abstract fun checkPrerequisites()
+    abstract fun checkPrerequisites(): PrerequisitesResult
 
     /**
      * @param peerCount Total players including self (2–4); resolved at [com.shreyashurakadli.multiplayer.MultiplayerManager] when omitted.

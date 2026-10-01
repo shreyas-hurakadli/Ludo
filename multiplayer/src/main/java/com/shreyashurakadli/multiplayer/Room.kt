@@ -18,7 +18,7 @@ internal class Room(
     private val scope: CoroutineScope
 ) {
     companion object {
-        internal const val DEFAULT_EXPECTED_PLAYER_COUNT = 2U
+        internal const val DEFAULT_EXPECTED_PLAYER_COUNT = Transport.DEFAULT_EXPECTED_PEER_COUNT
         private const val MIN_ROOM_SIZE = 2U
         private const val MAX_ROOM_SIZE = 4U
 
@@ -62,9 +62,7 @@ internal class Room(
         transport.start(role = role, peerCount = expectedPlayerCount)
     }
 
-    fun checkPrerequisites() {
-        transport.checkPrerequisites()
-    }
+    fun checkPrerequisites(): PrerequisitesResult = transport.checkPrerequisites()
 
     fun communicate(player: Player, message: String) {
         transport.sendPayload(player.id, message)

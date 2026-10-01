@@ -14,6 +14,7 @@ import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadCallback
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.google.android.gms.nearby.connection.Strategy
+import com.shreyashurakadli.multiplayer.PrerequisitesResult
 
 internal class NearbyConnections(
     context: Context,
@@ -92,7 +93,8 @@ internal class NearbyConnections(
         )
     }
 
-    override fun checkPrerequisites() = Unit
+    override fun checkPrerequisites(): PrerequisitesResult =
+        NearbyPrerequisites.check(appContext)
 
     override fun start(role: Role, peerCount: UInt) {
         require(token.isNotBlank()) { "Room code must not be blank" }
