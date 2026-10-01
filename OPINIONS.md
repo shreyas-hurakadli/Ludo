@@ -33,4 +33,8 @@ when (x) {
 ```
 
 ### Avoid trailing commas
-Just a personal choice
+Just a personal choice. No rationale behind this.
+
+### Avoid nullable types
+They look ugly and adds more handling code.
+Use them only when it is necessary.
