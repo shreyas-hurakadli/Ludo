@@ -6,8 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
 class MultiplayerManager private constructor(
-    private val room: Room,
-    context: Context
+    private val room: Room
 ) {
     val players: StateFlow<List<Player>> = room.players
 
@@ -21,6 +20,7 @@ class MultiplayerManager private constructor(
             scope: CoroutineScope
         ): MultiplayerManager {
             val room = Room.create(
+                context = context,
                 name = name,
                 token = roomCode,
                 role = role,
@@ -28,7 +28,7 @@ class MultiplayerManager private constructor(
                 scope = scope
             )
 
-            return MultiplayerManager(room, context)
+            return MultiplayerManager(room)
         }
     }
 

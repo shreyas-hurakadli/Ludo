@@ -1,5 +1,6 @@
 package com.shreyashurakadli.multiplayer
 
+import android.content.Context
 import com.shreyashurakadli.multiplayer.transport.Role
 import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.CoroutineScope
@@ -18,13 +19,19 @@ internal class Room(
 ) {
     companion object {
         fun create(
+            context: Context,
             name: String,
             token: String,
             role: Role,
             protocol: Protocol,
             scope: CoroutineScope
         ): Room {
-            val transport = Transport.create(name, token, protocol)
+            val transport = Transport.create(
+                context = context,
+                name = name,
+                token = token,
+                protocol = protocol
+            )
             val roomScope = CoroutineScope(
                 scope.coroutineContext + SupervisorJob(scope.coroutineContext.job)
             )
