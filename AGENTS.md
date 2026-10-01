@@ -8,6 +8,7 @@
 - Always use idiomatic Kotlin.
 - Adherence to SOLID principles and other good practices.
 - Refactors must be small (60-100 lines).
+- If something is not implemented, use TODO(reason).
 - Follow `OPINIONS.md` wherever possible.
 
 ## Testing instructions
