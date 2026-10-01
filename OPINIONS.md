@@ -37,4 +37,4 @@ Just a personal choice. No rationale behind this.
 
 ### Avoid nullable types
 They look ugly and adds more handling code.
-Use them only when it is necessary.
+Use them only when using it is the simplest solution.
