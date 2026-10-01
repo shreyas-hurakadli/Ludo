@@ -94,19 +94,12 @@ internal class NearbyConnections(
 
     override fun checkPrerequisites() = Unit
 
-    override fun start(role: Role, peerCount: UInt?) {
+    override fun start(role: Role, peerCount: UInt) {
         require(token.isNotBlank()) { "Room code must not be blank" }
+        setExpectedPeerCount(peerCount)
         when (role) {
-            Role.Host -> {
-                requireNotNull(peerCount) { "Host must provide expected peer count" }
-                setExpectedPeerCount(peerCount)
-                startAdvertising()
-            }
-            Role.Guest -> {
-                require(peerCount == null) { "Guest must not set peer count" }
-                setExpectedPeerCount(null)
-                startDiscovery()
-            }
+            Role.Host -> startAdvertising()
+            Role.Guest -> startDiscovery()
         }
     }
 
@@ -131,7 +124,7 @@ internal class NearbyConnections(
         endpointDisplayNames.clear()
         endpointAdvertisedNames.clear()
         clearPeers()
-        setExpectedPeerCount(null)
+        setExpectedPeerCount(0U)
     }
 
     private fun addConnectedPeer(endpointId: String) {

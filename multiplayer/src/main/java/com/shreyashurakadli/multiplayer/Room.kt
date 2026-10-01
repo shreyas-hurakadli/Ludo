@@ -18,6 +18,10 @@ internal class Room(
     private val scope: CoroutineScope
 ) {
     companion object {
+        internal const val DEFAULT_EXPECTED_PLAYER_COUNT = 2U
+        private const val MIN_ROOM_SIZE = 2U
+        private const val MAX_ROOM_SIZE = 4U
+
         fun create(
             context: Context,
             name: String,
@@ -51,28 +55,11 @@ internal class Room(
                 initialValue = emptyList()
             )
 
-    fun enter(playerCount: UInt?) {
-        when (role) {
-            Role.Host -> handleHostEntry(playerCount)
-            Role.Guest -> handleGuestEntry(playerCount)
+    fun enter(expectedPlayerCount: UInt) {
+        require(expectedPlayerCount in MIN_ROOM_SIZE..MAX_ROOM_SIZE) {
+            "Expected player count must be between $MIN_ROOM_SIZE and $MAX_ROOM_SIZE"
         }
-    }
-
-    private fun handleHostEntry(playerCount: UInt?) {
-        val count = requireNotNull(playerCount) {
-            "Host must set expected player count"
-        }
-        require(count in 2U..4U) {
-            "Player count must be between 2 and 4"
-        }
-        transport.start(role = role, peerCount = count)
-    }
-
-    private fun handleGuestEntry(playerCount: UInt?) {
-        require(playerCount == null) {
-            "Guest must not set player count"
-        }
-        transport.start(role = role, peerCount = null)
+        transport.start(role = role, peerCount = expectedPlayerCount)
     }
 
     fun checkPrerequisites() {

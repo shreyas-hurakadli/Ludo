@@ -11,6 +11,9 @@ internal abstract class Transport(
     protected val token: String
 ) {
     companion object {
+        /** Total players including self when the caller does not specify a lobby size. */
+        internal const val DEFAULT_EXPECTED_PEER_COUNT: UInt = 2U
+
         fun create(
             context: Context,
             name: String,
@@ -25,10 +28,14 @@ internal abstract class Transport(
     protected val _peers: MutableStateFlow<List<Peer>> = MutableStateFlow(emptyList())
     val peers: StateFlow<List<Peer>> = _peers.asStateFlow()
 
-    protected var expectedPeerCount: UInt? = null
+    /**
+     * Total player count expected on this device, **including self**.
+     * Set in [start]; cleared to [DEFAULT_EXPECTED_PEER_COUNT] in [close].
+     */
+    protected var expectedPeerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
         private set
 
-    protected fun setExpectedPeerCount(count: UInt?) {
+    protected fun setExpectedPeerCount(count: UInt) {
         expectedPeerCount = count
     }
 
@@ -49,9 +56,9 @@ internal abstract class Transport(
     abstract fun checkPrerequisites()
 
     /**
-     * @param peerCount Expected lobby size when [role] is [Role.Host]; null for [Role.Guest]
+     * @param peerCount Total players including self (2–4); resolved at [com.shreyashurakadli.multiplayer.MultiplayerManager] when omitted.
      */
-    abstract fun start(role: Role, peerCount: UInt?)
+    abstract fun start(role: Role, peerCount: UInt)
 
     abstract fun connect(peerId: String)
 
