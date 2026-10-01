@@ -69,6 +69,29 @@ internal class NearbyConnections(
         }
     }
 
+    private fun startAdvertising() {
+        stopDiscovery()
+        connectionsClient.startAdvertising(
+            token,
+            serviceId,
+            connectionLifecycleCallback,
+            AdvertisingOptions.Builder()
+                .setStrategy(strategy)
+                .build()
+        )
+    }
+
+    private fun startDiscovery() {
+        stopAdvertising()
+        connectionsClient.startDiscovery(
+            serviceId,
+            endpointDiscoveryCallback,
+            DiscoveryOptions.Builder()
+                .setStrategy(strategy)
+                .build()
+        )
+    }
+
     override fun checkPrerequisites() = Unit
 
     override fun start(role: Role, peerCount: UInt?) {
@@ -77,27 +100,12 @@ internal class NearbyConnections(
             Role.Host -> {
                 requireNotNull(peerCount) { "Host must provide expected peer count" }
                 setExpectedPeerCount(peerCount)
-                stopDiscovery()
-                connectionsClient.startAdvertising(
-                    token,
-                    serviceId,
-                    connectionLifecycleCallback,
-                    AdvertisingOptions.Builder()
-                        .setStrategy(strategy)
-                        .build()
-                )
+                startAdvertising()
             }
             Role.Guest -> {
                 require(peerCount == null) { "Guest must not set peer count" }
                 setExpectedPeerCount(null)
-                stopAdvertising()
-                connectionsClient.startDiscovery(
-                    serviceId,
-                    endpointDiscoveryCallback,
-                    DiscoveryOptions.Builder()
-                        .setStrategy(strategy)
-                        .build()
-                )
+                startDiscovery()
             }
         }
     }
