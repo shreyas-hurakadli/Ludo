@@ -5,6 +5,7 @@
 - Explanations must be detailed if asked for.
 
 ## Developer instructions
+- Only the changes I ask you to make should be made.
 - Always use idiomatic Kotlin.
 - Adherence to SOLID principles and other good practices.
 - Refactors must be small (60-100 lines).
