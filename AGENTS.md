@@ -13,6 +13,7 @@
 
 ## Testing instructions
 - New feature must have tests.
+- Strictly avoid mocks.
 
 ## Guardrails
 - Do not access git and gitignored files.
