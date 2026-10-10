@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Communication instructions
-- Make sure your explanations to prompts are concise.
+- Use ASD-STE100 standard for communication.
 - Explanations must be detailed if asked for.
 
 ## Developer instructions
