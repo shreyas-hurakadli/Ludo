@@ -11,6 +11,7 @@ composeBom = "2026.02.01"
 junit = "4.13.2"
 playServicesNearby = "19.4.0"
 androidxTestRules = "1.7.0"
+androidxTestCore = "1.6.1"
 kotlinxCoroutinesTest = "1.11.0"
 
 [libraries]
@@ -33,6 +34,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 play-services-nearby = { group = "com.google.android.gms", name = "play-services-nearby", version.ref = "playServicesNearby" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 
