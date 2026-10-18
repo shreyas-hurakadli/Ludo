@@ -44,3 +44,7 @@ Thumbs.db
 proguard.map
 docs-gen
 site
+
+# AI
+.cursor
+.opencode
