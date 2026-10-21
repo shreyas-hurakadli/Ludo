@@ -7,6 +7,7 @@ import com.shreyashurakadli.multiplayer.transport.Transport.Companion.DEFAULT_EX
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 internal abstract class Transport(
     protected val name: String,
@@ -42,13 +43,13 @@ internal abstract class Transport(
     }
 
     protected fun upsertPeer(peer: Peer) {
-        _peers.value = _peers.value
-            .filterNot { it.id == peer.id }
-            .plus(peer)
+        _peers.update { current ->
+            current.filterNot { it.id == peer.id } + peer
+        }
     }
 
     protected fun removePeer(peerId: String) {
-        _peers.value = _peers.value.filterNot { it.id == peerId }
+        _peers.update { current -> current.filterNot { it.id == peerId } }
     }
 
     protected fun clearPeers() {
