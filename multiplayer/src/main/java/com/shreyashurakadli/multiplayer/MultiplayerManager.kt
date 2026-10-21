@@ -35,8 +35,8 @@ class MultiplayerManager private constructor(
 
     fun checkPrerequisites(): PrerequisitesResult = room.checkPrerequisites()
 
-    fun start(expectedPlayerCount: UInt?) {
-        val count = expectedPlayerCount ?: Room.DEFAULT_EXPECTED_PLAYER_COUNT
+    fun start(expectedPlayerCount: UInt) {
+        val count = expectedPlayerCount
         room.enter(count)
     }
 
