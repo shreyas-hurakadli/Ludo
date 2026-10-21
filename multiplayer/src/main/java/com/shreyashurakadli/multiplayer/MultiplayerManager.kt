@@ -2,7 +2,6 @@ package com.shreyashurakadli.multiplayer
 
 import android.content.Context
 import com.shreyashurakadli.multiplayer.transport.Role
-import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
@@ -36,8 +35,7 @@ class MultiplayerManager private constructor(
     fun checkPrerequisites(): PrerequisitesResult = room.checkPrerequisites()
 
     fun start(expectedPlayerCount: UInt) {
-        val count = expectedPlayerCount
-        room.enter(count)
+        room.enter(expectedPlayerCount)
     }
 
     fun sendMessage(player: Player, message: String) {
