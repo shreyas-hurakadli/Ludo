@@ -26,3 +26,4 @@ rootProject.name = "Ludo"
 include(":app")
 include(":engine")
 include(":multiplayer")
+include(":netcode")
