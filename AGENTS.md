@@ -18,7 +18,7 @@
 - Strictly avoid mocks.
 
 ## Guardrails
-- Do not access git and gitignored files.
+- Do not access gitignored files.
 - Do not access files outside of Ludo directory.
 - Refactors cannot be made without prior permission.
 
