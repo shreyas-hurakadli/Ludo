@@ -17,9 +17,7 @@ class NetCode private constructor(
 
     companion object {
         /**
-         * Creates an instance of NetCode.
-         * Takes in all the arguments required to create
-         * an instance of GameEngine and MultiplayerManager.
+         * Creates an instance of [NetCode].
          */
         fun create(
             name: String,
