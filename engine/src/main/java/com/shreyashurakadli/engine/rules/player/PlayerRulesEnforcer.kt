@@ -94,6 +94,10 @@ internal class PlayerRulesEnforcer(
             Player(id = index, name = playerName)
         }
 
+    /*
+     * This is handled separately because, this encodes board geometry.
+     * This is important for placing the players in correct positions.
+     */
     private fun createTwoPlayers(players: List<String>): List<Player> {
         val firstPlayer = Player(id = 0, name = players.first())
         val secondPlayer = Player(id = 2, name = players.last())
