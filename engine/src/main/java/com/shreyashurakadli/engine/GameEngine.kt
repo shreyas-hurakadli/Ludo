@@ -38,11 +38,6 @@ interface GameEngine {
      */
     fun movePiece(pieceId: PieceId, diceValue: DiceValue)
 
-    /**
-     * Tells if the game is completed.
-     */
-    fun isGameCompleted(): Boolean
-
     companion object {
         /**
          * Creates an instance of GameEngine.

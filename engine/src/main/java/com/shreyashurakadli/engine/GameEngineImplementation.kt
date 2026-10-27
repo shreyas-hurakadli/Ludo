@@ -67,12 +67,4 @@ class GameEngineImplementation internal constructor(
             partCount = quadrantCount
         )
     }
-
-    override fun isGameCompleted(): Boolean {
-        check(value = initCompleted) {
-            "Game has not been initialized"
-        }
-
-        return gameRulesEnforcer.isGameCompleted(gameState)
-    }
 }
