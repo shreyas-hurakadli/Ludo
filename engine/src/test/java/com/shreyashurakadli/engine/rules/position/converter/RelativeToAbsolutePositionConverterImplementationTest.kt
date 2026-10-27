@@ -2,6 +2,7 @@ package com.shreyashurakadli.engine.rules.position.converter
 
 import com.shreyashurakadli.engine.rules.position.common.PositionIsBase
 import com.shreyashurakadli.engine.rules.position.common.PositionIsNormal
+import com.shreyashurakadli.engine.state.position.Part
 import com.shreyashurakadli.engine.state.position.Position
 import com.shreyashurakadli.engine.state.position.PositionStatus
 import kotlin.test.Test
@@ -22,7 +23,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 4,
-            playerPart = 0
+            playerPart = Part(0)
         )
         val expectedResult = 57
 
@@ -38,7 +39,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 4,
-            playerPart = 0
+            playerPart = Part(0)
         )
         val expectedResult = -1
 
@@ -54,7 +55,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 4,
-            playerPart = 0
+            playerPart = Part(0)
         )
         val expectedResult = 8
 
@@ -70,7 +71,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Unsafe
             ),
             partCount = 4,
-            playerPart = 0
+            playerPart = Part(0)
         )
         val expectedResult = 0
 
@@ -86,7 +87,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 6,
-            playerPart = 0
+            playerPart = Part(0)
         )
         val expectedResult = 60
 
@@ -102,7 +103,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 6,
-            playerPart = 0
+            playerPart = Part(0)
         )
         val expectedResult = 78
 
@@ -118,7 +119,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 4,
-            playerPart = 1
+            playerPart = Part(1)
         )
         val expectedResult = 21
 
@@ -134,7 +135,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 4,
-            playerPart = 1
+            playerPart = Part(1)
         )
         val expectedResult = -2
 
@@ -150,7 +151,7 @@ internal class RelativeToAbsolutePositionConverterImplementationTest {
                 status = PositionStatus.Safe
             ),
             partCount = 4,
-            playerPart = 3
+            playerPart = Part(3)
         )
         val expectedResult = -4
 

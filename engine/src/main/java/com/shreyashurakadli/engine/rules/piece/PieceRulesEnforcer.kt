@@ -1,17 +1,18 @@
 package com.shreyashurakadli.engine.rules.piece
 
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.position.PositionRules
 import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverter
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.piece.PieceStatus
+import com.shreyashurakadli.engine.state.position.Part
 import com.shreyashurakadli.engine.state.position.PositionStatus
-import kotlin.math.abs
 
 internal class PieceRulesEnforcer(
     private val positionRulesEnforcer: PositionRules,
     private val converter: RelativeToAbsolutePositionConverter
 ) : PieceRules {
-    override fun updatePiece(piece: Piece, diceValue: Int, partCount: Int): Piece {
+    override fun updatePiece(piece: Piece, diceValue: DiceValue, partCount: Int): Piece {
         val newPosition = positionRulesEnforcer.updatePosition(
             state = piece.position,
             diceValue = diceValue,
@@ -40,8 +41,8 @@ internal class PieceRulesEnforcer(
         piece: Piece,
         otherPiece: Piece,
         partCount: Int,
-        playerPart: Int,
-        otherPlayerPart: Int
+        playerPart: Part,
+        otherPlayerPart: Part
     ): Boolean {
         if (piece.position.status == PositionStatus.Safe) {
             return false
@@ -70,7 +71,7 @@ internal class PieceRulesEnforcer(
 
     override fun canPiecesBeMoved(
         pieces: List<Piece>,
-        diceValue: Int,
+        diceValue: DiceValue,
         quadrantCount: Int
     ): List<Piece> =
         pieces.filter { piece ->

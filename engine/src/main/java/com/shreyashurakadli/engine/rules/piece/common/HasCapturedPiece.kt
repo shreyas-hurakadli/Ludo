@@ -3,6 +3,7 @@ package com.shreyashurakadli.engine.rules.piece.common
 import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverter
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
+import com.shreyashurakadli.engine.state.player.PlayerId
 import com.shreyashurakadli.engine.state.position.PositionStatus
 
 internal class HasCapturedPiece(
@@ -10,7 +11,7 @@ internal class HasCapturedPiece(
 ) {
     operator fun invoke(
         players: List<Player>,
-        playerId: Int,
+        playerId: PlayerId,
         piece: Piece,
         partCount: Int
     ): Boolean {
@@ -23,7 +24,7 @@ internal class HasCapturedPiece(
         val absolutePosition = converter.calculateAbsolutePosition(
             position = piece.position,
             partCount = partCount,
-            playerPart = capturer.id
+            playerPart = capturer.id.toPart()
         )
 
         for (player in players) {
@@ -35,7 +36,7 @@ internal class HasCapturedPiece(
                 val otherPieceAbsolutePosition = converter.calculateAbsolutePosition(
                     position = otherPiece.position,
                     partCount = partCount,
-                    playerPart = player.id
+                    playerPart = player.id.toPart()
                 )
                 if (otherPieceAbsolutePosition == absolutePosition) {
                     return true

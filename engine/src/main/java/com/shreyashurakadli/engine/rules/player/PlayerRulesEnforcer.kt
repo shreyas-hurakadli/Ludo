@@ -1,9 +1,12 @@
 package com.shreyashurakadli.engine.rules.player
 
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.piece.PieceRules
-import com.shreyashurakadli.engine.rules.position.common.GetBasePositionPiece
 import com.shreyashurakadli.engine.state.piece.Piece
+import com.shreyashurakadli.engine.state.piece.PieceId
 import com.shreyashurakadli.engine.state.player.Player
+import com.shreyashurakadli.engine.state.player.PlayerId
+import com.shreyashurakadli.engine.state.player.PlayerName
 import com.shreyashurakadli.engine.state.player.PlayerStatus
 
 internal class PlayerRulesEnforcer(
@@ -11,7 +14,7 @@ internal class PlayerRulesEnforcer(
 ) : PlayerRules {
     override fun updatePlayer(
         player: Player,
-        diceValue: Int,
+        diceValue: DiceValue,
         piece: Piece,
         partCount: Int
     ): Player {
@@ -53,8 +56,8 @@ internal class PlayerRulesEnforcer(
                 piece = piece,
                 otherPiece = otherPiece,
                 partCount = partCount,
-                playerPart = player.id,
-                otherPlayerPart = otherPlayer.id
+                playerPart = player.id.toPart(),
+                otherPlayerPart = otherPlayer.id.toPart()
             )
 
             if (isCaptured) {
@@ -76,7 +79,7 @@ internal class PlayerRulesEnforcer(
         return otherPlayer
     }
 
-    override fun initializePlayer(players: List<String>): List<Player> =
+    override fun initializePlayer(players: List<PlayerName>): List<Player> =
         when {
             players.size == 2 -> createTwoPlayers(players)
             else -> createPlayersForGame(players)
@@ -84,23 +87,25 @@ internal class PlayerRulesEnforcer(
 
     override fun showAvailableOptions(
         player: Player,
-        diceValue: Int,
+        diceValue: DiceValue,
         quadrantCount: Int
     ): List<Piece> =
         pieceRulesEnforcer.canPiecesBeMoved(player.pieces, diceValue, quadrantCount)
 
-    private fun createPlayersForGame(players: List<String>): List<Player> =
+    private fun createPlayersForGame(players: List<PlayerName>): List<Player> =
         players.mapIndexed { index, playerName ->
-            Player(id = index, name = playerName)
+            Player(id = PlayerId(index), name = playerName)
         }
 
     /*
-     * This is handled separately because, this encodes board geometry.
-     * This is important for placing the players in correct positions.
+     * In a two-player game, players sit on opposite quadrants (0 and 2).
+     * A player id is the quadrant the player owns, so the ids must not be sequential (0 and 1).
+     * Sequential ids place the players on adjacent quadrants.
+     * Capture checks would then match the wrong squares.
      */
-    private fun createTwoPlayers(players: List<String>): List<Player> {
-        val firstPlayer = Player(id = 0, name = players.first())
-        val secondPlayer = Player(id = 2, name = players.last())
+    private fun createTwoPlayers(players: List<PlayerName>): List<Player> {
+        val firstPlayer = Player(id = PlayerId(0), name = players.first())
+        val secondPlayer = Player(id = PlayerId(2), name = players.last())
         return listOf(firstPlayer, secondPlayer)
     }
 
@@ -112,9 +117,9 @@ internal class PlayerRulesEnforcer(
         }
 
     private fun updatePlayerPieces(
-        pieceId: Int,
+        pieceId: PieceId,
         pieces: List<Piece>,
-        diceValue: Int,
+        diceValue: DiceValue,
         partCount: Int
     ): List<Piece> {
         val piece: Piece =

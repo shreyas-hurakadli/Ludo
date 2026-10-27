@@ -1,7 +1,11 @@
 package com.shreyashurakadli.engine
 
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.game.GameRules
 import com.shreyashurakadli.engine.state.game.Game
+import com.shreyashurakadli.engine.state.piece.PieceId
+import com.shreyashurakadli.engine.state.player.PlayerId
+import com.shreyashurakadli.engine.state.player.PlayerName
 
 class GameEngineImplementation internal constructor(
     private val gameRulesEnforcer: GameRules
@@ -13,12 +17,12 @@ class GameEngineImplementation internal constructor(
 
     private var initCompleted: Boolean = false
 
-    override fun init(noOfPlayers: Int, players: List<String>) {
+    override fun init(players: List<PlayerName>) {
         if (initCompleted) {
             return
         }
 
-        quadrantCount = determineQuadrantCount(noOfPlayers)
+        quadrantCount = determineQuadrantCount(players.size)
 
         gameState = gameRulesEnforcer.initializeGame(players)
         initCompleted = true
@@ -35,13 +39,9 @@ class GameEngineImplementation internal constructor(
         }
     }
 
-    override fun showAvailableOptions(diceValue: Int): Pair<Int, List<Int>> {
+    override fun showAvailableOptions(diceValue: DiceValue): Pair<PlayerId, List<PieceId>> {
         check(value = initCompleted) {
             "Game has not been initialized"
-        }
-
-        require(value = diceValue in 1..6) {
-            "Invalid dice value"
         }
 
         val (player, pieces) = gameRulesEnforcer.showCurrentMoveOptions(
@@ -52,13 +52,9 @@ class GameEngineImplementation internal constructor(
         return player.id to pieces.map { it.id }
     }
 
-    override fun movePiece(pieceId: Int, diceValue: Int) {
+    override fun movePiece(pieceId: PieceId, diceValue: DiceValue) {
         check(value = initCompleted) {
             "Game has not been initialized"
-        }
-
-        require(value = diceValue in 1..6) {
-            "Invalid dice value"
         }
 
         val piece = gameState.players[gameState.currentTurnPlayerIdx].pieces.find { it.id == pieceId }

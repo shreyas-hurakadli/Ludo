@@ -1,5 +1,6 @@
 package com.shreyashurakadli.engine.rules.game
 
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.piece.PieceRulesEnforcer
 import com.shreyashurakadli.engine.rules.piece.common.GetUpdatedPiece
 import com.shreyashurakadli.engine.rules.piece.common.HasCapturedPiece
@@ -14,8 +15,11 @@ import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePo
 import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.Piece
+import com.shreyashurakadli.engine.state.piece.PieceId
 import com.shreyashurakadli.engine.state.piece.PieceStatus
 import com.shreyashurakadli.engine.state.player.Player
+import com.shreyashurakadli.engine.state.player.PlayerId
+import com.shreyashurakadli.engine.state.player.PlayerName
 import com.shreyashurakadli.engine.state.player.PlayerStatus
 import com.shreyashurakadli.engine.state.position.Position
 import com.shreyashurakadli.engine.state.position.PositionStatus
@@ -46,93 +50,93 @@ internal class GameRulesEnforcerTest {
     fun updateGameState_statusChange() {
         val players = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 3,
-                name = "Player 4",
+                id = PlayerId(3),
+                name = PlayerName("Player 4"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
         )
         val newPlayers = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 3,
-                name = "Player 4",
+                id = PlayerId(3),
+                name = PlayerName("Player 4"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
         )
@@ -144,7 +148,7 @@ internal class GameRulesEnforcerTest {
         )
         val actualResult = gameRulesEnforcer.updateGameState(
             gameState = input,
-            diceValue = 1,
+            diceValue = DiceValue(1),
             piece = players[0].pieces[0],
             partCount = 4,
         )
@@ -161,47 +165,47 @@ internal class GameRulesEnforcerTest {
     fun updateGameState_playerTurnChange() {
         val players = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 16, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 16, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 3,
-                name = "Player 4",
+                id = PlayerId(3),
+                name = PlayerName("Player 4"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
         )
@@ -214,16 +218,16 @@ internal class GameRulesEnforcerTest {
 
         val actualResult = gameRulesEnforcer.updateGameState(
             gameState = input,
-            diceValue = 1,
+            diceValue = DiceValue(1),
             piece = players[0].pieces[0],
             partCount = 4
         )
 
         val newPlayers = players.map { player ->
-            if (player.id == 0) {
+            if (player.id == PlayerId(0)) {
                 player.copy(
                     pieces = player.pieces.map {
-                        if (it.id == 0) {
+                        if (it.id == PieceId(0)) {
                             it.copy(position = Position(0, 17, PositionStatus.Safe))
                         } else {
                             it
@@ -249,36 +253,36 @@ internal class GameRulesEnforcerTest {
     fun updateGameState_pieceCapture() {
         val players = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(2, 8, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(2, 8, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 9, PositionStatus.Unsafe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 9, PositionStatus.Unsafe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -296,43 +300,43 @@ internal class GameRulesEnforcerTest {
 
         val actualResult = gameRulesEnforcer.updateGameState(
             gameState = input,
-            diceValue = 1,
+            diceValue = DiceValue(1),
             piece = players[0].pieces[0],
             partCount = 4,
         )
 
         val expectedPlayers = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(2, 9, PositionStatus.Unsafe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(2, 9, PositionStatus.Unsafe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -350,36 +354,36 @@ internal class GameRulesEnforcerTest {
     fun updateGameState_noCaptureOnSafePosition() {
         val players = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(2, 7, PositionStatus.Unsafe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(2, 7, PositionStatus.Unsafe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -397,43 +401,43 @@ internal class GameRulesEnforcerTest {
 
         val actualResult = gameRulesEnforcer.updateGameState(
             gameState = input,
-            diceValue = 1,
+            diceValue = DiceValue(1),
             piece = players[0].pieces[0],
             partCount = 4,
         )
 
         val expectedPlayers = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(2, 8, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(2, 8, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -451,36 +455,36 @@ internal class GameRulesEnforcerTest {
     fun updateGameState_rollSix_allPiecesInBase() {
         val players = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 1, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 2, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 3, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(0), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(1), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(2), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(3), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -494,43 +498,43 @@ internal class GameRulesEnforcerTest {
         // Rolling a 6 should move piece 0 to START_POSITION (tile 8)
         val actualResult = gameRulesEnforcer.updateGameState(
             gameState = input,
-            diceValue = 6,
+            diceValue = DiceValue(6),
             piece = players[0].pieces[0],
             partCount = 4,
         )
 
         val expectedPlayers = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 2, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 3, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(0), Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(2), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(3), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, -1, PositionStatus.Safe), PieceStatus.InBase),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -548,47 +552,47 @@ internal class GameRulesEnforcerTest {
     fun updateGameState_finishLastPiece_withSix() {
         val players = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.InProgress,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 6, PositionStatus.Unsafe), PieceStatus.OnBoard),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 6, PositionStatus.Unsafe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 3,
-                name = "Player 4",
+                id = PlayerId(3),
+                name = PlayerName("Player 4"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )
@@ -605,54 +609,54 @@ internal class GameRulesEnforcerTest {
 
         val actualResult = gameRulesEnforcer.updateGameState(
             gameState = input,
-            diceValue = 6,
+            diceValue = DiceValue(6),
             piece = players[0].pieces[0],
             partCount = 4,
         )
 
         val expectedPlayers = listOf(
             Player(
-                id = 0,
-                name = "Player 1",
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 1,
-                name = "Player 2",
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 2,
-                name = "Player 3",
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             ),
             Player(
-                id = 3,
-                name = "Player 4",
+                id = PlayerId(3),
+                name = PlayerName("Player 4"),
                 status = PlayerStatus.Won,
                 pieces = listOf(
-                    Piece(id = 0, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 1, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 2, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
-                    Piece(id = 3, Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
                 )
             )
         )

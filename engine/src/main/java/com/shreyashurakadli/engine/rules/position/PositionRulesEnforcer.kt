@@ -1,25 +1,25 @@
 package com.shreyashurakadli.engine.rules.position
 
 import com.shreyashurakadli.engine.constants.PositionConstants
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
-import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverter
 import com.shreyashurakadli.engine.state.position.Position
 import com.shreyashurakadli.engine.state.position.PositionStatus
 
 internal class PositionRulesEnforcer(
     private val determinePositionStatus: DeterminePositionStatus,
 ) : PositionRules {
-    override fun updatePosition(state: Position, diceValue: Int, quadrantCount: Int): Position {
+    override fun updatePosition(state: Position, diceValue: DiceValue, quadrantCount: Int): Position {
         val newTile = handleTile(
             part = state.part,
             tile = state.tile,
-            diceValue = diceValue
+            diceValue = diceValue.value
         )
 
         val newPart = handlePart(
             part = state.part,
             tile = state.tile,
-            diceValue = diceValue,
+            diceValue = diceValue.value,
             quadrantCount = quadrantCount
         )
 
@@ -34,12 +34,12 @@ internal class PositionRulesEnforcer(
 
     override fun canPositionBeValid(
         currentState: Position,
-        diceValue: Int,
+        diceValue: DiceValue,
         quadrantCount: Int
     ): Boolean =
         when {
-            diceValueExceedsAvailableOptions(currentState.tile, diceValue) -> false
-            isAtBasePosition(currentState.tile) && !shouldEnterBoardFromBase(diceValue) -> false
+            diceValueExceedsAvailableOptions(currentState.tile, diceValue.value) -> false
+            isAtBasePosition(currentState.tile) && !shouldEnterBoardFromBase(diceValue.value) -> false
             else -> true
         }
 

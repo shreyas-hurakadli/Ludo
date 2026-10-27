@@ -1,5 +1,6 @@
 package com.shreyashurakadli.engine.rules.game
 
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.piece.common.GetUpdatedPiece
 import com.shreyashurakadli.engine.rules.piece.common.PieceHasFinishedStatus
 import com.shreyashurakadli.engine.rules.player.PlayerRules
@@ -7,6 +8,7 @@ import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
+import com.shreyashurakadli.engine.state.player.PlayerName
 
 internal class GameRulesEnforcer(
     private val playerRulesEnforcer: PlayerRules,
@@ -15,14 +17,10 @@ internal class GameRulesEnforcer(
 ) : GameRules {
     override fun updateGameState(
         gameState: Game,
-        diceValue: Int,
+        diceValue: DiceValue,
         piece: Piece,
         partCount: Int
     ): Game {
-        require(value = diceValue in 1..6) {
-            "Dice value must in the range [1, 6]. Received $diceValue"
-        }
-
         return gameState.let {
             val currentPlayer = it.players[it.currentTurnPlayerIdx]
 
@@ -91,7 +89,7 @@ internal class GameRulesEnforcer(
     override fun isGameCompleted(gameState: Game): Boolean =
         gameState.status == GameStatus.Finished
 
-    override fun initializeGame(players: List<String>): Game {
+    override fun initializeGame(players: List<PlayerName>): Game {
         require(value = players.size >= 2) {
             "Minimum 2 players required to start the game."
         }
@@ -103,7 +101,7 @@ internal class GameRulesEnforcer(
         )
     }
 
-    override fun showCurrentMoveOptions(gameState: Game, diceValue: Int, quadrantCount: Int): Pair<Player, List<Piece>> {
+    override fun showCurrentMoveOptions(gameState: Game, diceValue: DiceValue, quadrantCount: Int): Pair<Player, List<Piece>> {
         val player = gameState.players[gameState.currentTurnPlayerIdx]
         return player to playerRulesEnforcer.showAvailableOptions(player, diceValue, quadrantCount)
     }
@@ -124,7 +122,7 @@ internal class GameRulesEnforcer(
         players: List<Player>,
         currentTurn: Int,
         updatedPiece: Piece,
-        diceValue: Int,
+        diceValue: DiceValue,
         hasCapturedPiece: Boolean
     ): Int {
         if (shouldCurrentPlayerRepeatTurnDiceValue(players[currentTurn], diceValue)) {
@@ -146,8 +144,8 @@ internal class GameRulesEnforcer(
         )
     }
 
-    private fun shouldCurrentPlayerRepeatTurnDiceValue(player: Player, diceValue: Int): Boolean =
-        diceValue == 6 && !playerRulesEnforcer.playerHasWonStatus(player)
+    private fun shouldCurrentPlayerRepeatTurnDiceValue(player: Player, diceValue: DiceValue): Boolean =
+        diceValue.value == SIX && !playerRulesEnforcer.playerHasWonStatus(player)
 
     private fun shouldCurrentPlayerRepeatTurnFinishedPiece(
         player: Player,
@@ -173,5 +171,9 @@ internal class GameRulesEnforcer(
 
         // Return an invalid index if all players have won
         return -1
+    }
+
+    private companion object {
+        private const val SIX = 6
     }
 }

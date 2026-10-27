@@ -1,5 +1,6 @@
 package com.shreyashurakadli.engine.rules.position
 
+import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
 import com.shreyashurakadli.engine.state.position.Position
 import com.shreyashurakadli.engine.state.position.PositionStatus
@@ -18,7 +19,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 6,
+            diceValue = DiceValue(6),
             quadrantCount = 4
         )
         val expectedPosition = Position(
@@ -38,7 +39,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 4,
+            diceValue = DiceValue(4),
             quadrantCount = 4
         )
         val expectedPosition = Position(
@@ -58,7 +59,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 3,
+            diceValue = DiceValue(3),
             quadrantCount = 4
         )
         val expectedPosition = Position(
@@ -78,7 +79,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 6,
+            diceValue = DiceValue(6),
             quadrantCount = 4
         )
         val expectedPosition = Position(
@@ -98,7 +99,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 5,
+            diceValue = DiceValue(5),
             quadrantCount = 4
         )
         val expectedPosition = Position(
@@ -118,7 +119,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 1,
+            diceValue = DiceValue(1),
             quadrantCount = 4
         )
         val expectedPosition = Position(
@@ -138,7 +139,7 @@ internal class PositionRulesEnforcerTest {
         )
         val actualPosition = positionRulesEnforcer.updatePosition(
             state = state,
-            diceValue = 1,
+            diceValue = DiceValue(1),
             quadrantCount = 4
         )
         val expectedPosition = Position(
