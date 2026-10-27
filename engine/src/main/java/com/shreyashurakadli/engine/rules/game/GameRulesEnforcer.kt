@@ -9,6 +9,7 @@ import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.Piece
 import com.shreyashurakadli.engine.state.player.Player
 import com.shreyashurakadli.engine.state.player.PlayerName
+import com.shreyashurakadli.engine.state.player.PlayerStatus
 
 internal class GameRulesEnforcer(
     private val playerRulesEnforcer: PlayerRules,
@@ -111,12 +112,13 @@ internal class GameRulesEnforcer(
     private fun initializeGameStatus(): GameStatus = GameStatus.InProgress
 
     private fun determineStatus(players: List<Player>): GameStatus =
-        playerRulesEnforcer.let {
-            when {
-                it.allPlayerHaveWonStatus(players) -> GameStatus.Finished
-                else -> GameStatus.InProgress
-            }
+        when {
+            checkIfGameIsCompleted(players) -> GameStatus.Finished
+            else -> GameStatus.InProgress
         }
+
+    private fun checkIfGameIsCompleted(players: List<Player>): Boolean =
+        players.count { it.status == PlayerStatus.Won } >= players.size - MIN_REMAINING_PLAYERS
 
     private fun updateCurrentTurn(
         players: List<Player>,
@@ -175,5 +177,6 @@ internal class GameRulesEnforcer(
 
     private companion object {
         private const val SIX = 6
+        private const val MIN_REMAINING_PLAYERS = 1
     }
 }

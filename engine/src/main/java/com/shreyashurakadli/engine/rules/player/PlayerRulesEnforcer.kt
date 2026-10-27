@@ -33,15 +33,6 @@ internal class PlayerRulesEnforcer(
         )
     }
 
-    override fun allPlayerHaveWonStatus(players: List<Player>): Boolean {
-        players.forEach { player ->
-            if (player.status == PlayerStatus.InProgress) {
-                return false
-            }
-        }
-        return true
-    }
-
     override fun playerHasWonStatus(player: Player): Boolean =
         player.status == PlayerStatus.Won
 

@@ -669,4 +669,84 @@ internal class GameRulesEnforcerTest {
 
         assertEquals(expectedResult, actualResult)
     }
+
+    @Test
+    fun updateGameState_gameEnds_whenAllButOnePlayersHaveWon() {
+        val players = listOf(
+            Player(
+                id = PlayerId(0),
+                name = PlayerName("Player 1"),
+                status = PlayerStatus.Won,
+                pieces = listOf(
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                )
+            ),
+            Player(
+                id = PlayerId(1),
+                name = PlayerName("Player 2"),
+                status = PlayerStatus.Won,
+                pieces = listOf(
+                    Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                )
+            ),
+            Player(
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
+                status = PlayerStatus.InProgress,
+                pieces = listOf(
+                    Piece(id = PieceId(0), Position(0, 16, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                )
+            )
+        )
+
+        val input = Game(
+            players = players,
+            currentTurnPlayerIdx = 2,
+            status = GameStatus.InProgress
+        )
+
+        // Player 2 at (0, 16) moves 1 step to (0, 17). Piece is not finished.
+        // Players 0 and 1 have Won. totalPlayers - 1 = 2 players have won,
+        // so the game must be Finished. Player 2 keeps InProgress status.
+
+        val actualResult = gameRulesEnforcer.updateGameState(
+            gameState = input,
+            diceValue = DiceValue(1),
+            piece = players[2].pieces[0],
+            partCount = 4,
+        )
+
+        val expectedPlayers = listOf(
+            players[0],
+            players[1],
+            Player(
+                id = PlayerId(2),
+                name = PlayerName("Player 3"),
+                status = PlayerStatus.InProgress,
+                pieces = listOf(
+                    Piece(id = PieceId(0), Position(0, 17, PositionStatus.Safe), PieceStatus.OnBoard),
+                    Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                    Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                )
+            )
+        )
+
+        val expectedResult = Game(
+            players = expectedPlayers,
+            currentTurnPlayerIdx = -1,
+            status = GameStatus.Finished
+        )
+
+        assertEquals(expectedResult, actualResult)
+    }
 }
