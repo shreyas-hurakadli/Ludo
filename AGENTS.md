@@ -11,6 +11,7 @@
 - Refactors must be small (60-100 lines).
 - If something is not implemented, use TODO(reason).
 - Every dependency addition must be properly justified.
+- Do not remove comments I've written.
 - Follow `OPINIONS.md` wherever possible.
 
 ## Testing instructions
