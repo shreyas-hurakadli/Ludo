@@ -38,3 +38,7 @@ Just a personal choice. No rationale behind this.
 ### Avoid nullable types
 They look ugly and adds more handling code.
 Use them only when using it is the simplest solution.
+
+### Avoid using lower case letters in forms of Comparable
+Prefer 2U instead of 2u.
+Prefer 2L instead of 2l.
