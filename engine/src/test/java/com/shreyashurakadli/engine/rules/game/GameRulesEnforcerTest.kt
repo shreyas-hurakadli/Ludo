@@ -749,4 +749,117 @@ internal class GameRulesEnforcerTest {
 
         assertEquals(expectedResult, actualResult)
     }
+
+    @Test
+    fun skipCurrentTurn_advancesToNextPlayer() {
+        val input = Game(
+            players = listOf(
+                inProgressPlayer(0, "Player 1"),
+                inProgressPlayer(1, "Player 2"),
+                inProgressPlayer(2, "Player 3")
+            ),
+            currentTurnPlayerIdx = 0,
+            status = GameStatus.InProgress
+        )
+
+        val actualResult = gameRulesEnforcer.skipCurrentTurn(input)
+
+        assertEquals(1, actualResult.currentTurnPlayerIdx)
+    }
+
+    @Test
+    fun skipCurrentTurn_skipsPlayersWithWonStatus() {
+        val input = Game(
+            players = listOf(
+                inProgressPlayer(0, "Player 1"),
+                wonPlayer(1, "Player 2"),
+                inProgressPlayer(2, "Player 3")
+            ),
+            currentTurnPlayerIdx = 0,
+            status = GameStatus.InProgress
+        )
+
+        val actualResult = gameRulesEnforcer.skipCurrentTurn(input)
+
+        assertEquals(2, actualResult.currentTurnPlayerIdx)
+    }
+
+    @Test
+    fun skipCurrentTurn_wrapsToFirstPlayer() {
+        val input = Game(
+            players = listOf(
+                inProgressPlayer(0, "Player 1"),
+                wonPlayer(1, "Player 2"),
+                inProgressPlayer(2, "Player 3")
+            ),
+            currentTurnPlayerIdx = 2,
+            status = GameStatus.InProgress
+        )
+
+        val actualResult = gameRulesEnforcer.skipCurrentTurn(input)
+
+        assertEquals(0, actualResult.currentTurnPlayerIdx)
+    }
+
+    @Test
+    fun skipCurrentTurn_returnsInvalidIndex_whenNoOtherPlayerCanPlay() {
+        val input = Game(
+            players = listOf(
+                wonPlayer(0, "Player 1"),
+                wonPlayer(1, "Player 2"),
+                inProgressPlayer(2, "Player 3")
+            ),
+            currentTurnPlayerIdx = 2,
+            status = GameStatus.Finished
+        )
+
+        val actualResult = gameRulesEnforcer.skipCurrentTurn(input)
+
+        assertEquals(-1, actualResult.currentTurnPlayerIdx)
+    }
+
+    @Test
+    fun skipCurrentTurn_mutatesOnlyTurnIndex() {
+        val players = listOf(
+            inProgressPlayer(0, "Player 1"),
+            wonPlayer(1, "Player 2"),
+            inProgressPlayer(2, "Player 3")
+        )
+        val input = Game(
+            players = players,
+            currentTurnPlayerIdx = 0,
+            status = GameStatus.InProgress
+        )
+
+        val actualResult = gameRulesEnforcer.skipCurrentTurn(input)
+
+        assertEquals(players, actualResult.players)
+        assertEquals(GameStatus.InProgress, actualResult.status)
+    }
+
+    private fun wonPlayer(id: Int, name: String): Player =
+        Player(
+            id = PlayerId(id),
+            name = PlayerName(name),
+            status = PlayerStatus.Won,
+            pieces = listOf(
+                Piece(id = PieceId(0), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            )
+        )
+
+    private fun inProgressPlayer(id: Int, name: String): Player =
+        Player(
+            id = PlayerId(id),
+            name = PlayerName(name),
+            status = PlayerStatus.InProgress,
+            pieces = listOf(
+                Piece(id = PieceId(0), Position(0, 8, PositionStatus.Safe), PieceStatus.OnBoard),
+                Piece(id = PieceId(1), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = PieceId(2), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+                Piece(id = PieceId(3), Position(0, 18, PositionStatus.Safe), PieceStatus.Finished),
+            )
+        )
 }

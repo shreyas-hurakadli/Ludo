@@ -107,6 +107,16 @@ internal class GameRulesEnforcer(
         return player to playerRulesEnforcer.showAvailableOptions(player, diceValue, quadrantCount)
     }
 
+    override fun skipCurrentTurn(gameState: Game): Game {
+        val nextIdx = findNextPlayerIndex(
+            players = gameState.players,
+            currentTurn = gameState.currentTurnPlayerIdx,
+            playerCount = gameState.players.size
+        )
+
+        return gameState.copy(currentTurnPlayerIdx = nextIdx)
+    }
+
     private fun initializeCurrentTurn(): Int = 0
 
     private fun initializeGameStatus(): GameStatus = GameStatus.InProgress

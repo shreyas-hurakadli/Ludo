@@ -34,16 +34,25 @@ interface GameEngine {
     /**
      * Shows available options for the given dice value.
      * Returns a pair of player id and piece id(s).
+     * @throws IllegalStateException when the game has been completed.
      * @param diceValue
      */
     fun showAvailableOptions(diceValue: DiceValue): Pair<PlayerId, List<PieceId>>
 
     /**
      * Moves the piece.
+     * Does nothing when the game has been completed.
      * @param pieceId
      * @param diceValue
      */
     fun movePiece(pieceId: PieceId, diceValue: DiceValue)
+
+    /**
+     * Skips the turn of the current player.
+     * The turn moves to the next player who can play.
+     * Does nothing when the game has been completed.
+     */
+    fun skipCurrentTurn()
 
     companion object {
         /**

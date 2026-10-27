@@ -3,6 +3,7 @@ package com.shreyashurakadli.engine
 import com.shreyashurakadli.engine.rules.common.DiceValue
 import com.shreyashurakadli.engine.rules.game.GameRules
 import com.shreyashurakadli.engine.state.game.Game
+import com.shreyashurakadli.engine.state.game.GameStatus
 import com.shreyashurakadli.engine.state.piece.PieceId
 import com.shreyashurakadli.engine.state.player.PlayerId
 import com.shreyashurakadli.engine.state.player.PlayerName
@@ -46,6 +47,10 @@ class GameEngineImplementation internal constructor(
             "Game has not been initialized"
         }
 
+        check(value = !gameIsCompleted()) {
+            "Game has been completed"
+        }
+
         val (player, pieces) = gameRulesEnforcer.showCurrentMoveOptions(
             gameState = gameState,
             diceValue = diceValue,
@@ -59,6 +64,10 @@ class GameEngineImplementation internal constructor(
             "Game has not been initialized"
         }
 
+        if (gameIsCompleted()) {
+            return
+        }
+
         val piece = _gameState.players[_gameState.currentTurnPlayerIdx].pieces.find { it.id == pieceId }
             ?: throw IllegalStateException("Piece not found")
 
@@ -69,4 +78,19 @@ class GameEngineImplementation internal constructor(
             partCount = quadrantCount
         )
     }
+
+    override fun skipCurrentTurn() {
+        check(value = initCompleted) {
+            "Game has not been initialized"
+        }
+
+        if (gameIsCompleted()) {
+            return
+        }
+
+        _gameState = gameRulesEnforcer.skipCurrentTurn(_gameState)
+    }
+
+    private fun gameIsCompleted(): Boolean =
+        _gameState.status == GameStatus.Finished
 }

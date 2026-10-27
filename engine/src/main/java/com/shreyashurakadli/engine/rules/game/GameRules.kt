@@ -12,4 +12,5 @@ internal interface GameRules {
     fun isGameCompleted(gameState: Game): Boolean
     fun initializeGame(players: List<PlayerName>): Game
     fun showCurrentMoveOptions(gameState: Game, diceValue: DiceValue, quadrantCount: Int): Pair<Player, List<Piece>>
+    fun skipCurrentTurn(gameState: Game): Game
 }
