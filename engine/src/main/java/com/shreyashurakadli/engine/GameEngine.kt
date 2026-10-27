@@ -12,11 +12,18 @@ import com.shreyashurakadli.engine.rules.position.common.DeterminePositionStatus
 import com.shreyashurakadli.engine.rules.position.common.PositionIsBase
 import com.shreyashurakadli.engine.rules.position.common.PositionIsNormal
 import com.shreyashurakadli.engine.rules.position.converter.RelativeToAbsolutePositionConverterImplementation
+import com.shreyashurakadli.engine.state.game.Game
 import com.shreyashurakadli.engine.state.piece.PieceId
 import com.shreyashurakadli.engine.state.player.PlayerId
 import com.shreyashurakadli.engine.state.player.PlayerName
 
 interface GameEngine {
+    /**
+     * The current state of the game.
+     * Observe this to read players, turn, and game status.
+     */
+    val gameState: Game
+
     /**
      * Initializes the game.
      * Execute this before starting the game.

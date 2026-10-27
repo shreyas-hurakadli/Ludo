@@ -10,8 +10,10 @@ import com.shreyashurakadli.engine.state.player.PlayerName
 class GameEngineImplementation internal constructor(
     private val gameRulesEnforcer: GameRules
 ) : GameEngine {
-    var gameState: Game = Game()
-        private set
+    private var _gameState: Game = Game()
+
+    override val gameState: Game
+        get() = _gameState
 
     private var quadrantCount: Int = 4
 
@@ -24,7 +26,7 @@ class GameEngineImplementation internal constructor(
 
         quadrantCount = determineQuadrantCount(players.size)
 
-        gameState = gameRulesEnforcer.initializeGame(players)
+        _gameState = gameRulesEnforcer.initializeGame(players)
         initCompleted = true
     }
 
@@ -57,11 +59,11 @@ class GameEngineImplementation internal constructor(
             "Game has not been initialized"
         }
 
-        val piece = gameState.players[gameState.currentTurnPlayerIdx].pieces.find { it.id == pieceId }
+        val piece = _gameState.players[_gameState.currentTurnPlayerIdx].pieces.find { it.id == pieceId }
             ?: throw IllegalStateException("Piece not found")
 
-        gameState = gameRulesEnforcer.updateGameState(
-            gameState = gameState,
+        _gameState = gameRulesEnforcer.updateGameState(
+            gameState = _gameState,
             diceValue = diceValue,
             piece = piece,
             partCount = quadrantCount
