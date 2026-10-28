@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    api(project(":multiplayer"))
+    implementation(project(":multiplayer"))
     implementation(project(":engine"))
     api(libs.kotlinx.coroutines.core)
 }

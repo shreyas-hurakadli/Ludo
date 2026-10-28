@@ -19,6 +19,10 @@ class NetCode private constructor(
         /**
          * Creates an instance of [NetCode].
          */
+        /*
+         * This must be changed because :app is not going to get
+         * access to role and protocol
+         */
         fun create(
             name: String,
             roomCode: String,
