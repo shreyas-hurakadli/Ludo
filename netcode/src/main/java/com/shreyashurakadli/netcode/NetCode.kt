@@ -5,9 +5,9 @@ import com.shreyashurakadli.engine.GameEngine
 import com.shreyashurakadli.multiplayer.MultiplayerManager
 import com.shreyashurakadli.multiplayer.Player
 import com.shreyashurakadli.multiplayer.Protocol
-import com.shreyashurakadli.multiplayer.transport.Role
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
+import com.shreyashurakadli.multiplayer.transport.Role as MultiplayerRole
 
 class NetCode private constructor(
     private val multiplayerManager: MultiplayerManager,
@@ -19,10 +19,6 @@ class NetCode private constructor(
         /**
          * Creates an instance of [NetCode].
          */
-        /*
-         * This must be changed because :app is not going to get
-         * access to role and protocol
-         */
         fun create(
             name: String,
             roomCode: String,
@@ -30,21 +26,64 @@ class NetCode private constructor(
             context: Context,
             protocol: Protocol,
             scope: CoroutineScope
+        ): NetCode = when (role) {
+            Role.Host -> host(
+                name = name,
+                roomCode = roomCode,
+                context = context,
+                protocol = protocol,
+                scope = scope
+            )
+            Role.Guest -> guest(
+                name = name,
+                roomCode = roomCode,
+                context = context,
+                protocol = protocol,
+                scope = scope
+            )
+        }
+
+        private fun host(
+            name: String,
+            roomCode: String,
+            context: Context,
+            protocol: Protocol,
+            scope: CoroutineScope
         ): NetCode {
             val multiplayerManager = MultiplayerManager.create(
                 name = name,
                 roomCode = roomCode,
-                role = role,
+                role = MultiplayerRole.Host,
                 context = context,
                 protocol = protocol,
                 scope = scope
             )
 
-            val gameEngine = GameEngine.create()
+            return NetCode(
+                multiplayerManager = multiplayerManager,
+                gameEngine = GameEngine.create()
+            )
+        }
+
+        private fun guest(
+            name: String,
+            roomCode: String,
+            context: Context,
+            protocol: Protocol,
+            scope: CoroutineScope
+        ): NetCode {
+            val multiplayerManager = MultiplayerManager.create(
+                name = name,
+                roomCode = roomCode,
+                role = MultiplayerRole.Guest,
+                context = context,
+                protocol = protocol,
+                scope = scope
+            )
 
             return NetCode(
                 multiplayerManager = multiplayerManager,
-                gameEngine = gameEngine
+                gameEngine = GameEngine.create()
             )
         }
     }
