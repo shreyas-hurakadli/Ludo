@@ -124,7 +124,10 @@ internal class NearbyConnections(
         connectionsClient.disconnectFromEndpoint(peerId)
     }
 
-    override fun sendPayload(peerId: String, message: String) = Unit
+    override fun sendPayload(peerId: String, message: String) {
+        val payload = Payload.fromBytes(message.encodeToByteArray())
+        connectionsClient.sendPayload(peerId, payload)
+    }
 
     override fun close() {
         stopAdvertising()
