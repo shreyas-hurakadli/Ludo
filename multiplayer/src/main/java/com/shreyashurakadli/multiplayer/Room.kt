@@ -52,7 +52,7 @@ internal class Room(
             }
             .stateIn(
                 scope = scope,
-                started = SharingStarted.WhileSubscribed(5_000),
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = emptyList()
             )
 

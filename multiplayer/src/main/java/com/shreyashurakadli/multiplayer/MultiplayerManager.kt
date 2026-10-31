@@ -6,6 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.StateFlow
 
+internal const val TIMEOUT_MILLIS = 5_000L
+
 class MultiplayerManager private constructor(
     private val room: Room
 ) {
