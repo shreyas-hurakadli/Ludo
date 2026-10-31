@@ -105,7 +105,7 @@ internal class NearbyConnections(
 
     override fun start(role: Role, peerCount: UInt) {
         require(token.isNotBlank()) { "Room code must not be blank" }
-        setExpectedPeerCount(peerCount)
+        setPeerCount(peerCount)
         when (role) {
             Role.Host -> startAdvertising()
             Role.Guest -> startDiscovery()
@@ -137,7 +137,7 @@ internal class NearbyConnections(
         endpointDisplayNames.clear()
         endpointAdvertisedNames.clear()
         clearPeers()
-        setExpectedPeerCount(0U)
+        setPeerCount(0U)
     }
 
     private fun addConnectedPeer(endpointId: String) {

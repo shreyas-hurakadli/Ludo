@@ -48,7 +48,7 @@ internal abstract class Transport(
     protected var peerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
         private set
 
-    protected fun setExpectedPeerCount(count: UInt) {
+    protected fun setPeerCount(count: UInt) {
         peerCount = count
     }
 
