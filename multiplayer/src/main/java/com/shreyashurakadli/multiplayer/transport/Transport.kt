@@ -30,7 +30,7 @@ internal abstract class Transport(
             }
     }
 
-    protected val _peers: MutableStateFlow<List<Peer>> = MutableStateFlow(emptyList())
+    private val _peers: MutableStateFlow<List<Peer>> = MutableStateFlow(emptyList())
     val peers: StateFlow<List<Peer>> = _peers.asStateFlow()
 
     private val _incomingMessage = Channel<ReceivedMessage>(capacity = Channel.UNLIMITED)
@@ -45,11 +45,11 @@ internal abstract class Transport(
      * Total player count expected on this device, **including self**.
      * Set in [start]; cleared to [DEFAULT_EXPECTED_PEER_COUNT] in [close].
      */
-    protected var expectedPeerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
+    protected var peerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
         private set
 
     protected fun setExpectedPeerCount(count: UInt) {
-        expectedPeerCount = count
+        peerCount = count
     }
 
     protected fun upsertPeer(peer: Peer) {
@@ -63,7 +63,7 @@ internal abstract class Transport(
     }
 
     protected fun clearPeers() {
-        _peers.value = emptyList()
+        _peers.update { emptyList() }
     }
 
     protected fun publishIncomingMessage(message: ReceivedMessage) {
