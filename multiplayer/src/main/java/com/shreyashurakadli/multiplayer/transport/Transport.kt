@@ -12,8 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 internal abstract class Transport(
-    protected val name: String,
-    protected val token: String
+    protected val name: String
 ) {
     companion object {
         /** Total players including self when the caller does not specify a lobby size. */
@@ -22,12 +21,22 @@ internal abstract class Transport(
         fun create(
             context: Context,
             name: String,
-            token: String,
             protocol: Protocol
         ): Transport =
             when (protocol) {
-                Protocol.NearbyConnections -> NearbyConnections(context, name, token)
+                Protocol.NearbyConnections -> NearbyConnections(context = context, name = name)
             }
+    }
+
+    /**
+     * Room code: advertised by the host, matched by the guest during discovery.
+     * Blank until [setToken] binds it; [start] requires a non-blank token.
+     */
+    protected var token: String = ""
+        private set
+
+    internal fun setToken(code: String) {
+        token = code
     }
 
     private val _peers: MutableStateFlow<List<Peer>> = MutableStateFlow(emptyList())
@@ -43,12 +52,12 @@ internal abstract class Transport(
 
     /**
      * Total player count expected on this device, **including self**.
-     * Set in [start]; cleared to [DEFAULT_EXPECTED_PEER_COUNT] in [close].
+     * Set in [start]; corrected via [setPeerCount] once a guest learns the real size; cleared in [close].
      */
     protected var peerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
         private set
 
-    protected fun setPeerCount(count: UInt) {
+    internal fun setPeerCount(count: UInt) {
         peerCount = count
     }
 

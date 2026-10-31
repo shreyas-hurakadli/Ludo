@@ -39,7 +39,6 @@ class NetCode private constructor(
             )
             Role.Guest -> guest(
                 name = name,
-                roomCode = roomCode,
                 context = context,
                 protocol = protocol,
                 scope = scope
@@ -55,7 +54,6 @@ class NetCode private constructor(
         ): NetCode {
             val multiplayerManager = MultiplayerManager.create(
                 name = name,
-                roomCode = roomCode,
                 role = MultiplayerRole.Host,
                 context = context,
                 protocol = protocol,
@@ -70,14 +68,12 @@ class NetCode private constructor(
 
         private fun guest(
             name: String,
-            roomCode: String,
             context: Context,
             protocol: Protocol,
             scope: CoroutineScope
         ): NetCode {
             val multiplayerManager = MultiplayerManager.create(
                 name = name,
-                roomCode = roomCode,
                 role = MultiplayerRole.Guest,
                 context = context,
                 protocol = protocol,

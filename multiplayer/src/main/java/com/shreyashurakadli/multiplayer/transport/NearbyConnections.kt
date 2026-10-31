@@ -19,9 +19,8 @@ import com.shreyashurakadli.multiplayer.ReceivedMessage
 
 internal class NearbyConnections(
     context: Context,
-    name: String,
-    token: String
-) : Transport(name, token) {
+    name: String
+) : Transport(name) {
 
     private val appContext = context.applicationContext
     private val connectionsClient: ConnectionsClient = Nearby.getConnectionsClient(appContext)
