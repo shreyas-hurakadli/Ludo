@@ -24,4 +24,13 @@ dependencies {
     implementation(project(":multiplayer"))
     implementation(project(":engine"))
     api(libs.kotlinx.coroutines.core)
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.withType<Test>().configureEach {
+    if (name == "testDebugUnitTest" || name == "testReleaseUnitTest") {
+        useJUnitPlatform()
+    }
 }
