@@ -14,6 +14,7 @@ class NetCode private constructor(
     private val gameEngine: GameEngine
 ) {
     val players: StateFlow<List<Player>> = multiplayerManager.players
+    val incomingMessage: ReceiveChannel<ReceivedMessage> = multiplayerManager.incomingMessage
 
     companion object {
         /**
