@@ -16,4 +16,4 @@ internal fun describePrerequisitesResult(result: PrerequisitesResult): String =
     }
 
 internal fun nearbyConnectionsForPrerequisitesCheck(context: Context): NearbyConnections =
-    NearbyConnections(context, name = "test_name", token = "TEST")
+    NearbyConnections(context = context, name = "test_name")

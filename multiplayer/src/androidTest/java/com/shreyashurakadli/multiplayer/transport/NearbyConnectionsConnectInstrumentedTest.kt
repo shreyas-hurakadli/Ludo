@@ -72,6 +72,7 @@ class NearbyConnectionsConnectInstrumentedTest {
         val transport = nearbyConnectionsForPrerequisitesCheck(context)
         try {
             assertPrerequisitesReady(transport)
+            transport.setToken("TEST")
             transport.start(role, peerCount = 2U)
             runBlocking {
                 val peers = withTimeout(PEER_WAIT_MS.milliseconds) {
