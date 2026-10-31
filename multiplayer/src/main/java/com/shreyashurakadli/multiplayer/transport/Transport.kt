@@ -77,6 +77,7 @@ internal abstract class Transport(
     abstract fun checkPrerequisites(): PrerequisitesResult
 
     /**
+     * @param role Role defined in [Role]
      * @param peerCount Total players including self (2–4); resolved at [com.shreyashurakadli.multiplayer.MultiplayerManager] when omitted.
      */
     abstract fun start(role: Role, peerCount: UInt)
