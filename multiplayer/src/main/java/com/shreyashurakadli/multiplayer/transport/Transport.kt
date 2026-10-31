@@ -3,7 +3,9 @@ package com.shreyashurakadli.multiplayer.transport
 import android.content.Context
 import com.shreyashurakadli.multiplayer.PrerequisitesResult
 import com.shreyashurakadli.multiplayer.Protocol
-import com.shreyashurakadli.multiplayer.transport.Transport.Companion.DEFAULT_EXPECTED_PEER_COUNT
+import com.shreyashurakadli.multiplayer.ReceivedMessage
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +33,14 @@ internal abstract class Transport(
     protected val _peers: MutableStateFlow<List<Peer>> = MutableStateFlow(emptyList())
     val peers: StateFlow<List<Peer>> = _peers.asStateFlow()
 
+    private val _incomingMessage = Channel<ReceivedMessage>(capacity = Channel.UNLIMITED)
+
+    /**
+     * Mailbox of inbound messages, in arrival order.
+     * Exactly one consumer must collect it for the transport's lifetime.
+     */
+    val incomingMessage: ReceiveChannel<ReceivedMessage> = _incomingMessage
+
     /**
      * Total player count expected on this device, **including self**.
      * Set in [start]; cleared to [DEFAULT_EXPECTED_PEER_COUNT] in [close].
@@ -54,6 +64,14 @@ internal abstract class Transport(
 
     protected fun clearPeers() {
         _peers.value = emptyList()
+    }
+
+    protected fun publishIncomingMessage(message: ReceivedMessage) {
+        _incomingMessage.trySend(message)
+    }
+
+    protected fun cancelIncomingMessage() {
+        _incomingMessage.cancel()
     }
 
     abstract fun checkPrerequisites(): PrerequisitesResult

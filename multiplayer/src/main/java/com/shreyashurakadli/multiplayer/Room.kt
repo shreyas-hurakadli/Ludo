@@ -6,6 +6,7 @@ import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -54,6 +55,8 @@ internal class Room(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = emptyList()
             )
+
+    val incomingMessage: ReceiveChannel<ReceivedMessage> = transport.incomingMessage
 
     fun enter(expectedPlayerCount: UInt) {
         require(expectedPlayerCount in MIN_ROOM_SIZE..MAX_ROOM_SIZE) {

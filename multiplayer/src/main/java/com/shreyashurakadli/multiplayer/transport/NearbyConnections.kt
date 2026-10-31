@@ -15,6 +15,7 @@ import com.google.android.gms.nearby.connection.PayloadCallback
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.google.android.gms.nearby.connection.Strategy
 import com.shreyashurakadli.multiplayer.PrerequisitesResult
+import com.shreyashurakadli.multiplayer.ReceivedMessage
 
 internal class NearbyConnections(
     context: Context,
@@ -32,7 +33,13 @@ internal class NearbyConnections(
 
     private val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
-            payload.asBytes()?.decodeToString() ?: return
+            val content = payload.asBytes()?.decodeToString() ?: return
+            publishIncomingMessage(
+                ReceivedMessage(
+                    senderId = endpointId,
+                    content = content
+                )
+            )
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) = Unit
@@ -123,6 +130,7 @@ internal class NearbyConnections(
         stopAdvertising()
         stopDiscovery()
         connectionsClient.stopAllEndpoints()
+        cancelIncomingMessage()
         endpointDisplayNames.clear()
         endpointAdvertisedNames.clear()
         clearPeers()
