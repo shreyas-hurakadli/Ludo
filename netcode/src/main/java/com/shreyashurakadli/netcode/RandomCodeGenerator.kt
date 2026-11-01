@@ -17,4 +17,18 @@ internal object RandomCodeGenerator {
             append(ALPHABET[random.nextInt(ALPHABET.length)])
         }
     }
+
+    fun check(token: String): Boolean {
+        if (token.length != CODE_LENGTH) {
+            return false
+        }
+
+        token.forEach { ch ->
+            if (ch !in ALPHABET) {
+                return false
+            }
+        }
+
+        return true
+    }
 }
