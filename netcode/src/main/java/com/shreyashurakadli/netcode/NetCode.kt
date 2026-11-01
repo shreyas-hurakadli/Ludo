@@ -24,7 +24,6 @@ class NetCode private constructor(
          */
         fun create(
             name: String,
-            roomCode: String,
             role: Role,
             context: Context,
             protocol: Protocol,
@@ -32,7 +31,6 @@ class NetCode private constructor(
         ): NetCode = when (role) {
             Role.Host -> host(
                 name = name,
-                roomCode = roomCode,
                 context = context,
                 protocol = protocol,
                 scope = scope
@@ -47,7 +45,6 @@ class NetCode private constructor(
 
         private fun host(
             name: String,
-            roomCode: String,
             context: Context,
             protocol: Protocol,
             scope: CoroutineScope
