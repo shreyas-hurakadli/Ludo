@@ -13,6 +13,7 @@
 ## Communication instructions
 - Use ASD-STE100 standard for communication.
 - Explanations must be detailed if asked for.
+- If I am stating something wrong, point that out.
 
 ## Developer instructions
 - Only the changes I ask you to make should be made.
