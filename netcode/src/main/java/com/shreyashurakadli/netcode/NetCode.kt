@@ -18,6 +18,23 @@ class NetCode private constructor(
     val players: StateFlow<List<Player>> = multiplayerManager.players
     val incomingMessage: ReceiveChannel<ReceivedMessage> = multiplayerManager.incomingMessage
 
+    /**
+     * For [Role.Host] => Do not add [token]
+     *
+     * For [Role.Guest] => Do not add [playerCount]
+     * @param token Token to access game
+     */
+    fun start(
+        token: String = RandomCodeGenerator.generate(),
+        playerCount: UInt = 2U
+    ) {
+        require(RandomCodeGenerator.check(token)) {
+            "The input token is invalid"
+        }
+
+        multiplayerManager.start(token, playerCount)
+    }
+
     companion object {
         /**
          * Creates an instance of [NetCode].
