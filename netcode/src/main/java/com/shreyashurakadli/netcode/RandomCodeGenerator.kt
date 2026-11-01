@@ -1,9 +1,9 @@
 package com.shreyashurakadli.netcode
 
-import com.shreyashurakadli.netcode.RandomCodeGenerator.random
+import com.shreyashurakadli.netcode.RandomCodeGenerator.CODE_LENGTH
 import java.security.SecureRandom
 
-object RandomCodeGenerator {
+internal object RandomCodeGenerator {
     private const val CODE_LENGTH = 5
     private const val ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
