@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Project details
+- This is a multiplayer ludo game.
+- This uses P2P protocols to implement multiplayer functionality.
+
+## Module information
+- :app ⇒ Responsible for presentation
+- :engine ⇒ Responsible for game state and rules enforcement
+- :multiplayer ⇒ Responsible for communication between players
+- :netcode ⇒ Acts as intermediate between :app, :engine and :multiplayer.
+
 ## Communication instructions
 - Use ASD-STE100 standard for communication.
 - Explanations must be detailed if asked for.
