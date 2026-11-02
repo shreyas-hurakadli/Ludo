@@ -8,12 +8,13 @@
 - :app ⇒ Responsible for presentation
 - :engine ⇒ Responsible for game state and rules enforcement
 - :multiplayer ⇒ Responsible for detection and communication of players
-- :netcode ⇒ Responsible for synchronisation between game state and network
+- :netcode ⇒ Responsible for synchronisation between game state and players
 
 ## Communication instructions
 - Use ASD-STE100 standard for communication.
 - Explanations must be detailed if asked for.
 - If I am stating something wrong, point that out.
+- Simple English must be used.
 
 ## Developer instructions
 - Only the changes I ask you to make should be made.
@@ -30,7 +31,7 @@
 - Strictly avoid mocks.
 
 ## Guardrails
-- Do not access gitignored files.
+- Do not access git and gitignored files.
 - Do not access files outside of Ludo directory.
 - Refactors cannot be made without prior permission.
 
