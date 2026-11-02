@@ -7,8 +7,8 @@
 ## Module information
 - :app ⇒ Responsible for presentation
 - :engine ⇒ Responsible for game state and rules enforcement
-- :multiplayer ⇒ Responsible for communication between players
-- :netcode ⇒ Acts as intermediate between :app, :engine and :multiplayer.
+- :multiplayer ⇒ Responsible for detection and communication of players
+- :netcode ⇒ Responsible for synchronisation between game state and network
 
 ## Communication instructions
 - Use ASD-STE100 standard for communication.
