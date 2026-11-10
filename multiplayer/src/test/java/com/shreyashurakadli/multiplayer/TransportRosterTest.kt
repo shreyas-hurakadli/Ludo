@@ -73,4 +73,19 @@ class TransportRosterTest {
 
         assertEquals(listOf(self, Peer(id = "e1", displayName = "Ravi-2")), transport.currentPeers())
     }
+
+    @Test
+    fun `the peerCount flow carries the lobby size from default through announce`() {
+        val transport = FakeTransport()
+        assertEquals(2U, transport.peerCount.value)
+
+        transport.start(role = Role.Guest, peerCount = 2U)
+        assertEquals(2U, transport.peerCount.value)
+
+        transport.setPeerCount(4U)
+        assertEquals(4U, transport.peerCount.value)
+
+        transport.admit(Peer(id = "e1", displayName = "Ravi"))
+        assertEquals(4U, transport.peerCount.value)
+    }
 }

@@ -36,8 +36,6 @@ internal class FakeTransport(
 
     override fun close() = Unit
 
-    fun currentPeerCount(): UInt = peerCount
-
     fun admit(peer: Peer): Boolean = addPeerIfAllowed(peer)
 
     fun drop(peerId: String) {

@@ -23,7 +23,7 @@ class RoomEnterTest {
 
         assertEquals(1, transport.startCalls)
         assertEquals("K7X2P", transport.tokenAtStart)
-        assertEquals(3U, transport.currentPeerCount())
+        assertEquals(3U, transport.peerCount.value)
     }
 
     @Test
@@ -33,7 +33,7 @@ class RoomEnterTest {
 
         room.enter(token = "AAAAA")
 
-        assertEquals(2U, transport.currentPeerCount())
+        assertEquals(2U, transport.peerCount.value)
     }
 
     @Test
@@ -68,7 +68,7 @@ class RoomEnterTest {
 
         room.updatedPlayerCount(4U)
 
-        assertEquals(4U, transport.currentPeerCount())
+        assertEquals(4U, transport.peerCount.value)
     }
 
     @Test
@@ -80,6 +80,6 @@ class RoomEnterTest {
         assertThrows<IllegalArgumentException> { room.updatedPlayerCount(1U) }
         assertThrows<IllegalArgumentException> { room.updatedPlayerCount(5U) }
 
-        assertEquals(3U, transport.currentPeerCount())
+        assertEquals(3U, transport.peerCount.value)
     }
 }
