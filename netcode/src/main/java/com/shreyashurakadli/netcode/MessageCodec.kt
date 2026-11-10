@@ -7,8 +7,4 @@ internal sealed class MessageCodec(val name: String) {
     }
 
     abstract fun encode(): String
-
-    data class LobbySize(val count: UInt) : MessageCodec("lobby") {
-        override fun encode(): String = "$name$DELIMITER$count"
-    }
 }
