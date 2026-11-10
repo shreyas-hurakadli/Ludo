@@ -52,7 +52,6 @@ internal abstract class Transport(
 
     /**
      * Total player count expected on this device, **including self**.
-     * Set in [start]; corrected via [setPeerCount] once a guest learns the real size; cleared in [close].
      */
     protected var peerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
         private set
