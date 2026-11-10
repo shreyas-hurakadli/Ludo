@@ -163,8 +163,8 @@ internal class NearbyConnections(
             return
         }
         if (role == Role.Host) {
-            sendPayload(endpointId, MessageCodec.LobbySize(peerCount).encode())
-            if (peers.value.size.toUInt() >= peerCount) stopAdvertising()
+            sendPayload(endpointId, MessageCodec.LobbySize(peerCount.value).encode())
+            if (peers.value.size.toUInt() >= peerCount.value) stopAdvertising()
         }
     }
 

@@ -13,6 +13,8 @@ class MultiplayerManager private constructor(
 ) {
     val players: StateFlow<List<Player>> = room.players
 
+    val playerCount: StateFlow<UInt> = room.playerCount
+
     /**
      * Mailbox of messages received from peers, in arrival order.
      * Exactly one consumer must collect it for this manager's lifetime.
