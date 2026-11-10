@@ -14,6 +14,8 @@ import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadCallback
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.google.android.gms.nearby.connection.Strategy
+import com.shreyashurakadli.multiplayer.MessageCodec
+import com.shreyashurakadli.multiplayer.MessageEventHandler
 import com.shreyashurakadli.multiplayer.PrerequisitesResult
 import com.shreyashurakadli.multiplayer.ReceivedMessage
 
@@ -26,6 +28,9 @@ internal class NearbyConnections(
     private val connectionsClient: ConnectionsClient = Nearby.getConnectionsClient(appContext)
     private val serviceId: String = appContext.packageName
     private val strategy: Strategy = Strategy.P2P_CLUSTER
+    private val messageEventHandler = MessageEventHandler()
+
+    private var role: Role? = null
 
     private val endpointDisplayNames = mutableMapOf<String, String>()
     private val endpointAdvertisedNames = mutableMapOf<String, String>()
@@ -33,12 +38,15 @@ internal class NearbyConnections(
     private val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
             val content = payload.asBytes()?.decodeToString() ?: return
-            publishIncomingMessage(
-                ReceivedMessage(
-                    senderId = endpointId,
-                    content = content
-                )
+            val receivedMessage = ReceivedMessage(
+                senderId = endpointId,
+                content = content
             )
+            when (val codec = messageEventHandler.toEvent(receivedMessage)) {
+                // If codec is null that means that it is not :multiplayer codec
+                null -> publishIncomingMessage(receivedMessage)
+                is MessageCodec.LobbySize -> if (role == Role.Guest) setPeerCount(codec.count)
+            }
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) = Unit
@@ -104,6 +112,7 @@ internal class NearbyConnections(
 
     override fun start(role: Role, peerCount: UInt) {
         require(token.isNotBlank()) { "Room code must not be blank" }
+        this.role = role
         setPeerCount(peerCount)
         when (role) {
             Role.Host -> startAdvertising()
@@ -120,10 +129,12 @@ internal class NearbyConnections(
     }
 
     override fun disconnect(peerId: String) {
+        if (peerId == SELF_ID) return
         connectionsClient.disconnectFromEndpoint(peerId)
     }
 
     override fun sendPayload(peerId: String, message: String) {
+        if (peerId == SELF_ID) return
         val payload = Payload.fromBytes(message.encodeToByteArray())
         connectionsClient.sendPayload(peerId, payload)
     }
@@ -142,13 +153,19 @@ internal class NearbyConnections(
     private fun addConnectedPeer(endpointId: String) {
         val displayName = endpointDisplayNames[endpointId] ?: endpointId
         val advertisedName = endpointAdvertisedNames[endpointId]
-        upsertPeer(
-            Peer(
-                id = endpointId,
-                displayName = displayName,
-                advertisedName = advertisedName
-            )
+        val peer = Peer(
+            id = endpointId,
+            displayName = displayName,
+            advertisedName = advertisedName
         )
+        if (!addPeerIfAllowed(peer)) {
+            disconnect(endpointId)
+            return
+        }
+        if (role == Role.Host) {
+            sendPayload(endpointId, MessageCodec.LobbySize(peerCount).encode())
+            if (peers.value.size.toUInt() >= peerCount) stopAdvertising()
+        }
     }
 
     private fun rememberEndpointName(endpointId: String, endpointName: String) {

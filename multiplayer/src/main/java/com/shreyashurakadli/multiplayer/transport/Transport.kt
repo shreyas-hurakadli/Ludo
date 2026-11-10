@@ -10,12 +10,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 
 internal abstract class Transport(
     protected val name: String
 ) {
     companion object {
-        /** Total players including self when the caller does not specify a lobby size. */
+        internal const val SELF_ID: String = "self"
+
         internal const val DEFAULT_EXPECTED_PEER_COUNT: UInt = 2U
 
         fun create(
@@ -28,10 +30,6 @@ internal abstract class Transport(
             }
     }
 
-    /**
-     * Room code: advertised by the host, matched by the guest during discovery.
-     * Blank until [setToken] binds it; [start] requires a non-blank token.
-     */
     protected var token: String = ""
         private set
 
@@ -42,6 +40,10 @@ internal abstract class Transport(
     private val _peers: MutableStateFlow<List<Peer>> = MutableStateFlow(emptyList())
     val peers: StateFlow<List<Peer>> = _peers.asStateFlow()
 
+    init {
+        addSelf()
+    }
+
     private val _incomingMessage = Channel<ReceivedMessage>(capacity = Channel.UNLIMITED)
 
     /**
@@ -50,9 +52,6 @@ internal abstract class Transport(
      */
     val incomingMessage: ReceiveChannel<ReceivedMessage> = _incomingMessage
 
-    /**
-     * Total player count expected on this device, **including self**.
-     */
     protected var peerCount: UInt = DEFAULT_EXPECTED_PEER_COUNT
         private set
 
@@ -60,10 +59,22 @@ internal abstract class Transport(
         peerCount = count
     }
 
-    protected fun upsertPeer(peer: Peer) {
+    private fun addSelf() {
         _peers.update { current ->
-            current.filterNot { it.id == peer.id } + peer
+            listOf(Peer(id = SELF_ID, displayName = name)) +
+                current.filterNot { it.id == SELF_ID }
         }
+    }
+
+    protected fun addPeerIfAllowed(peer: Peer): Boolean {
+        val updated = _peers.updateAndGet { current ->
+            if (current.size.toUInt() < peerCount) {
+                current.filterNot { it.id == peer.id } + peer
+            } else {
+                current
+            }
+        }
+        return updated.any { it.id == peer.id }
     }
 
     protected fun removePeer(peerId: String) {
@@ -84,10 +95,6 @@ internal abstract class Transport(
 
     abstract fun checkPrerequisites(): PrerequisitesResult
 
-    /**
-     * @param role Role defined in [Role]
-     * @param peerCount Total players including self (2–4); resolved at [com.shreyashurakadli.multiplayer.MultiplayerManager] when omitted.
-     */
     abstract fun start(role: Role, peerCount: UInt)
 
     abstract fun connect(peerId: String)
