@@ -52,9 +52,8 @@ internal abstract class Transport(
      */
     val incomingMessage: ReceiveChannel<ReceivedMessage> = _incomingMessage
 
-    private val _peerCount = MutableStateFlow(DEFAULT_EXPECTED_PEER_COUNT)
-
-    val peerCount: StateFlow<UInt> = _peerCount.asStateFlow()
+    protected val _peerCount: MutableStateFlow<UInt> = MutableStateFlow(DEFAULT_EXPECTED_PEER_COUNT)
+    val peerCount = _peerCount.asStateFlow()
 
     internal fun setPeerCount(count: UInt) {
         _peerCount.update { count }
@@ -69,7 +68,7 @@ internal abstract class Transport(
 
     protected fun addPeerIfAllowed(peer: Peer): Boolean {
         val updated = _peers.updateAndGet { current ->
-            if (current.size.toUInt() < _peerCount.value) {
+            if (current.size.toUInt() < peerCount.value) {
                 current.filterNot { it.id == peer.id } + peer
             } else {
                 current
