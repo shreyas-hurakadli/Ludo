@@ -21,6 +21,7 @@ class NetCode private constructor(
 ) {
     val players: StateFlow<List<Player>> = multiplayerManager.players
     val incomingMessage: ReceiveChannel<ReceivedMessage> = multiplayerManager.incomingMessage
+    val playerCount: StateFlow<UInt> = multiplayerManager.playerCount
 
     private val _token = MutableStateFlow<String?>(null)
 
