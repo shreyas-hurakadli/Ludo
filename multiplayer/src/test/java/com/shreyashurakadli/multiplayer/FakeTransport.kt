@@ -1,5 +1,6 @@
 package com.shreyashurakadli.multiplayer
 
+import com.shreyashurakadli.multiplayer.transport.Peer
 import com.shreyashurakadli.multiplayer.transport.Role
 import com.shreyashurakadli.multiplayer.transport.Transport
 
@@ -36,6 +37,14 @@ internal class FakeTransport(
     override fun close() = Unit
 
     fun currentPeerCount(): UInt = peerCount
+
+    fun admit(peer: Peer): Boolean = addPeerIfAllowed(peer)
+
+    fun drop(peerId: String) {
+        removePeer(peerId)
+    }
+
+    fun currentPeers(): List<Peer> = peers.value
 
     fun publish(message: ReceivedMessage) {
         publishIncomingMessage(message)
