@@ -4,9 +4,7 @@ import com.shreyashurakadli.multiplayer.Player
 
 internal data class Peer(
     val id: String,
-    val displayName: String,
-    val advertisedName: String? = null,
-    val clusterId: String? = null
+    val name: String
 ) {
-    fun toPlayer(): Player = Player(id = id, name = displayName)
+    fun toPlayer(): Player = Player(id = id, name = name)
 }

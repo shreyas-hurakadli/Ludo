@@ -33,7 +33,6 @@ internal class NearbyConnections(
     private var role: Role? = null
 
     private val endpointDisplayNames = mutableMapOf<String, String>()
-    private val endpointAdvertisedNames = mutableMapOf<String, String>()
 
     private val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
@@ -73,7 +72,6 @@ internal class NearbyConnections(
 
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-            endpointAdvertisedNames[endpointId] = info.endpointName
             if (info.endpointName == token) {
                 connect(endpointId)
             }
@@ -121,10 +119,6 @@ internal class NearbyConnections(
     }
 
     override fun connect(peerId: String) {
-        rememberEndpointName(
-            peerId,
-            endpointAdvertisedNames[peerId] ?: name
-        )
         connectionsClient.requestConnection(name, peerId, connectionLifecycleCallback)
     }
 
@@ -145,18 +139,15 @@ internal class NearbyConnections(
         connectionsClient.stopAllEndpoints()
         cancelIncomingMessage()
         endpointDisplayNames.clear()
-        endpointAdvertisedNames.clear()
         clearPeers()
         setPeerCount(0U)
     }
 
     private fun addConnectedPeer(endpointId: String) {
-        val displayName = endpointDisplayNames[endpointId] ?: endpointId
-        val advertisedName = endpointAdvertisedNames[endpointId]
+        val displayName = endpointDisplayNames[endpointId] ?: name
         val peer = Peer(
             id = endpointId,
-            displayName = displayName,
-            advertisedName = advertisedName
+            name = displayName
         )
         if (!addPeerIfAllowed(peer)) {
             disconnect(endpointId)
@@ -174,7 +165,6 @@ internal class NearbyConnections(
 
     private fun forgetEndpoint(endpointId: String) {
         endpointDisplayNames.remove(endpointId)
-        endpointAdvertisedNames.remove(endpointId)
     }
 
     private fun stopAdvertising() {

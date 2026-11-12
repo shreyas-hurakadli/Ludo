@@ -61,7 +61,7 @@ internal abstract class Transport(
 
     private fun addSelf() {
         _peers.update { current ->
-            listOf(Peer(id = SELF_ID, displayName = name)) +
+            listOf(Peer(id = SELF_ID, name = name)) +
                 current.filterNot { it.id == SELF_ID }
         }
     }

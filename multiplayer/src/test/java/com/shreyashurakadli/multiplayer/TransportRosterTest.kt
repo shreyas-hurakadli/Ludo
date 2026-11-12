@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class TransportRosterTest {
-    private val self = Peer(id = Transport.SELF_ID, displayName = "tester")
+    private val self = Peer(id = Transport.SELF_ID, name = "tester")
 
     private fun started(lobbySize: UInt): FakeTransport =
         FakeTransport().apply { start(role = Role.Host, peerCount = lobbySize) }
@@ -25,17 +25,17 @@ class TransportRosterTest {
     fun `first remote peer joins a two player lobby`() {
         val transport = started(lobbySize = 2U)
 
-        assertTrue(transport.admit(Peer(id = "e1", displayName = "Ravi")))
+        assertTrue(transport.admit(Peer(id = "e1", name = "Ravi")))
 
-        assertEquals(listOf(self, Peer(id = "e1", displayName = "Ravi")), transport.currentPeers())
+        assertEquals(listOf(self, Peer(id = "e1", name = "Ravi")), transport.currentPeers())
     }
 
     @Test
     fun `a third human is rejected from a two player lobby`() {
         val transport = started(lobbySize = 2U)
-        transport.admit(Peer(id = "e1", displayName = "Ravi"))
+        transport.admit(Peer(id = "e1", name = "Ravi"))
 
-        assertFalse(transport.admit(Peer(id = "e2", displayName = "Sita")))
+        assertFalse(transport.admit(Peer(id = "e2", name = "Sita")))
 
         assertEquals(2, transport.currentPeers().size)
         assertTrue(transport.currentPeers().none { it.id == "e2" })
@@ -44,34 +44,34 @@ class TransportRosterTest {
     @Test
     fun `a freed seat admits the waiting peer`() {
         val transport = started(lobbySize = 2U)
-        transport.admit(Peer(id = "e1", displayName = "Ravi"))
-        transport.admit(Peer(id = "e2", displayName = "Sita"))
+        transport.admit(Peer(id = "e1", name = "Ravi"))
+        transport.admit(Peer(id = "e2", name = "Sita"))
 
         transport.drop("e1")
 
-        assertTrue(transport.admit(Peer(id = "e3", displayName = "Gita")))
-        assertEquals(listOf(self, Peer(id = "e3", displayName = "Gita")), transport.currentPeers())
+        assertTrue(transport.admit(Peer(id = "e3", name = "Gita")))
+        assertEquals(listOf(self, Peer(id = "e3", name = "Gita")), transport.currentPeers())
     }
 
     @Test
     fun `a bigger announce opens capacity for the rejected peer`() {
         val transport = started(lobbySize = 2U)
-        transport.admit(Peer(id = "e1", displayName = "Ravi"))
-        assertFalse(transport.admit(Peer(id = "e2", displayName = "Sita")))
+        transport.admit(Peer(id = "e1", name = "Ravi"))
+        assertFalse(transport.admit(Peer(id = "e2", name = "Sita")))
 
         transport.setPeerCount(3U)
 
-        assertTrue(transport.admit(Peer(id = "e2", displayName = "Sita")))
+        assertTrue(transport.admit(Peer(id = "e2", name = "Sita")))
     }
 
     @Test
     fun `re-admitting a known peer replaces it without growing the roster`() {
         val transport = started(lobbySize = 3U)
-        transport.admit(Peer(id = "e1", displayName = "Ravi"))
+        transport.admit(Peer(id = "e1", name = "Ravi"))
 
-        assertTrue(transport.admit(Peer(id = "e1", displayName = "Ravi-2")))
+        assertTrue(transport.admit(Peer(id = "e1", name = "Ravi-2")))
 
-        assertEquals(listOf(self, Peer(id = "e1", displayName = "Ravi-2")), transport.currentPeers())
+        assertEquals(listOf(self, Peer(id = "e1", name = "Ravi-2")), transport.currentPeers())
     }
 
     @Test
@@ -85,7 +85,7 @@ class TransportRosterTest {
         transport.setPeerCount(4U)
         assertEquals(4U, transport.peerCount.value)
 
-        transport.admit(Peer(id = "e1", displayName = "Ravi"))
+        transport.admit(Peer(id = "e1", name = "Ravi"))
         assertEquals(4U, transport.peerCount.value)
     }
 }
