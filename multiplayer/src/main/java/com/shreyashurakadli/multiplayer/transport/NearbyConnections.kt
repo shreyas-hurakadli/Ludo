@@ -32,7 +32,7 @@ internal class NearbyConnections(
 
     private var role: Role? = null
 
-    private val endpointDisplayNames = mutableMapOf<String, String>()
+    private val endpoints = mutableMapOf<String, String>()
 
     private val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
@@ -138,13 +138,13 @@ internal class NearbyConnections(
         stopDiscovery()
         connectionsClient.stopAllEndpoints()
         cancelIncomingMessage()
-        endpointDisplayNames.clear()
+        endpoints.clear()
         clearPeers()
         setPeerCount(0U)
     }
 
     private fun addConnectedPeer(endpointId: String) {
-        val displayName = endpointDisplayNames[endpointId] ?: name
+        val displayName = endpoints[endpointId] ?: name
         val peer = Peer(
             id = endpointId,
             name = displayName
@@ -160,11 +160,11 @@ internal class NearbyConnections(
     }
 
     private fun rememberEndpointName(endpointId: String, endpointName: String) {
-        endpointDisplayNames[endpointId] = endpointName
+        endpoints[endpointId] = endpointName
     }
 
     private fun forgetEndpoint(endpointId: String) {
-        endpointDisplayNames.remove(endpointId)
+        endpoints.remove(endpointId)
     }
 
     private fun stopAdvertising() {
