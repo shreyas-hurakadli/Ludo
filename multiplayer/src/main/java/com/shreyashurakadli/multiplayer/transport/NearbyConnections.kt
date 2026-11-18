@@ -41,10 +41,12 @@ internal class NearbyConnections(
                 senderId = endpointId,
                 content = content
             )
+
             when (val codec = messageEventHandler.toEvent(receivedMessage)) {
-                // If codec is null that means that it is not :multiplayer codec
-                null -> publishIncomingMessage(receivedMessage)
                 is MessageCodec.LobbySize -> if (role == Role.Guest) setPeerCount(codec.count)
+                is MessageCodec.Peers -> if (role == Role.Guest) synchronizePeers(codec.peers, codec.position)
+                // If codec is null that means that it is not :multiplayer MessageCodec
+                else -> publishIncomingMessage(receivedMessage)
             }
         }
 
@@ -61,6 +63,16 @@ internal class NearbyConnections(
             when {
                 result.status.isSuccess -> addConnectedPeer(endpointId)
                 else -> forgetEndpoint(endpointId)
+            }
+
+            // This is to ensure that all the endpoints get the peer list
+            if (result.status.isSuccess && role is Role.Host) {
+                peers.value.forEachIndexed { position, peer ->
+                    if (peer.id == SELF_ID) return
+
+                    val message = MessageCodec.Peers(peers.value, position.toUInt()).encode()
+                    sendPayload(peer.id, message)
+                }
             }
         }
 
@@ -144,7 +156,12 @@ internal class NearbyConnections(
     }
 
     private fun addConnectedPeer(endpointId: String) {
-        val displayName = endpoints[endpointId] ?: name
+        val displayName = endpoints[endpointId]
+        if (displayName == null) {
+            disconnect(endpointId)
+            return
+        }
+
         val peer = Peer(
             id = endpointId,
             name = displayName
@@ -153,7 +170,7 @@ internal class NearbyConnections(
             disconnect(endpointId)
             return
         }
-        if (role == Role.Host) {
+        if (role is Role.Host) {
             sendPayload(endpointId, MessageCodec.LobbySize(peerCount.value).encode())
             if (peers.value.size.toUInt() >= peerCount.value) stopAdvertising()
         }

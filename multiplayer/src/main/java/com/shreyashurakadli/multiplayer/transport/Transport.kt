@@ -33,7 +33,7 @@ internal abstract class Transport(
     protected var token: String = ""
         private set
 
-    internal fun setToken(code: String) {
+    fun setToken(code: String) {
         token = code
     }
 
@@ -55,8 +55,15 @@ internal abstract class Transport(
     protected val _peerCount: MutableStateFlow<UInt> = MutableStateFlow(DEFAULT_EXPECTED_PEER_COUNT)
     val peerCount = _peerCount.asStateFlow()
 
-    internal fun setPeerCount(count: UInt) {
+    fun setPeerCount(count: UInt) {
         _peerCount.update { count }
+    }
+
+    protected val _position: MutableStateFlow<UInt?> = MutableStateFlow(null)
+    val position = _position.asStateFlow()
+
+    private fun setPosition(position: UInt) {
+        _position.update { position }
     }
 
     private fun addSelf() {
@@ -77,6 +84,10 @@ internal abstract class Transport(
         return updated.any { it.id == peer.id }
     }
 
+    protected fun updatePeers(peers: List<Peer>) {
+        _peers.update { peers }
+    }
+
     protected fun removePeer(peerId: String) {
         _peers.update { current -> current.filterNot { it.id == peerId } }
     }
@@ -91,6 +102,11 @@ internal abstract class Transport(
 
     protected fun cancelIncomingMessage() {
         _incomingMessage.cancel()
+    }
+
+    protected fun synchronizePeers(peers: List<Peer>, position: UInt) {
+        updatePeers(peers)
+        setPosition(position)
     }
 
     abstract fun checkPrerequisites(): PrerequisitesResult
