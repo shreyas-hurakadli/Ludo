@@ -15,5 +15,5 @@ internal fun describePrerequisitesResult(result: PrerequisitesResult): String =
         PrerequisitesResult.BleNotSupported -> "BleNotSupported"
     }
 
-internal fun nearbyConnectionsForPrerequisitesCheck(context: Context): NearbyConnections =
+internal fun nearbyConnections(context: Context): NearbyConnections =
     NearbyConnections(context = context, name = "test_name")

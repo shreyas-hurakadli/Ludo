@@ -26,7 +26,7 @@ class NearbyConnectionsPrerequisitesReadyInstrumentedTest {
 
     @Test
     fun checkPrerequisites_returnsReadyWhenDeviceConfigured() {
-        val transport = nearbyConnectionsForPrerequisitesCheck(context)
+        val transport = nearbyConnections(context)
 
         val result = transport.checkPrerequisites()
 

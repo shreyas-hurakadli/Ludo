@@ -26,7 +26,7 @@ class NearbyConnectionsPrerequisitesMissingPermissionsInstrumentedTest {
 
     @Test
     fun checkPrerequisites_missingPermissions() {
-        val transport = nearbyConnectionsForPrerequisitesCheck(context)
+        val transport = nearbyConnections(context)
         val required = NearbyPrerequisites.requiredRuntimePermissions(Build.VERSION.SDK_INT)
         val result = transport.checkPrerequisites()
 

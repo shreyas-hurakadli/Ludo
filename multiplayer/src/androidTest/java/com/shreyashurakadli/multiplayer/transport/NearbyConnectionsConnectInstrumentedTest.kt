@@ -69,7 +69,7 @@ class NearbyConnectionsConnectInstrumentedTest {
             }
         }
 
-        val transport = nearbyConnectionsForPrerequisitesCheck(context)
+        val transport = nearbyConnections(context)
         try {
             assertPrerequisitesReady(transport)
             transport.setToken("TEST")

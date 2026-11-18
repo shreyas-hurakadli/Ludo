@@ -28,7 +28,7 @@ class NearbyConnectionsPrerequisitesFailureInstrumentedTest {
 
     @Test
     fun checkPrerequisites_bluetoothDisabled() {
-        val transport = nearbyConnectionsForPrerequisitesCheck(context)
+        val transport = nearbyConnections(context)
 
         val result = transport.checkPrerequisites()
 
@@ -42,7 +42,7 @@ class NearbyConnectionsPrerequisitesFailureInstrumentedTest {
 
     @Test
     fun checkPrerequisites_wifiDisabled() {
-        val transport = nearbyConnectionsForPrerequisitesCheck(context)
+        val transport = nearbyConnections(context)
 
         val result = transport.checkPrerequisites()
 
@@ -56,7 +56,7 @@ class NearbyConnectionsPrerequisitesFailureInstrumentedTest {
 
     @Test
     fun checkPrerequisites_locationDisabled() {
-        val transport = nearbyConnectionsForPrerequisitesCheck(context)
+        val transport = nearbyConnections(context)
 
         val result = transport.checkPrerequisites()
 
