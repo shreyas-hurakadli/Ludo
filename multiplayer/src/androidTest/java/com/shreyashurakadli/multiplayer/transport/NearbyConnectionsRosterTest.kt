@@ -2,6 +2,7 @@ package com.shreyashurakadli.multiplayer.transport
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.shreyashurakadli.multiplayer.Protocol
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,7 +33,7 @@ class NearbyConnectionsRosterTest {
 
     @Test
     fun start_hostSendsTheRosterToAllConnections() {
-        val transport = nearbyConnections(context)
+        val transport = Transport.create(context, "host", Protocol.NearbyConnections)
 
         val role = Role.Host
         val peerCount = Transport.DEFAULT_EXPECTED_PEER_COUNT
@@ -44,14 +45,14 @@ class NearbyConnectionsRosterTest {
 
         assertEquals(
             "Expected $peerCount. but was ${transport.peers.value.size}",
-            peerCount.toInt(),
+            transport.peerCount.value.toInt(),
             transport.peers.value.size
         )
     }
 
     @Test
     fun start_guestReceivesTheRoster() {
-        val transport = nearbyConnections(context)
+        val transport = Transport.create(context, "guest", Protocol.NearbyConnections)
 
         val role = Role.Guest
         val peerCount = Transport.DEFAULT_EXPECTED_PEER_COUNT
@@ -63,7 +64,7 @@ class NearbyConnectionsRosterTest {
 
         assertEquals(
             "Expected $peerCount. but was ${transport.peers.value.size}",
-            peerCount.toInt(),
+            transport.peerCount.value.toInt(),
             transport.peers.value.size
         )
     }
