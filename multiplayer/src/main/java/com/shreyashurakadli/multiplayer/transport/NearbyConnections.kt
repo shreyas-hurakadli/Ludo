@@ -44,7 +44,7 @@ internal class NearbyConnections(
 
             when (val codec = messageEventHandler.toEvent(receivedMessage)) {
                 is MessageCodec.LobbySize -> if (role == Role.Guest) setPeerCount(codec.count)
-                is MessageCodec.Peers -> if (role == Role.Guest) synchronizePeers(codec.peers, codec.position)
+                is MessageCodec.Peers -> if (role == Role.Guest) synchronizePeers(endpointId, codec.peers, codec.position)
                 // If codec is null that means that it is not :multiplayer MessageCodec
                 else -> publishIncomingMessage(receivedMessage)
             }
@@ -68,7 +68,7 @@ internal class NearbyConnections(
             // This is to ensure that all the endpoints get the peer list
             if (result.status.isSuccess && role is Role.Host) {
                 peers.value.forEachIndexed { position, peer ->
-                    if (peer.id == SELF_ID) return
+                    if (peer.id == SELF_ID) return@forEachIndexed
 
                     val message = MessageCodec.Peers(peers.value, position.toUInt()).encode()
                     sendPayload(peer.id, message)

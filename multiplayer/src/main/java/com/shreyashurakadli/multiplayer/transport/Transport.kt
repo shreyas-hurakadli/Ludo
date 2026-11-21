@@ -104,8 +104,18 @@ internal abstract class Transport(
         _incomingMessage.cancel()
     }
 
-    protected fun synchronizePeers(peers: List<Peer>, position: UInt) {
-        updatePeers(peers)
+    protected fun synchronizePeers(endpointId: String, peers: List<Peer>, position: UInt) {
+        val updatedPeers = peers.mapIndexed { index, peer ->
+            if (peer.id == SELF_ID) {
+                peer.copy(id = endpointId)
+            } else if (index == position.toInt()) {
+                peer.copy(id = SELF_ID)
+            } else {
+                peer
+            }
+        }
+
+        updatePeers(updatedPeers)
         setPosition(position)
     }
 
