@@ -30,7 +30,7 @@ class NetCode private constructor(
         .map { peers -> peers.map { peer -> peer.toPlayer() } }
         .stateIn(
             scope = scope,
-            started = SharingStarted.Eagerly,
+            started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
 
