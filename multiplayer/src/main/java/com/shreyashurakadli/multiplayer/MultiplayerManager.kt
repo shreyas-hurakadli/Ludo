@@ -1,6 +1,7 @@
 package com.shreyashurakadli.multiplayer
 
 import android.content.Context
+import com.shreyashurakadli.multiplayer.transport.Peer
 import com.shreyashurakadli.multiplayer.transport.Role
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -11,7 +12,7 @@ internal const val TIMEOUT_MILLIS = 5_000L
 class MultiplayerManager private constructor(
     private val room: Room
 ) {
-    val players: StateFlow<List<Player>> = room.players
+    val players: StateFlow<List<Peer>> = room.players
 
     val playerCount: StateFlow<UInt> = room.playerCount
 
@@ -63,8 +64,8 @@ class MultiplayerManager private constructor(
         room.updatedPlayerCount(count)
     }
 
-    fun sendMessage(player: Player, message: String) {
-        room.communicate(player, message)
+    fun sendMessage(peer: Peer, message: String) {
+        room.communicate(peer, message)
     }
 
     fun leaveRoom() {

@@ -3,23 +3,37 @@ package com.shreyashurakadli.netcode
 import android.content.Context
 import com.shreyashurakadli.engine.GameEngine
 import com.shreyashurakadli.multiplayer.MultiplayerManager
-import com.shreyashurakadli.multiplayer.Player
 import com.shreyashurakadli.multiplayer.Protocol
 import com.shreyashurakadli.multiplayer.ReceivedMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import com.shreyashurakadli.multiplayer.transport.Role as MultiplayerRole
 
 class NetCode private constructor(
     private val role: Role,
+    scope: CoroutineScope,
     private val multiplayerManager: MultiplayerManager,
     private val gameEngine: GameEngine
 ) {
+    /**
+     * Players in the game, mirrored from :multiplayer peers.
+     * Shared eagerly so the list is current even before a collector subscribes.
+     */
     val players: StateFlow<List<Player>> = multiplayerManager.players
+        .map { peers -> peers.map { peer -> peer.toPlayer() } }
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
+
     val incomingMessage: ReceiveChannel<ReceivedMessage> = multiplayerManager.incomingMessage
     val playerCount: StateFlow<UInt> = multiplayerManager.playerCount
 
@@ -77,6 +91,7 @@ class NetCode private constructor(
             scope: CoroutineScope
         ): NetCode = NetCode(
             role = role,
+            scope = scope,
             multiplayerManager = MultiplayerManager.create(
                 name = name,
                 role = role.toTransportRole(),

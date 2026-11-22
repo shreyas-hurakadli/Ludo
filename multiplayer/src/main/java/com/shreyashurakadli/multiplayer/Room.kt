@@ -1,6 +1,7 @@
 package com.shreyashurakadli.multiplayer
 
 import android.content.Context
+import com.shreyashurakadli.multiplayer.transport.Peer
 import com.shreyashurakadli.multiplayer.transport.Role
 import com.shreyashurakadli.multiplayer.transport.Transport
 import kotlinx.coroutines.CoroutineScope
@@ -9,7 +10,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.job
 
@@ -44,11 +44,8 @@ internal class Room(
         }
     }
 
-    val players: StateFlow<List<Player>> =
+    val players: StateFlow<List<Peer>> =
         transport.peers
-            .map { peerList ->
-                peerList.map { peer -> peer.toPlayer() }
-            }
             .stateIn(
                 scope = scope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
@@ -82,8 +79,8 @@ internal class Room(
 
     fun checkPrerequisites(): PrerequisitesResult = transport.checkPrerequisites()
 
-    fun communicate(player: Player, message: String) {
-        transport.sendPayload(player.id, message)
+    fun communicate(peer: Peer, message: String) {
+        transport.sendPayload(peer.id, message)
     }
 
     fun close() {
