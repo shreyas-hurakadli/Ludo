@@ -24,7 +24,6 @@
 - If something is not implemented, use TODO(reason).
 - Every dependency addition must be properly justified.
 - Do not remove comments I've written.
-- Follow `OPINIONS.md` wherever possible.
 
 ## Testing instructions
 - New feature must have tests.
@@ -34,6 +33,3 @@
 - Do not access git and gitignored files.
 - Do not access files outside of Ludo directory.
 - Refactors cannot be made without prior permission.
-
-## Important files
-- `OPINIONS.md`: Opinions about code quality standards and methods.
